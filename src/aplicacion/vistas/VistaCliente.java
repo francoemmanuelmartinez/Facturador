@@ -7,11 +7,11 @@ import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class VistaCliente {
     private JLabel labelCliente;
@@ -69,47 +69,23 @@ public class VistaCliente {
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField nombre = new JTextField();
-                JTextField apellido = new JTextField();
-                JTextField dni = new JTextField();
-                JTextField telefono = new JTextField();
-                JTextField direccion = new JTextField();
-                JTextField mail = new JTextField();
-
-                JPanel panel = new JPanel(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.insets = new Insets(2, 2, 2, 2);
-                gbc.fill = GridBagConstraints.HORIZONTAL;
-
-                Object[][] campos = {
-                        {"Nombre:", nombre},
-                        {"Apellido:", apellido},
-                        {"DNI:", dni},
-                        {"Teléfono:", telefono},
-                        {"Dirección:", direccion},
-                        {"Mail:", mail}
-                };
-
-                for (int i = 0; i < campos.length; i++) {
-                    gbc.gridx = 0; gbc.gridy = i;
-                    gbc.gridwidth = 1;
-                    gbc.weightx = 0;
-                    panel.add(new JLabel((String) campos[i][0]), gbc);
-                    gbc.gridx = 1;
-                    gbc.weightx = 1;
-                    panel.add((Component) campos[i][1], gbc);
-                }
-
-                int option = JOptionPane.showConfirmDialog(null, panel, "Nuevo Cliente", JOptionPane.OK_CANCEL_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Cliente",
+                        new VistaFormulario.Campo("Nombre:"),
+                        new VistaFormulario.Campo("Apellido:"),
+                        new VistaFormulario.Campo("DNI:"),
+                        new VistaFormulario.Campo("Teléfono:"),
+                        new VistaFormulario.Campo("Dirección:"),
+                        new VistaFormulario.Campo("Mail:")
+                );
+                if (valores != null) {
                     ControladorCliente ctrl = new ControladorCliente();
                     if (ctrl.agregarCliente(
-                            nombre.getText().trim(),
-                            apellido.getText().trim(),
-                            dni.getText().trim(),
-                            telefono.getText().trim(),
-                            direccion.getText().trim(),
-                            mail.getText().trim()
+                            valores.get("Nombre:"),
+                            valores.get("Apellido:"),
+                            valores.get("DNI:"),
+                            valores.get("Teléfono:"),
+                            valores.get("Dirección:"),
+                            valores.get("Mail:")
                     )) {
                         poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
@@ -128,48 +104,24 @@ public class VistaCliente {
 
                 int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
 
-                JTextField nombre = new JTextField(modeloTabla.getValueAt(fila, 1).toString());
-                JTextField apellido = new JTextField(modeloTabla.getValueAt(fila, 2).toString());
-                JTextField dni = new JTextField(modeloTabla.getValueAt(fila, 3).toString());
-                JTextField telefono = new JTextField(modeloTabla.getValueAt(fila, 4).toString());
-                JTextField direccion = new JTextField(modeloTabla.getValueAt(fila, 5).toString());
-                JTextField mail = new JTextField(modeloTabla.getValueAt(fila, 6).toString());
-
-                JPanel panel = new JPanel(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.insets = new Insets(2, 2, 2, 2);
-                gbc.fill = GridBagConstraints.HORIZONTAL;
-
-                Object[][] campos = {
-                        {"Nombre:", nombre},
-                        {"Apellido:", apellido},
-                        {"DNI:", dni},
-                        {"Teléfono:", telefono},
-                        {"Dirección:", direccion},
-                        {"Mail:", mail}
-                };
-
-                for (int i = 0; i < campos.length; i++) {
-                    gbc.gridx = 0; gbc.gridy = i;
-                    gbc.gridwidth = 1;
-                    gbc.weightx = 0;
-                    panel.add(new JLabel((String) campos[i][0]), gbc);
-                    gbc.gridx = 1;
-                    gbc.weightx = 1;
-                    panel.add((Component) campos[i][1], gbc);
-                }
-
-                int option = JOptionPane.showConfirmDialog(null, panel, "Modificar Cliente", JOptionPane.OK_CANCEL_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Cliente",
+                        new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("Apellido:", modeloTabla.getValueAt(fila, 2).toString()),
+                        new VistaFormulario.Campo("DNI:", modeloTabla.getValueAt(fila, 3).toString()),
+                        new VistaFormulario.Campo("Teléfono:", modeloTabla.getValueAt(fila, 4).toString()),
+                        new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 6).toString())
+                );
+                if (valores != null) {
                     ControladorCliente ctrl = new ControladorCliente();
                     if (ctrl.modificarCliente(
                             idCliente,
-                            nombre.getText().trim(),
-                            apellido.getText().trim(),
-                            dni.getText().trim(),
-                            telefono.getText().trim(),
-                            direccion.getText().trim(),
-                            mail.getText().trim()
+                            valores.get("Nombre:"),
+                            valores.get("Apellido:"),
+                            valores.get("DNI:"),
+                            valores.get("Teléfono:"),
+                            valores.get("Dirección:"),
+                            valores.get("Mail:")
                     )) {
                         poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }

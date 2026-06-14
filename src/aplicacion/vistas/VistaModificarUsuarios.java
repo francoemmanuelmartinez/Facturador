@@ -6,11 +6,11 @@ import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class VistaModificarUsuarios {
     private JLabel labelUsuario;
@@ -67,60 +67,25 @@ public class VistaModificarUsuarios {
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField nombre = new JTextField();
-                JTextField apellido = new JTextField();
-                JTextField dni = new JTextField();
-                JTextField telefono = new JTextField();
-                JTextField direccion = new JTextField();
-                JTextField mail = new JTextField();
-                JPasswordField password = new JPasswordField();
-                JCheckBox mostrarPassword = new JCheckBox("Mostrar contraseña");
-
-                mostrarPassword.addActionListener(ev -> {
-                    password.setEchoChar(mostrarPassword.isSelected() ? (char) 0 : '\u2022');
-                });
-
-                JPanel panel = new JPanel(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.insets = new Insets(2, 2, 2, 2);
-                gbc.fill = GridBagConstraints.HORIZONTAL;
-
-                Object[][] campos = {
-                        {"Nombre:", nombre},
-                        {"Apellido:", apellido},
-                        {"DNI:", dni},
-                        {"Teléfono:", telefono},
-                        {"Dirección:", direccion},
-                        {"Mail:", mail},
-                        {"Contraseña:", password}
-                };
-
-                for (int i = 0; i < campos.length; i++) {
-                    gbc.gridx = 0; gbc.gridy = i;
-                    gbc.gridwidth = 1;
-                    gbc.weightx = 0;
-                    panel.add(new JLabel((String) campos[i][0]), gbc);
-                    gbc.gridx = 1;
-                    gbc.weightx = 1;
-                    panel.add((Component) campos[i][1], gbc);
-                }
-
-                gbc.gridx = 0; gbc.gridy = campos.length;
-                gbc.gridwidth = 2;
-                gbc.weightx = 0;
-                panel.add(mostrarPassword, gbc);
-
-                int option = JOptionPane.showConfirmDialog(null, panel, "Nuevo Usuario", JOptionPane.OK_CANCEL_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Usuario",
+                        new VistaFormulario.Campo("Nombre:"),
+                        new VistaFormulario.Campo("Apellido:"),
+                        new VistaFormulario.Campo("DNI:"),
+                        new VistaFormulario.Campo("Teléfono:"),
+                        new VistaFormulario.Campo("Dirección:"),
+                        new VistaFormulario.Campo("Mail:"),
+                        new VistaFormulario.Campo("Contraseña:", true)
+                );
+                if (valores != null) {
                     ControladorModificarUsuario ctrl = new ControladorModificarUsuario();
                     if (ctrl.agregarUsuario(
-                            nombre.getText().trim(),
-                            apellido.getText().trim(),
-                            dni.getText().trim(),
-                            telefono.getText().trim(),
-                            direccion.getText().trim(),
-                            mail.getText().trim(),
-                            new String(password.getPassword()).trim()
+                            valores.get("Nombre:"),
+                            valores.get("Apellido:"),
+                            valores.get("DNI:"),
+                            valores.get("Teléfono:"),
+                            valores.get("Dirección:"),
+                            valores.get("Mail:"),
+                            valores.get("Contraseña:")
                     )) {
                         poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
@@ -138,67 +103,30 @@ public class VistaModificarUsuarios {
 
                 String dniOriginal = modeloTabla.getValueAt(fila, 2).toString();
 
-                JTextField nombre = new JTextField(modeloTabla.getValueAt(fila, 0).toString());
-                JTextField apellido = new JTextField(modeloTabla.getValueAt(fila, 1).toString());
-                JTextField dni = new JTextField(dniOriginal);
-                JTextField telefono = new JTextField(modeloTabla.getValueAt(fila, 3).toString());
-                JTextField direccion = new JTextField(modeloTabla.getValueAt(fila, 4).toString());
-                JTextField mail = new JTextField(modeloTabla.getValueAt(fila, 5).toString());
-                JTextField rol = new JTextField(modeloTabla.getValueAt(fila, 6).toString());
-                JPasswordField password = new JPasswordField(modeloTabla.getValueAt(fila, 7).toString());
-                JTextField habilitado = new JTextField(modeloTabla.getValueAt(fila, 8).toString());
-                JCheckBox mostrarPassword = new JCheckBox("Mostrar contraseña");
-
-                mostrarPassword.addActionListener(ev -> {
-                    password.setEchoChar(mostrarPassword.isSelected() ? (char) 0 : '\u2022');
-                });
-
-                JPanel panel = new JPanel(new GridBagLayout());
-                GridBagConstraints gbc = new GridBagConstraints();
-                gbc.insets = new Insets(2, 2, 2, 2);
-                gbc.fill = GridBagConstraints.HORIZONTAL;
-
-                Object[][] campos = {
-                        {"Nombre:", nombre},
-                        {"Apellido:", apellido},
-                        {"DNI:", dni},
-                        {"Teléfono:", telefono},
-                        {"Dirección:", direccion},
-                        {"Mail:", mail},
-                        {"Rol:", rol},
-                        {"Contraseña:", password},
-                        {"Habilitado:", habilitado}
-                };
-
-                for (int i = 0; i < campos.length; i++) {
-                    gbc.gridx = 0; gbc.gridy = i;
-                    gbc.gridwidth = 1;
-                    gbc.weightx = 0;
-                    panel.add(new JLabel((String) campos[i][0]), gbc);
-                    gbc.gridx = 1;
-                    gbc.weightx = 1;
-                    panel.add((Component) campos[i][1], gbc);
-                }
-
-                gbc.gridx = 0; gbc.gridy = campos.length;
-                gbc.gridwidth = 2;
-                gbc.weightx = 0;
-                panel.add(mostrarPassword, gbc);
-
-                int option = JOptionPane.showConfirmDialog(null, panel, "Modificar Usuario", JOptionPane.OK_CANCEL_OPTION);
-                if (option == JOptionPane.OK_OPTION) {
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Usuario",
+                        new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 0).toString()),
+                        new VistaFormulario.Campo("Apellido:", modeloTabla.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("DNI:", dniOriginal),
+                        new VistaFormulario.Campo("Teléfono:", modeloTabla.getValueAt(fila, 3).toString()),
+                        new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 4).toString()),
+                        new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Rol:", modeloTabla.getValueAt(fila, 6).toString()),
+                        new VistaFormulario.Campo("Contraseña:", true, modeloTabla.getValueAt(fila, 7).toString()),
+                        new VistaFormulario.Campo("Habilitado:", modeloTabla.getValueAt(fila, 8).toString())
+                );
+                if (valores != null) {
                     ControladorModificarUsuario ctrl = new ControladorModificarUsuario();
                     if (ctrl.modificarUsuario(
                             dniOriginal,
-                            nombre.getText().trim(),
-                            apellido.getText().trim(),
-                            dni.getText().trim(),
-                            telefono.getText().trim(),
-                            direccion.getText().trim(),
-                            mail.getText().trim(),
-                            rol.getText().trim(),
-                            new String(password.getPassword()).trim(),
-                            habilitado.getText().trim()
+                            valores.get("Nombre:"),
+                            valores.get("Apellido:"),
+                            valores.get("DNI:"),
+                            valores.get("Teléfono:"),
+                            valores.get("Dirección:"),
+                            valores.get("Mail:"),
+                            valores.get("Rol:"),
+                            valores.get("Contraseña:"),
+                            valores.get("Habilitado:")
                     )) {
                         poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
