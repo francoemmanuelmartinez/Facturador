@@ -4,7 +4,7 @@ import aplicacion.modelos.Cliente;
 import aplicacion.modelos.Usuario;
 import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
-import aplicacion.vistas.VistaCliente;
+import aplicacion.vistas.VistaClienteABM;
 
 import javax.swing.*;
 import java.sql.PreparedStatement;
@@ -13,15 +13,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ControladorCliente {
+public class ControladorClienteABM {
 
     Conexion c = new Conexion();
 
-    public ControladorCliente() {}
+    public ControladorClienteABM() {}
 
-    public ControladorCliente(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
-        VistaCliente vistaCliente = new VistaCliente(usuario, ventanaPrincipal);
-        ventanaPrincipal.setVista(vistaCliente.panelClientes);
+    public ControladorClienteABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
+        VistaClienteABM vistaClienteABM = new VistaClienteABM(usuario, ventanaPrincipal);
+        ventanaPrincipal.setVista(vistaClienteABM.panelClienteABM);
     }
 
     public List<Cliente> obtenerClientes() {
@@ -146,7 +146,7 @@ public class ControladorCliente {
             PreparedStatement pst = c.con.prepareStatement(sqlToggle);
             pst.setInt(1, id);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Estado de habilitado cambiado exitosamente");
+            JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);

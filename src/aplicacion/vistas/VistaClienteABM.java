@@ -1,6 +1,6 @@
 package aplicacion.vistas;
 
-import aplicacion.controladores.ControladorCliente;
+import aplicacion.controladores.ControladorClienteABM;
 import aplicacion.controladores.ControladorAdmin;
 import aplicacion.modelos.Cliente;
 import aplicacion.modelos.Usuario;
@@ -13,11 +13,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class VistaCliente {
+public class VistaClienteABM {
     private JLabel labelCliente;
     private JButton botonBuscar;
     private JTable tablaClientes;
-    public JPanel panelClientes;
+    public JPanel panelClienteABM;
     private JTextField dniTF;
     private JButton eliminarButton;
     private JButton modificarButton;
@@ -27,7 +27,7 @@ public class VistaCliente {
     DefaultTableModel modeloTabla = new DefaultTableModel();
     String[] columnas = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
 
-    public VistaCliente(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
+    public VistaClienteABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         setModeloTabla();
 
@@ -38,7 +38,7 @@ public class VistaCliente {
         comboBoxFiltroHabilitado.addItem("Deshabilitados");
         comboBoxFiltroHabilitado.setSelectedIndex(0);
 
-        ControladorCliente controlador = new ControladorCliente();
+        ControladorClienteABM controlador = new ControladorClienteABM();
         List<Cliente> clientes = controlador.obtenerClientesPorHabilitado(1);
         poblarTabla(clientes);
 
@@ -46,7 +46,7 @@ public class VistaCliente {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
-                ControladorCliente ctrl = new ControladorCliente();
+                ControladorClienteABM ctrl = new ControladorClienteABM();
                 poblarTabla(ctrl.obtenerClientesPorHabilitado(filtro));
 
                 if (comboBoxFiltroHabilitado.getSelectedIndex() == 0) {
@@ -60,7 +60,7 @@ public class VistaCliente {
         botonBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorCliente ctrl = new ControladorCliente();
+                ControladorClienteABM ctrl = new ControladorClienteABM();
                 int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
                 Cliente cliente = ctrl.buscarCliente(dniTF.getText().trim(), filtro);
                 if (cliente != null) {
@@ -81,7 +81,7 @@ public class VistaCliente {
                         new VistaFormulario.Campo("Mail:")
                 );
                 if (valores != null) {
-                    ControladorCliente ctrl = new ControladorCliente();
+                    ControladorClienteABM ctrl = new ControladorClienteABM();
                     if (ctrl.agregarCliente(
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
@@ -116,7 +116,7 @@ public class VistaCliente {
                         new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 6).toString())
                 );
                 if (valores != null) {
-                    ControladorCliente ctrl = new ControladorCliente();
+                    ControladorClienteABM ctrl = new ControladorClienteABM();
                     if (ctrl.modificarCliente(
                             idCliente,
                             valores.get("Nombre:"),
@@ -151,7 +151,7 @@ public class VistaCliente {
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    ControladorCliente ctrl = new ControladorCliente();
+                    ControladorClienteABM ctrl = new ControladorClienteABM();
                     if (ctrl.toggleHabilitadoCliente(idCliente)) {
                         poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }

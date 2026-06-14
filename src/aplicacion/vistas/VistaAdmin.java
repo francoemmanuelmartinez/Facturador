@@ -1,6 +1,6 @@
 package aplicacion.vistas;
 
-import aplicacion.controladores.ControladorCliente;
+import aplicacion.controladores.ControladorClienteABM;
 import aplicacion.controladores.ControladorLogin;
 import aplicacion.controladores.ControladorUsuarioABM;
 import aplicacion.modelos.Usuario;
@@ -29,7 +29,7 @@ public class VistaAdmin {
         botonAdministrarClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorCliente controladorCliente = new ControladorCliente(usuario, ventanaPrincipal);
+                ControladorClienteABM controladorClienteABM = new ControladorClienteABM(usuario, ventanaPrincipal);
             }
         });
         botonFacturar.addActionListener(new ActionListener() {

@@ -152,7 +152,7 @@ public class ControladorUsuarioABM {
             PreparedStatement pst = c.con.prepareStatement(sqlToggle);
             pst.setString(1, dni);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Estado de habilitado cambiado exitosamente");
+            JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
