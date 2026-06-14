@@ -111,7 +111,7 @@ public class ControladorModificarUsuario {
         }
     }
 
-    public boolean modificarUsuario(String dniOriginal, String nombre, String apellido, String dni, String telefono, String direccion, String mail, String rol, String password, String habilitado) {
+    public boolean modificarUsuario(String dniOriginal, String nombre, String apellido, String dni, String telefono, String direccion, String mail, String rol, String password) {
         try {
             c.conectar();
 
@@ -125,7 +125,7 @@ public class ControladorModificarUsuario {
                 return false;
             }
 
-            String sqlUpdate = "UPDATE usuarios SET nombre=?, apellido=?, dni=?, telefono=?, direccion=?, mail=?, rol=?, password=?, habilitado=? WHERE dni=?";
+            String sqlUpdate = "UPDATE usuarios SET nombre=?, apellido=?, dni=?, telefono=?, direccion=?, mail=?, rol=?, password=? WHERE dni=?";
             PreparedStatement pst = c.con.prepareStatement(sqlUpdate);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
@@ -135,8 +135,7 @@ public class ControladorModificarUsuario {
             pst.setString(6, mail);
             pst.setString(7, rol);
             pst.setString(8, password);
-            pst.setInt(9, Integer.parseInt(habilitado));
-            pst.setString(10, dniOriginal);
+            pst.setString(9, dniOriginal);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuario modificado exitosamente");
             return true;

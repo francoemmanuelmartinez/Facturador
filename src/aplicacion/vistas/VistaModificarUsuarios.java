@@ -111,8 +111,7 @@ public class VistaModificarUsuarios {
                         new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 4).toString()),
                         new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 5).toString()),
                         new VistaFormulario.Campo("Rol:", modeloTabla.getValueAt(fila, 6).toString()),
-                        new VistaFormulario.Campo("Contraseña:", true, modeloTabla.getValueAt(fila, 7).toString()),
-                        new VistaFormulario.Campo("Habilitado:", modeloTabla.getValueAt(fila, 8).toString())
+                        new VistaFormulario.Campo("Contraseña:", true, modeloTabla.getValueAt(fila, 7).toString())
                 );
                 if (valores != null) {
                     ControladorModificarUsuario ctrl = new ControladorModificarUsuario();
@@ -125,8 +124,7 @@ public class VistaModificarUsuarios {
                             valores.get("Dirección:"),
                             valores.get("Mail:"),
                             valores.get("Rol:"),
-                            valores.get("Contraseña:"),
-                            valores.get("Habilitado:")
+                            valores.get("Contraseña:")
                     )) {
                         poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
@@ -144,11 +142,11 @@ public class VistaModificarUsuarios {
 
                 String dni = modeloTabla.getValueAt(fila, 2).toString();
                 int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 8).toString());
-                String nuevoEstado = habilitadoActual == 1 ? "deshabilitado" : "habilitado";
+                String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
                         "¿Está seguro de " + nuevoEstado + " al usuario con DNI " + dni + "?",
-                        nuevoEstado.equals("deshabilitado") ? "Deshabilitar Usuario" : "Habilitar Usuario",
+                        nuevoEstado.equals("deshabilitar") ? "Deshabilitar Usuario" : "Habilitar Usuario",
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {

@@ -31,6 +31,9 @@ public class VistaCliente {
 
         setModeloTabla();
 
+        tablaClientes.removeColumn(tablaClientes.getColumnModel().getColumn(7));
+        tablaClientes.removeColumn(tablaClientes.getColumnModel().getColumn(0));
+
         comboBoxFiltroHabilitado.addItem("Habilitados");
         comboBoxFiltroHabilitado.addItem("Deshabilitados");
         comboBoxFiltroHabilitado.setSelectedIndex(0);
@@ -140,11 +143,11 @@ public class VistaCliente {
 
                 int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
                 int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 7).toString());
-                String nuevoEstado = habilitadoActual == 1 ? "deshabilitado" : "habilitado";
+                String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
                         "¿Está seguro de " + nuevoEstado + " al cliente con ID " + idCliente + "?",
-                        nuevoEstado.equals("deshabilitado") ? "Deshabilitar Cliente" : "Habilitar Cliente",
+                        nuevoEstado.equals("deshabilitar") ? "Deshabilitar Cliente" : "Habilitar Cliente",
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
