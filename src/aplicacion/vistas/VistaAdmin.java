@@ -2,7 +2,7 @@ package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorCliente;
 import aplicacion.controladores.ControladorLogin;
-import aplicacion.controladores.ControladorModificarUsuario;
+import aplicacion.controladores.ControladorUsuarioABM;
 import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
@@ -22,7 +22,7 @@ public class VistaAdmin {
         botonAdministrarUsuarios.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorModificarUsuario modificarUsuario = new ControladorModificarUsuario(usuario, ventanaPrincipal);
+                ControladorUsuarioABM usuarioABM = new ControladorUsuarioABM(usuario, ventanaPrincipal);
 
             }
         });
