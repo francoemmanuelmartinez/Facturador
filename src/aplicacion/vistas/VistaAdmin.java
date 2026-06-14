@@ -1,7 +1,9 @@
 package aplicacion.vistas;
 
+import aplicacion.controladores.ControladorCliente;
 import aplicacion.controladores.ControladorLogin;
 import aplicacion.controladores.ControladorModificarUsuario;
+import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,23 +13,23 @@ public class VistaAdmin {
     public JPanel panelAdmin;
     private JButton cerrarSesion;
     private JButton botonFacturar;
-    private JButton botonModificarUsuarios;
-    private JButton botonClientes;
-    private JButton botonDeposito;
+    private JButton botonAdministrarUsuarios;
+    private JButton botonAdministrarClientes;
+    private JButton botonAdministrarDeposito;
 
-    public VistaAdmin(VentanaPrincipal ventanaPrincipal) {
+    public VistaAdmin(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
-        botonModificarUsuarios.addActionListener(new ActionListener() {
+        botonAdministrarUsuarios.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorModificarUsuario modificarUsuario = new ControladorModificarUsuario(ventanaPrincipal);
+                ControladorModificarUsuario modificarUsuario = new ControladorModificarUsuario(usuario, ventanaPrincipal);
 
             }
         });
-        botonClientes.addActionListener(new ActionListener() {
+        botonAdministrarClientes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ControladorCliente controladorCliente = new ControladorCliente(usuario, ventanaPrincipal);
             }
         });
         botonFacturar.addActionListener(new ActionListener() {
@@ -36,7 +38,7 @@ public class VistaAdmin {
 
             }
         });
-        botonDeposito.addActionListener(new ActionListener() {
+        botonAdministrarDeposito.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 

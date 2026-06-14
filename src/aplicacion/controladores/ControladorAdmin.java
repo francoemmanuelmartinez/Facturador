@@ -12,7 +12,7 @@ public class ControladorAdmin {
 
     public ControladorAdmin(Usuario usuario, VentanaPrincipal ventanaPrincipal){
         this.usuario=usuario;
-        VistaAdmin vistaAdmin = new VistaAdmin(ventanaPrincipal);
+        VistaAdmin vistaAdmin = new VistaAdmin(usuario, ventanaPrincipal);
         ventanaPrincipal.setVista(vistaAdmin.panelAdmin);
     }
 

@@ -1,7 +1,8 @@
 package aplicacion.vistas;
 
+import aplicacion.controladores.ControladorCliente;
 import aplicacion.controladores.ControladorAdmin;
-import aplicacion.controladores.ControladorModificarUsuario;
+import aplicacion.modelos.Cliente;
 import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
@@ -12,21 +13,21 @@ import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
 
-public class VistaModificarUsuarios {
-    private JLabel labelUsuario;
+public class VistaCliente {
+    private JLabel labelCliente;
     private JButton botonBuscar;
-    private JTable tablaUsuarios;
-    public JPanel panelModificarUsuarios;
+    private JTable tablaClientes;
+    public JPanel panelClientes;
     private JTextField dniTF;
     private JButton eliminarButton;
     private JButton modificarButton;
     private JButton agregarButton;
+    private JButton botonVolver;
     private JComboBox comboBoxFiltroHabilitado;
-    private JButton volverButton;
     DefaultTableModel modeloTabla = new DefaultTableModel();
-    String[] columnas = {"Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
+    String[] columnas = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
 
-    public VistaModificarUsuarios(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
+    public VistaCliente(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         setModeloTabla();
 
@@ -34,16 +35,16 @@ public class VistaModificarUsuarios {
         comboBoxFiltroHabilitado.addItem("Deshabilitados");
         comboBoxFiltroHabilitado.setSelectedIndex(0);
 
-        ControladorModificarUsuario controlador = new ControladorModificarUsuario();
-        List<Usuario> usuarios = controlador.obtenerUsuariosPorHabilitado(1);
-        poblarTabla(usuarios);
+        ControladorCliente controlador = new ControladorCliente();
+        List<Cliente> clientes = controlador.obtenerClientesPorHabilitado(1);
+        poblarTabla(clientes);
 
         comboBoxFiltroHabilitado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
-                ControladorModificarUsuario ctrl = new ControladorModificarUsuario();
-                poblarTabla(ctrl.obtenerUsuariosPorHabilitado(filtro));
+                ControladorCliente ctrl = new ControladorCliente();
+                poblarTabla(ctrl.obtenerClientesPorHabilitado(filtro));
 
                 if (comboBoxFiltroHabilitado.getSelectedIndex() == 0) {
                     eliminarButton.setText("Deshabilitar");
@@ -56,14 +57,15 @@ public class VistaModificarUsuarios {
         botonBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorModificarUsuario controladorModificarUsuario = new ControladorModificarUsuario();
+                ControladorCliente ctrl = new ControladorCliente();
                 int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
-                Usuario usuario = controladorModificarUsuario.buscarUsuario(dniTF.getText().trim(), filtro);
-                if (usuario != null) {
-                    poblarTabla(Collections.singletonList(usuario));
+                Cliente cliente = ctrl.buscarCliente(dniTF.getText().trim(), filtro);
+                if (cliente != null) {
+                    poblarTabla(Collections.singletonList(cliente));
                 }
             }
         });
+
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,12 +75,6 @@ public class VistaModificarUsuarios {
                 JTextField telefono = new JTextField();
                 JTextField direccion = new JTextField();
                 JTextField mail = new JTextField();
-                JPasswordField password = new JPasswordField();
-                JCheckBox mostrarPassword = new JCheckBox("Mostrar contraseña");
-
-                mostrarPassword.addActionListener(ev -> {
-                    password.setEchoChar(mostrarPassword.isSelected() ? (char) 0 : '\u2022');
-                });
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -91,8 +87,7 @@ public class VistaModificarUsuarios {
                         {"DNI:", dni},
                         {"Teléfono:", telefono},
                         {"Dirección:", direccion},
-                        {"Mail:", mail},
-                        {"Contraseña:", password}
+                        {"Mail:", mail}
                 };
 
                 for (int i = 0; i < campos.length; i++) {
@@ -105,53 +100,40 @@ public class VistaModificarUsuarios {
                     panel.add((Component) campos[i][1], gbc);
                 }
 
-                gbc.gridx = 0; gbc.gridy = campos.length;
-                gbc.gridwidth = 2;
-                gbc.weightx = 0;
-                panel.add(mostrarPassword, gbc);
-
-                int option = JOptionPane.showConfirmDialog(null, panel, "Nuevo Usuario", JOptionPane.OK_CANCEL_OPTION);
+                int option = JOptionPane.showConfirmDialog(null, panel, "Nuevo Cliente", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
-                    ControladorModificarUsuario ctrl = new ControladorModificarUsuario();
-                    if (ctrl.agregarUsuario(
+                    ControladorCliente ctrl = new ControladorCliente();
+                    if (ctrl.agregarCliente(
                             nombre.getText().trim(),
                             apellido.getText().trim(),
                             dni.getText().trim(),
                             telefono.getText().trim(),
                             direccion.getText().trim(),
-                            mail.getText().trim(),
-                            new String(password.getPassword()).trim()
+                            mail.getText().trim()
                     )) {
-                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
+
         modificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tablaUsuarios.getSelectedRow();
+                int fila = tablaClientes.getSelectedRow();
                 if (fila == -1) {
-                    JOptionPane.showMessageDialog(null, "Seleccione un usuario de la tabla");
+                    JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla");
                     return;
                 }
 
-                String dniOriginal = modeloTabla.getValueAt(fila, 2).toString();
+                int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
 
-                JTextField nombre = new JTextField(modeloTabla.getValueAt(fila, 0).toString());
-                JTextField apellido = new JTextField(modeloTabla.getValueAt(fila, 1).toString());
-                JTextField dni = new JTextField(dniOriginal);
-                JTextField telefono = new JTextField(modeloTabla.getValueAt(fila, 3).toString());
-                JTextField direccion = new JTextField(modeloTabla.getValueAt(fila, 4).toString());
-                JTextField mail = new JTextField(modeloTabla.getValueAt(fila, 5).toString());
-                JTextField rol = new JTextField(modeloTabla.getValueAt(fila, 6).toString());
-                JPasswordField password = new JPasswordField(modeloTabla.getValueAt(fila, 7).toString());
-                JTextField habilitado = new JTextField(modeloTabla.getValueAt(fila, 8).toString());
-                JCheckBox mostrarPassword = new JCheckBox("Mostrar contraseña");
-
-                mostrarPassword.addActionListener(ev -> {
-                    password.setEchoChar(mostrarPassword.isSelected() ? (char) 0 : '\u2022');
-                });
+                JTextField nombre = new JTextField(modeloTabla.getValueAt(fila, 1).toString());
+                JTextField apellido = new JTextField(modeloTabla.getValueAt(fila, 2).toString());
+                JTextField dni = new JTextField(modeloTabla.getValueAt(fila, 3).toString());
+                JTextField telefono = new JTextField(modeloTabla.getValueAt(fila, 4).toString());
+                JTextField direccion = new JTextField(modeloTabla.getValueAt(fila, 5).toString());
+                JTextField mail = new JTextField(modeloTabla.getValueAt(fila, 6).toString());
 
                 JPanel panel = new JPanel(new GridBagLayout());
                 GridBagConstraints gbc = new GridBagConstraints();
@@ -164,10 +146,7 @@ public class VistaModificarUsuarios {
                         {"DNI:", dni},
                         {"Teléfono:", telefono},
                         {"Dirección:", direccion},
-                        {"Mail:", mail},
-                        {"Rol:", rol},
-                        {"Contraseña:", password},
-                        {"Habilitado:", habilitado}
+                        {"Mail:", mail}
                 };
 
                 for (int i = 0; i < campos.length; i++) {
@@ -180,58 +159,52 @@ public class VistaModificarUsuarios {
                     panel.add((Component) campos[i][1], gbc);
                 }
 
-                gbc.gridx = 0; gbc.gridy = campos.length;
-                gbc.gridwidth = 2;
-                gbc.weightx = 0;
-                panel.add(mostrarPassword, gbc);
-
-                int option = JOptionPane.showConfirmDialog(null, panel, "Modificar Usuario", JOptionPane.OK_CANCEL_OPTION);
+                int option = JOptionPane.showConfirmDialog(null, panel, "Modificar Cliente", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
-                    ControladorModificarUsuario ctrl = new ControladorModificarUsuario();
-                    if (ctrl.modificarUsuario(
-                            dniOriginal,
+                    ControladorCliente ctrl = new ControladorCliente();
+                    if (ctrl.modificarCliente(
+                            idCliente,
                             nombre.getText().trim(),
                             apellido.getText().trim(),
                             dni.getText().trim(),
                             telefono.getText().trim(),
                             direccion.getText().trim(),
-                            mail.getText().trim(),
-                            rol.getText().trim(),
-                            new String(password.getPassword()).trim(),
-                            habilitado.getText().trim()
+                            mail.getText().trim()
                     )) {
-                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
+
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tablaUsuarios.getSelectedRow();
+                int fila = tablaClientes.getSelectedRow();
                 if (fila == -1) {
-                    JOptionPane.showMessageDialog(null, "Seleccione un usuario de la tabla");
+                    JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla");
                     return;
                 }
 
-                String dni = modeloTabla.getValueAt(fila, 2).toString();
-                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 8).toString());
+                int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
+                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 7).toString());
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitado" : "habilitado";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Está seguro de " + nuevoEstado + " al usuario con DNI " + dni + "?",
-                        nuevoEstado.equals("deshabilitado") ? "Deshabilitar Usuario" : "Habilitar Usuario",
+                        "¿Está seguro de " + nuevoEstado + " al cliente con ID " + idCliente + "?",
+                        nuevoEstado.equals("deshabilitado") ? "Deshabilitar Cliente" : "Habilitar Cliente",
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    ControladorModificarUsuario ctrl = new ControladorModificarUsuario();
-                    if (ctrl.toggleHabilitado(dni)) {
-                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                    ControladorCliente ctrl = new ControladorCliente();
+                    if (ctrl.toggleHabilitadoCliente(idCliente)) {
+                        poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
-        volverButton.addActionListener(new ActionListener() {
+
+        botonVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorAdmin controladorAdmin = new ControladorAdmin(usuario, ventanaPrincipal);
@@ -241,28 +214,23 @@ public class VistaModificarUsuarios {
 
     public void setModeloTabla() {
         modeloTabla.setColumnIdentifiers(columnas);
-        tablaUsuarios.setModel(modeloTabla);
+        tablaClientes.setModel(modeloTabla);
     }
 
-    public void poblarTabla(List<Usuario> usuarios) {
-
+    public void poblarTabla(List<Cliente> clientes) {
         modeloTabla.setRowCount(0);
 
-        for (Usuario u : usuarios) {
+        for (Cliente c : clientes) {
             modeloTabla.addRow(new Object[]{
-                    u.getNombre(),
-                    u.getApellido(),
-                    u.getDni(),
-                    u.getTelefono(),
-                    u.getDireccion(),
-                    u.getMail(),
-                    u.getRol(),
-                    u.getPassword(),
-                    u.getHabilitado()
+                    c.getId(),
+                    c.getNombre(),
+                    c.getApellido(),
+                    c.getDni(),
+                    c.getTelefono(),
+                    c.getDireccion(),
+                    c.getMail(),
+                    c.getHabilitado()
             });
         }
     }
 }
-
-
-

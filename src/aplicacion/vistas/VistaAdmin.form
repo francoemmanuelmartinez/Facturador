@@ -26,7 +26,7 @@
           <text value="Facturar"/>
         </properties>
       </component>
-      <component id="66f0e" class="javax.swing.JButton" binding="botonDeposito">
+      <component id="66f0e" class="javax.swing.JButton" binding="botonAdministrarDeposito">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -34,20 +34,20 @@
           <text value="Deposito"/>
         </properties>
       </component>
-      <component id="be88" class="javax.swing.JButton" binding="botonClientes">
+      <component id="be88" class="javax.swing.JButton" binding="botonAdministrarClientes">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Clientes"/>
+          <text value="Administrar Clientes"/>
         </properties>
       </component>
-      <component id="9d3ae" class="javax.swing.JButton" binding="botonModificarUsuarios">
+      <component id="9d3ae" class="javax.swing.JButton" binding="botonAdministrarUsuarios">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Modificar Usuarios"/>
+          <text value="Administrar Usuarios"/>
         </properties>
       </component>
       <component id="8576c" class="javax.swing.JLabel">
