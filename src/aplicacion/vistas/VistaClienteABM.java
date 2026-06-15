@@ -60,11 +60,16 @@ public class VistaClienteABM {
         botonBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorClienteABM ctrl = new ControladorClienteABM();
                 int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
-                Cliente cliente = ctrl.buscarCliente(dniTF.getText().trim(), filtro);
-                if (cliente != null) {
-                    poblarTabla(Collections.singletonList(cliente));
+                ControladorClienteABM ctrl = new ControladorClienteABM();
+                String texto = dniTF.getText().trim();
+                if (texto.isEmpty()) {
+                    poblarTabla(ctrl.obtenerClientesPorHabilitado(filtro));
+                } else {
+                    Cliente cliente = ctrl.buscarCliente(texto, filtro);
+                    if (cliente != null) {
+                        poblarTabla(Collections.singletonList(cliente));
+                    }
                 }
             }
         });

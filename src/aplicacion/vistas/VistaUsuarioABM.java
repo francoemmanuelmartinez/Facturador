@@ -56,11 +56,16 @@ public class VistaUsuarioABM {
         botonBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorUsuarioABM controladorUsuarioABM = new ControladorUsuarioABM();
                 int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
-                Usuario usuario = controladorUsuarioABM.buscarUsuario(dniTF.getText().trim(), filtro);
-                if (usuario != null) {
-                    poblarTabla(Collections.singletonList(usuario));
+                ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
+                String texto = dniTF.getText().trim();
+                if (texto.isEmpty()) {
+                    poblarTabla(ctrl.obtenerUsuariosPorHabilitado(filtro));
+                } else {
+                    Usuario usuario = ctrl.buscarUsuario(texto, filtro);
+                    if (usuario != null) {
+                        poblarTabla(Collections.singletonList(usuario));
+                    }
                 }
             }
         });

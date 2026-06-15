@@ -1,6 +1,7 @@
 package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorClienteABM;
+import aplicacion.controladores.ControladorDepositoABM;
 import aplicacion.controladores.ControladorLogin;
 import aplicacion.controladores.ControladorUsuarioABM;
 import aplicacion.modelos.Usuario;
@@ -41,7 +42,7 @@ public class VistaAdmin {
         botonAdministrarDeposito.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ControladorDepositoABM depositoABM = new ControladorDepositoABM(usuario, ventanaPrincipal);
             }
         });
         cerrarSesion.addActionListener(new ActionListener() {

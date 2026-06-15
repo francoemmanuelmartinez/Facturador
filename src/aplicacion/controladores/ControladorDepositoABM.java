@@ -1,0 +1,133 @@
+package aplicacion.controladores;
+
+import aplicacion.modelos.Producto;
+import aplicacion.modelos.Usuario;
+import aplicacion.servicios.Conexion;
+import aplicacion.vistas.VentanaPrincipal;
+import aplicacion.vistas.VistaDepositoABM;
+
+import javax.swing.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ControladorDepositoABM {
+
+    Conexion c = new Conexion();
+
+    public ControladorDepositoABM() {}
+
+    public ControladorDepositoABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
+        VistaDepositoABM vistaDepositoABM = new VistaDepositoABM(usuario, ventanaPrincipal);
+        ventanaPrincipal.setVista(vistaDepositoABM.panelDepositoABM);
+    }
+
+    public List<Producto> obtenerProductosPorHabilitado(int habilitado) {
+        List<Producto> productos = new ArrayList<>();
+        try {
+            c.conectar();
+            String sql = "SELECT id, descripcion, precio, stock, habilitado FROM productos WHERE habilitado = ?";
+            PreparedStatement stmt = c.con.prepareStatement(sql);
+            stmt.setInt(1, habilitado);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                productos.add(mapearProducto(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return productos;
+    }
+
+    public List<Producto> buscarProducto(String texto, int habilitado) {
+        List<Producto> productos = new ArrayList<>();
+        try {
+            c.conectar();
+            PreparedStatement stmt;
+            if (texto.matches("\\d+")) {
+                String sql = "SELECT id, descripcion, precio, stock, habilitado FROM productos WHERE id = ? AND habilitado = ?";
+                stmt = c.con.prepareStatement(sql);
+                stmt.setInt(1, Integer.parseInt(texto));
+                stmt.setInt(2, habilitado);
+            } else {
+                String sql = "SELECT id, descripcion, precio, stock, habilitado FROM productos WHERE descripcion LIKE ? AND habilitado = ?";
+                stmt = c.con.prepareStatement(sql);
+                stmt.setString(1, "%" + texto + "%");
+                stmt.setInt(2, habilitado);
+            }
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                productos.add(mapearProducto(rs));
+            }
+            if (productos.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No se encontraron productos con ese criterio");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return productos;
+    }
+
+    public boolean agregarProducto(String descripcion, int precio, int stock) {
+        try {
+            c.conectar();
+
+            String sqlInsert = "INSERT INTO productos(descripcion, precio, stock) VALUES(?,?,?)";
+            PreparedStatement pst = c.con.prepareStatement(sqlInsert);
+            pst.setString(1, descripcion);
+            pst.setInt(2, precio);
+            pst.setInt(3, stock);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Producto agregado exitosamente");
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean modificarProducto(int id, String descripcion, int precio, int stock) {
+        try {
+            c.conectar();
+
+            String sqlUpdate = "UPDATE productos SET descripcion=?, precio=?, stock=? WHERE id=?";
+            PreparedStatement pst = c.con.prepareStatement(sqlUpdate);
+            pst.setString(1, descripcion);
+            pst.setInt(2, precio);
+            pst.setInt(3, stock);
+            pst.setInt(4, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Producto modificado exitosamente");
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean toggleHabilitadoProducto(int id) {
+        try {
+            c.conectar();
+            String sqlToggle = "UPDATE productos SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
+            PreparedStatement pst = c.con.prepareStatement(sqlToggle);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
+            return true;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private Producto mapearProducto(ResultSet rs) throws SQLException {
+        return new Producto(
+                rs.getInt("id"),
+                rs.getInt("habilitado"),
+                rs.getString("descripcion"),
+                rs.getInt("precio"),
+                rs.getInt("stock")
+        );
+    }
+}
