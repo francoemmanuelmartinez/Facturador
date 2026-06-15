@@ -79,7 +79,7 @@ public class ControladorUsuarioABM {
         return usuarios;
     }
 
-    public boolean agregarUsuario(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password) {
+    public boolean agregarUsuario(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password, String rol) {
         try {
             c.conectar();
 
@@ -100,7 +100,7 @@ public class ControladorUsuarioABM {
             pst.setString(4, telefono);
             pst.setString(5, direccion);
             pst.setString(6, mail);
-            pst.setInt(7, 3);
+            pst.setString(7, rol);
             pst.setString(8, password);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuario agregado exitosamente");

@@ -9,7 +9,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -185,7 +184,7 @@ public class VistaDepositoABM {
                     p.getId(),
                     p.getDescripcion(),
                     p.getPrecio(),
-                    p.getStock(),
+                    p.getCantidad(),
                     p.getHabilitado()
             });
         }

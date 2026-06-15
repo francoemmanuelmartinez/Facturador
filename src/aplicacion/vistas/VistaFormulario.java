@@ -12,6 +12,7 @@ public class VistaFormulario {
     public static class Campo {
         String etiqueta;
         boolean esPassword;
+        String[] opciones;
         String valorInicial;
 
         public Campo(String etiqueta) {
@@ -29,6 +30,17 @@ public class VistaFormulario {
         public Campo(String etiqueta, boolean esPassword, String valorInicial) {
             this.etiqueta = etiqueta;
             this.esPassword = esPassword;
+            this.valorInicial = valorInicial;
+        }
+
+        public Campo(String etiqueta, String[] opciones) {
+            this.etiqueta = etiqueta;
+            this.opciones = opciones;
+        }
+
+        public Campo(String etiqueta, String[] opciones, String valorInicial) {
+            this.etiqueta = etiqueta;
+            this.opciones = opciones;
             this.valorInicial = valorInicial;
         }
     }
@@ -49,7 +61,18 @@ public class VistaFormulario {
             panel.add(new JLabel(c.etiqueta), gbc);
 
             gbc.gridx = 1; gbc.weightx = 1;
-            if (c.esPassword) {
+            if (c.opciones != null) {
+                JComboBox<String> cb = new JComboBox<>(c.opciones);
+                if (c.valorInicial != null) {
+                    for (int j = 0; j < c.opciones.length; j++) {
+                        if (c.opciones[j].equals(c.valorInicial)) {
+                            cb.setSelectedIndex(j);
+                            break;
+                        }
+                    }
+                }
+                panel.add(cb, gbc);
+            } else if (c.esPassword) {
                 JPasswordField pf = new JPasswordField(c.valorInicial);
                 pf.setColumns(15);
                 panel.add(pf, gbc);
@@ -84,6 +107,9 @@ public class VistaFormulario {
                 resultado.put(campos[i].etiqueta, ((JTextField) comp).getText().trim());
             } else if (comp instanceof JPasswordField) {
                 resultado.put(campos[i].etiqueta, new String(((JPasswordField) comp).getPassword()).trim());
+            } else if (comp instanceof JComboBox) {
+                Object selected = ((JComboBox<?>) comp).getSelectedItem();
+                resultado.put(campos[i].etiqueta, selected != null ? selected.toString().trim() : "");
             }
         }
         return resultado;

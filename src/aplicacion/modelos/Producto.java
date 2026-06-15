@@ -6,14 +6,21 @@ public class Producto {
     private int habilitado;
     private String descripcion;
     private int precio;
-    private int stock;
+    private int cantidad;
 
-    public Producto(int id, int habilitado, String descripcion, int precio, int stock) {
+    public Producto(int id, int habilitado, String descripcion, int precio, int cantidad) {
         this.id = id;
         this.habilitado = habilitado;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.stock = stock;
+        this.cantidad = cantidad;
+    }
+
+    public Producto(int id, String descripcion, int precio, int cantidad) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.cantidad = cantidad;
     }
 
     public int getId() {
@@ -40,11 +47,11 @@ public class Producto {
     public void setPrecio(int precio) {
         this.precio = precio;
     }
-    public int getStock() {
-        return stock;
+    public int getCantidad() {
+        return cantidad;
     }
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
 }

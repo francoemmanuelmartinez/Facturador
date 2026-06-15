@@ -1,60 +1,104 @@
 package aplicacion.modelos;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Factura {
 
-    private String numero;
-    private String cliente;
-    private LocalDate fecha;
-    private double total;
-    private String estado;
+    private int id;
+    private String numeroFactura;
+    private int idCliente;
+    private String nombreCliente;
+    private int idVendedor;
+    private String nombreVendedor;
+    private LocalDate fechaEmision;
+    private double totalCompra;
+    private List<DetalleFactura> detalles;
 
-    public Factura(String numero, String cliente, LocalDate fecha, double total, String estado) {
-        this.numero = numero;
-        this.cliente = cliente;
-        this.fecha = fecha;
-        this.total = total;
-        this.estado = estado;
+    public Factura() {}
+
+    public Factura(String numeroFactura, int idCliente, String nombreCliente,
+                   int idVendedor, String nombreVendedor, LocalDate fechaEmision,
+                   double totalCompra, List<DetalleFactura> detalles) {
+        this.numeroFactura = numeroFactura;
+        this.idCliente = idCliente;
+        this.nombreCliente = nombreCliente;
+        this.idVendedor = idVendedor;
+        this.nombreVendedor = nombreVendedor;
+        this.fechaEmision = fechaEmision;
+        this.totalCompra = totalCompra;
+        this.detalles = detalles;
     }
 
-    public String getNumero() {
-        return numero;
+    public int getId() {
+        return id;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getCliente() {
-        return cliente;
+    public String getNumeroFactura() {
+        return numeroFactura;
     }
 
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
+    public void setNumeroFactura(String numeroFactura) {
+        this.numeroFactura = numeroFactura;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    public double getTotal() {
-        return total;
+    public String getNombreCliente() {
+        return nombreCliente;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
     }
 
-    public String getEstado() {
-        return estado;
+    public int getIdVendedor() {
+        return idVendedor;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setIdVendedor(int idVendedor) {
+        this.idVendedor = idVendedor;
+    }
+
+    public String getNombreVendedor() {
+        return nombreVendedor;
+    }
+
+    public void setNombreVendedor(String nombreVendedor) {
+        this.nombreVendedor = nombreVendedor;
+    }
+
+    public LocalDate getFechaEmision() {
+        return fechaEmision;
+    }
+
+    public void setFechaEmision(LocalDate fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
+
+    public double getTotalCompra() {
+        return totalCompra;
+    }
+
+    public void setTotalCompra(double totalCompra) {
+        this.totalCompra = totalCompra;
+    }
+
+    public List<DetalleFactura> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<DetalleFactura> detalles) {
+        this.detalles = detalles;
     }
 }

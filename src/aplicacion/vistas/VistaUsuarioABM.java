@@ -79,7 +79,8 @@ public class VistaUsuarioABM {
                         new VistaFormulario.Campo("Teléfono:"),
                         new VistaFormulario.Campo("Dirección:"),
                         new VistaFormulario.Campo("Mail:"),
-                        new VistaFormulario.Campo("Contraseña:", true)
+                        new VistaFormulario.Campo("Contraseña:", true),
+                        new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"})
                 );
                 if (valores != null) {
                     ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
@@ -90,7 +91,8 @@ public class VistaUsuarioABM {
                             valores.get("Teléfono:"),
                             valores.get("Dirección:"),
                             valores.get("Mail:"),
-                            valores.get("Contraseña:")
+                            valores.get("Contraseña:"),
+                            valores.get("Rol:")
                     )) {
                         poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
@@ -108,6 +110,8 @@ public class VistaUsuarioABM {
 
                 String dniOriginal = modeloTabla.getValueAt(fila, 2).toString();
 
+                String rolActual = modeloTabla.getValueAt(fila, 6).toString();
+
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Usuario",
                         new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 0).toString()),
                         new VistaFormulario.Campo("Apellido:", modeloTabla.getValueAt(fila, 1).toString()),
@@ -115,7 +119,7 @@ public class VistaUsuarioABM {
                         new VistaFormulario.Campo("Teléfono:", modeloTabla.getValueAt(fila, 3).toString()),
                         new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 4).toString()),
                         new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 5).toString()),
-                        new VistaFormulario.Campo("Rol:", modeloTabla.getValueAt(fila, 6).toString()),
+                        new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"}, rolActual),
                         new VistaFormulario.Campo("Contraseña:", true, modeloTabla.getValueAt(fila, 7).toString())
                 );
                 if (valores != null) {
@@ -193,6 +197,7 @@ public class VistaUsuarioABM {
             });
         }
     }
+
 }
 
 

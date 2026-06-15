@@ -71,12 +71,14 @@ public class ControladorLogin {
 
     public void logear (VentanaPrincipal ventanaPrincipal){
         switch (usuario.getRol()) {
-            case "1" -> {
+            case "Administrador" -> {
                 ControladorAdmin controladorAdmin = new ControladorAdmin(usuario,ventanaPrincipal);
             }
-            case "2" -> {
+            case "Cajero" -> {
+                ControladorCajero cajero = new ControladorCajero(usuario, ventanaPrincipal);
             }
-            case "3" -> {
+            case "Deposito" -> {
+                ControladorDepositoABM deposito = new ControladorDepositoABM(usuario, ventanaPrincipal);
             }
             default -> JOptionPane.showMessageDialog(null, "USUARIO INVALIDO");
         }
