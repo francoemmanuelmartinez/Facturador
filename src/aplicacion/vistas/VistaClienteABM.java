@@ -87,14 +87,15 @@ public class VistaClienteABM {
                 );
                 if (valores != null) {
                     ControladorClienteABM ctrl = new ControladorClienteABM();
-                    if (ctrl.agregarCliente(
+                    int id = ctrl.agregarCliente(
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
                             valores.get("DNI:"),
                             valores.get("Teléfono:"),
                             valores.get("Dirección:"),
                             valores.get("Mail:")
-                    )) {
+                    );
+                    if (id > -1) {
                         poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }

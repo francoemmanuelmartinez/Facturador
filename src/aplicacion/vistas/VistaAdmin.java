@@ -1,9 +1,6 @@
 package aplicacion.vistas;
 
-import aplicacion.controladores.ControladorClienteABM;
-import aplicacion.controladores.ControladorDepositoABM;
-import aplicacion.controladores.ControladorLogin;
-import aplicacion.controladores.ControladorUsuarioABM;
+import aplicacion.controladores.*;
 import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
@@ -36,7 +33,7 @@ public class VistaAdmin {
         botonFacturar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ControladorCajero controladorCajero = new ControladorCajero(usuario, ventanaPrincipal);
             }
         });
         botonAdministrarDeposito.addActionListener(new ActionListener() {

@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,7 @@ public class ControladorClienteABM {
         return cliente;
     }
 
-    public boolean agregarCliente(String nombre, String apellido, String dni, String telefono, String direccion, String mail) {
+    public int agregarCliente(String nombre, String apellido, String dni, String telefono, String direccion, String mail) {
         try {
             c.conectar();
 
@@ -87,11 +88,11 @@ public class ControladorClienteABM {
             ResultSet mailDatabase = selectFrom.executeQuery();
             if (mailDatabase.next()) {
                 JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");
-                return false;
+                return -1;
             }
 
             String sqlInsert = "INSERT INTO clientes(nombre, apellido, dni, telefono, direccion, mail) VALUES(?,?,?,?,?,?)";
-            PreparedStatement pst = c.con.prepareStatement(sqlInsert);
+            PreparedStatement pst = c.con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
             pst.setString(3, dni);
@@ -99,8 +100,15 @@ public class ControladorClienteABM {
             pst.setString(5, direccion);
             pst.setString(6, mail);
             pst.executeUpdate();
+
+            ResultSet rs = pst.getGeneratedKeys();
+            int id = -1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
             JOptionPane.showMessageDialog(null, "Cliente agregado exitosamente");
-            return true;
+            return id;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
