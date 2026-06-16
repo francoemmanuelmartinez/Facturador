@@ -1,6 +1,6 @@
 package aplicacion.vistas;
 
-import aplicacion.controladores.ControladorAdmin;
+import aplicacion.controladores.ControladorClienteABM;
 import aplicacion.controladores.ControladorFactura;
 import aplicacion.modelos.Usuario;
 
@@ -60,7 +60,7 @@ public class VistaFactura {
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new ControladorAdmin(usuario, ventanaPrincipal);
+                new ControladorClienteABM(usuario, ventanaPrincipal);
             }
         });
     }
