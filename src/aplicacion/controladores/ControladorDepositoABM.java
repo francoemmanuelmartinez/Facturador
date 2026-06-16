@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,18 +71,46 @@ public class ControladorDepositoABM {
         return productos;
     }
 
-    public boolean agregarProducto(String descripcion, int precio, int stock) {
+    public Producto seleccionarProducto(String texto, int habilitado) {
+        List<Producto> productos = buscarProducto(texto, habilitado);
+        if (productos.isEmpty()) return null;
+        if (productos.size() == 1) return productos.get(0);
+
+        String[] opciones = new String[productos.size()];
+        for (int i = 0; i < productos.size(); i++) {
+            Producto p = productos.get(i);
+            opciones[i] = p.getId() + " - " + p.getDescripcion() + " - $" + p.getPrecio() + " - Stock: " + p.getStock();
+        }
+        String seleccion = (String) JOptionPane.showInputDialog(null,
+                "Seleccione un producto:", "Múltiples productos encontrados",
+                JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
+        if (seleccion == null) return null;
+        int id = Integer.parseInt(seleccion.split(" - ")[0]);
+        for (Producto p : productos) {
+            if (p.getId() == id) return p;
+        }
+        return null;
+    }
+
+    public int agregarProducto(String descripcion, int precio, int stock) {
         try {
             c.conectar();
 
             String sqlInsert = "INSERT INTO productos(descripcion, precio, stock) VALUES(?,?,?)";
-            PreparedStatement pst = c.con.prepareStatement(sqlInsert);
+            PreparedStatement pst = c.con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, descripcion);
             pst.setInt(2, precio);
             pst.setInt(3, stock);
             pst.executeUpdate();
+
+            ResultSet rs = pst.getGeneratedKeys();
+            int id = -1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
             JOptionPane.showMessageDialog(null, "Producto agregado exitosamente");
-            return true;
+            return id;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

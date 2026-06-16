@@ -90,7 +90,7 @@ public class VistaDepositoABM {
                                 valores.get("Descripción:"),
                                 precio,
                                 stock
-                        )) {
+                        ) > -1) {
                             poblarTabla(ctrl.obtenerProductosPorHabilitado(comboBoxFlitro.getSelectedIndex() == 0 ? 1 : 0));
                         }
                     } catch (NumberFormatException ex) {
@@ -184,7 +184,7 @@ public class VistaDepositoABM {
                     p.getId(),
                     p.getDescripcion(),
                     p.getPrecio(),
-                    p.getCantidad(),
+                    p.getStock(),
                     p.getHabilitado()
             });
         }

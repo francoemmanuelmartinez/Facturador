@@ -2,10 +2,11 @@ package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorAdmin;
 import aplicacion.controladores.ControladorClienteABM;
+import aplicacion.controladores.ControladorDepositoABM;
 import aplicacion.controladores.ControladorLogin;
 import aplicacion.modelos.Cliente;
+import aplicacion.modelos.Producto;
 import aplicacion.modelos.Usuario;
-import aplicacion.vistas.VentanaPrincipal;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -42,7 +43,6 @@ public class VistaCajero {
     private JLabel labelDescripcionProducto;
     private JTextField textFieldDescripcionProducto;
     private JTextField textFieldPrecioProducto;
-    private JTextField textFieldCantidadProducto;
     private JTextField textFieldDescuentoProducto;
     private JLabel labelPrecioProducto;
     private JLabel labelCantidadProducto;
@@ -70,6 +70,9 @@ public class VistaCajero {
     private JScrollPane scrollCarrito;
     private JTextField textFieldIDCliente;
     private JLabel labelIDCliente;
+    private JLabel labelStock;
+    private JTextField textFieldStock;
+    private JTextField textFieldCantidadProducto;
 
     public VistaCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.usuario = usuario;
@@ -183,13 +186,55 @@ public class VistaCajero {
         buscarProductoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String texto = textFieldBuscarProducto.getText().trim();
+                if (texto.isEmpty()) return;
 
+                ControladorDepositoABM ctrl = new ControladorDepositoABM();
+                Producto p = ctrl.seleccionarProducto(texto, 1);
+
+                if (p != null) {
+                    textFieldIDProducto.setText(String.valueOf(p.getId()));
+                    textFieldDescripcionProducto.setText(p.getDescripcion());
+                    textFieldPrecioProducto.setText(String.valueOf(p.getPrecio()));
+                    textFieldStock.setText(String.valueOf(p.getStock()));
+                } else {
+                    limpiarCamposProducto();
+                }
             }
         });
         modificarProductoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String idStr = textFieldIDProducto.getText().trim();
+                if (idStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No hay producto seleccionado");
+                    return;
+                }
+                int id = Integer.parseInt(idStr);
 
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Producto",
+                        new VistaFormulario.Campo("Descripción:", textFieldDescripcionProducto.getText()),
+                        new VistaFormulario.Campo("Precio:", textFieldPrecioProducto.getText()),
+                        new VistaFormulario.Campo("Stock:", textFieldStock.getText())
+                );
+
+                if (valores != null) {
+                    int confirm = JOptionPane.showConfirmDialog(null,
+                            "¿Confirmar modificación del producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        ControladorDepositoABM ctrl = new ControladorDepositoABM();
+                        boolean ok = ctrl.modificarProducto(id,
+                                valores.get("Descripción:"),
+                                Integer.parseInt(valores.get("Precio:")),
+                                Integer.parseInt(valores.get("Stock:"))
+                        );
+                        if (ok) {
+                            textFieldDescripcionProducto.setText(valores.get("Descripción:"));
+                            textFieldPrecioProducto.setText(valores.get("Precio:"));
+                            textFieldStock.setText(valores.get("Stock:"));
+                        }
+                    }
+                }
             }
         });
         agregarAlCarroButton.addActionListener(new ActionListener() {
@@ -201,7 +246,26 @@ public class VistaCajero {
         nuevoProductoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Producto",
+                        new VistaFormulario.Campo("Descripción:"),
+                        new VistaFormulario.Campo("Precio:"),
+                        new VistaFormulario.Campo("Stock:")
+                );
 
+                if (valores != null) {
+                    ControladorDepositoABM ctrl = new ControladorDepositoABM();
+                    int id = ctrl.agregarProducto(
+                            valores.get("Descripción:"),
+                            Integer.parseInt(valores.get("Precio:")),
+                            Integer.parseInt(valores.get("Stock:"))
+                    );
+                    if (id > -1) {
+                        textFieldIDProducto.setText(String.valueOf(id));
+                        textFieldDescripcionProducto.setText(valores.get("Descripción:"));
+                        textFieldPrecioProducto.setText(valores.get("Precio:"));
+                        textFieldStock.setText(valores.get("Stock:"));
+                    }
+                }
             }
         });
         modificarArticuloButton.addActionListener(new ActionListener() {
@@ -244,5 +308,12 @@ public class VistaCajero {
         textFieldDomicilioCiente.setText("");
         textFieldTelefonoCliente.setText("");
         textFieldMailCliente.setText("");
+    }
+
+    private void limpiarCamposProducto() {
+        textFieldIDProducto.setText("");
+        textFieldDescripcionProducto.setText("");
+        textFieldPrecioProducto.setText("");
+        textFieldStock.setText("");
     }
 }
