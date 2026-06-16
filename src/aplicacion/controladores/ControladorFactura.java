@@ -39,7 +39,7 @@ public class ControladorFactura {
     public Object[] obtenerFacturaCompleta(int idFactura) {
         try {
             c.conectar();
-            String sql = "SELECT f.numero_factura, f.fecha_emision, f.nombre_cliente, f.apellido_cliente, f.nombre_vendedor, f.apellido_vendedor, f.total_compra, c.dni, c.direccion FROM facturas f JOIN clientes c ON f.id_cliente = c.id WHERE f.id = ?";
+            String sql = "SELECT f.id_cliente, f.id_vendedor, f.numero_factura, f.fecha_emision, f.nombre_cliente, f.apellido_cliente, f.nombre_vendedor, f.apellido_vendedor, f.subtotal, f.descuento_porcentaje, f.valor_descontado, f.total_compra, c.dni, c.direccion FROM facturas f JOIN clientes c ON f.id_cliente = c.id WHERE f.id = ?";
             PreparedStatement stmt = c.con.prepareStatement(sql);
             stmt.setInt(1, idFactura);
             ResultSet rs = stmt.executeQuery();
@@ -51,9 +51,14 @@ public class ControladorFactura {
                         rs.getString("apellido_cliente"),
                         rs.getString("nombre_vendedor"),
                         rs.getString("apellido_vendedor"),
+                        rs.getInt("subtotal"),
+                        rs.getInt("descuento_porcentaje"),
+                        rs.getInt("valor_descontado"),
                         rs.getBigDecimal("total_compra"),
                         rs.getString("dni"),
-                        rs.getString("direccion")
+                        rs.getString("direccion"),
+                        rs.getInt("id_cliente"),
+                        rs.getInt("id_vendedor")
                 };
             }
         } catch (SQLException e) {
@@ -66,12 +71,13 @@ public class ControladorFactura {
         List<Object[]> detalles = new ArrayList<>();
         try {
             c.conectar();
-            String sql = "SELECT df.cantidad, df.precio_unitario, df.descuento, df.subtotal, p.descripcion FROM detalles_de_facturas df JOIN productos p ON df.id_producto = p.id WHERE df.id_factura = ?";
+            String sql = "SELECT p.id, df.cantidad, df.precio_unitario, df.descuento, df.subtotal, p.descripcion FROM detalles_de_facturas df JOIN productos p ON df.id_producto = p.id WHERE df.id_factura = ?";
             PreparedStatement stmt = c.con.prepareStatement(sql);
             stmt.setInt(1, idFactura);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 detalles.add(new Object[]{
+                        rs.getInt("id"),
                         rs.getString("descripcion"),
                         rs.getInt("cantidad"),
                         rs.getInt("precio_unitario"),

@@ -22,10 +22,20 @@ public class VistaDetallesFactura {
     private JTextField textFieldTotal;
     private JTable tableDetalles;
     private JButton volverButton;
+    private JPanel panelCliente;
+    private JPanel panelVendedor;
     public JPanel panelDetallesFactura;
+    private JTextField textFieldIDVendedor;
+    private JLabel labelIDVendedor;
+    private JTextField textFieldIDCliente;
+    private JLabel labelIDCliente;
+    private JTextField textFieldDescontado;
+    private JLabel labelDescontado;
+    private JTextField textFieldPorcentajeDescuento;
+    private JTextField textFieldSubtotal;
 
     private DefaultTableModel modeloTablaDetalles;
-    private String[] columnasDetalles = {"Producto", "Cantidad", "P/U", "Descuento %", "Subtotal"};
+    private String[] columnasDetalles = {"ID", "Producto", "Cantidad", "P/U", "Descuento %", "Subtotal"};
     private Usuario usuario;
     private VentanaPrincipal ventanaPrincipal;
     private int idFactura;
@@ -55,6 +65,9 @@ public class VistaDetallesFactura {
         textFieldNombreVendedor.setEditable(false);
         textFieldApellidoVendedor.setEditable(false);
         textFieldTotal.setEditable(false);
+        textFieldIDCliente.setEditable(false);
+        textFieldIDVendedor.setEditable(false);
+        textFieldDescontado.setEditable(false);
 
         cargarFactura();
         cargarDetalles();
@@ -78,9 +91,14 @@ public class VistaDetallesFactura {
         textFieldApellidoCliente.setText((String) factura[3]);
         textFieldNombreVendedor.setText((String) factura[4]);
         textFieldApellidoVendedor.setText((String) factura[5]);
-        textFieldTotal.setText("$ " + factura[6].toString());
-        textFieldDNICliente.setText((String) factura[7]);
-        textFieldDireccionCliente.setText((String) factura[8]);
+        textFieldSubtotal.setText("$ " + factura[6].toString());
+        textFieldPorcentajeDescuento.setText(factura[7].toString() + "%");
+        textFieldDescontado.setText("$ " + factura[8].toString());
+        textFieldTotal.setText("$ " + factura[9].toString());
+        textFieldDNICliente.setText((String) factura[10]);
+        textFieldDireccionCliente.setText((String) factura[11]);
+        textFieldIDCliente.setText(factura[12].toString());
+        textFieldIDVendedor.setText(factura[13].toString());
     }
 
     private void cargarDetalles() {
@@ -91,8 +109,9 @@ public class VistaDetallesFactura {
                     d[0],
                     d[1],
                     d[2],
-                    d[3] + "%",
-                    d[4]
+                    d[3],
+                    d[4] + "%",
+                    d[5]
             });
         }
     }

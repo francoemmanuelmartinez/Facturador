@@ -12,21 +12,29 @@ public class Factura {
     private int idVendedor;
     private String nombreVendedor;
     private LocalDate fechaEmision;
-    private double totalCompra;
+    private int subtotal;
+    private int descuentoPorcentaje;
+    private int valorDescontado;
+    private int totalCompra;
     private List<DetalleFactura> detalles;
 
     public Factura() {}
 
-    public Factura(String numeroFactura, int idCliente, String nombreCliente,
-                   int idVendedor, String nombreVendedor, LocalDate fechaEmision,
-                   double totalCompra, List<DetalleFactura> detalles) {
-        this.numeroFactura = numeroFactura;
+    public Factura(int id, int idCliente, String numeroFactura, LocalDate fechaEmision,
+                   int subtotal, int descuentoPorcentaje, int valorDescontado,
+                   int totalCompra, String nombreCliente, int idVendedor,
+                   String nombreVendedor, List<DetalleFactura> detalles) {
+        this.id = id;
         this.idCliente = idCliente;
+        this.numeroFactura = numeroFactura;
+        this.fechaEmision = fechaEmision;
+        this.subtotal = subtotal;
+        this.descuentoPorcentaje = descuentoPorcentaje;
+        this.valorDescontado = valorDescontado;
+        this.totalCompra = totalCompra;
         this.nombreCliente = nombreCliente;
         this.idVendedor = idVendedor;
         this.nombreVendedor = nombreVendedor;
-        this.fechaEmision = fechaEmision;
-        this.totalCompra = totalCompra;
         this.detalles = detalles;
     }
 
@@ -86,11 +94,35 @@ public class Factura {
         this.fechaEmision = fechaEmision;
     }
 
-    public double getTotalCompra() {
+    public int getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(int subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public int getDescuentoPorcentaje() {
+        return descuentoPorcentaje;
+    }
+
+    public void setDescuentoPorcentaje(int descuentoPorcentaje) {
+        this.descuentoPorcentaje = descuentoPorcentaje;
+    }
+
+    public int getValorDescontado() {
+        return valorDescontado;
+    }
+
+    public void setValorDescontado(int valorDescontado) {
+        this.valorDescontado = valorDescontado;
+    }
+
+    public int getTotalCompra() {
         return totalCompra;
     }
 
-    public void setTotalCompra(double totalCompra) {
+    public void setTotalCompra(int totalCompra) {
         this.totalCompra = totalCompra;
     }
 

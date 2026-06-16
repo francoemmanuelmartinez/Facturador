@@ -32,7 +32,7 @@ public class ControladorCajero {
         return "FACT-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
     }
 
-    public boolean finalizarCompra(int idCliente, String nombreCliente, String apellidoCliente, int idVendedor, String nombreVendedor, String apellidoVendedor, List<Object[]> carrito) {
+    public boolean finalizarCompra(int idCliente, String nombreCliente, String apellidoCliente, int idVendedor, String nombreVendedor, String apellidoVendedor, List<Object[]> carrito, int subtotal, int descuentoPorcentaje, int valorDescontado, int totalCompra) {
         try {
             c.conectar();
             c.con.setAutoCommit(false);
@@ -40,12 +40,7 @@ public class ControladorCajero {
             String numeroFactura = generarNumeroFactura();
             LocalDate fechaEmision = LocalDate.now();
 
-            int totalCompra = 0;
-            for (Object[] fila : carrito) {
-                totalCompra += (int) fila[5];
-            }
-
-            String sqlFactura = "INSERT INTO facturas(numero_factura, id_cliente, nombre_cliente, apellido_cliente, id_vendedor, nombre_vendedor, apellido_vendedor, fecha_emision, total_compra) VALUES(?,?,?,?,?,?,?,?,?)";
+            String sqlFactura = "INSERT INTO facturas(numero_factura, id_cliente, nombre_cliente, apellido_cliente, id_vendedor, nombre_vendedor, apellido_vendedor, fecha_emision, subtotal, descuento_porcentaje, valor_descontado, total_compra) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pstFactura = c.con.prepareStatement(sqlFactura, Statement.RETURN_GENERATED_KEYS);
             pstFactura.setString(1, numeroFactura);
             pstFactura.setInt(2, idCliente);
@@ -55,7 +50,10 @@ public class ControladorCajero {
             pstFactura.setString(6, nombreVendedor);
             pstFactura.setString(7, apellidoVendedor);
             pstFactura.setString(8, fechaEmision.toString());
-            pstFactura.setInt(9, totalCompra);
+            pstFactura.setInt(9, subtotal);
+            pstFactura.setInt(10, descuentoPorcentaje);
+            pstFactura.setInt(11, valorDescontado);
+            pstFactura.setInt(12, totalCompra);
             pstFactura.executeUpdate();
 
             ResultSet rs = pstFactura.getGeneratedKeys();
@@ -79,14 +77,14 @@ public class ControladorCajero {
                 int descuento = fila[4] instanceof String
                         ? Integer.parseInt(((String) fila[4]).replace("%", ""))
                         : 0;
-                int subtotal = (int) fila[5];
+                int subtotalDetalle = (int) fila[5];
 
                 pstDetalle.setInt(1, idFactura);
                 pstDetalle.setInt(2, idProducto);
                 pstDetalle.setInt(3, cantidad);
                 pstDetalle.setInt(4, precioUnitario);
                 pstDetalle.setInt(5, descuento);
-                pstDetalle.setInt(6, subtotal);
+                pstDetalle.setInt(6, subtotalDetalle);
                 pstDetalle.addBatch();
 
                 PreparedStatement pstStock = c.con.prepareStatement(sqlStock);

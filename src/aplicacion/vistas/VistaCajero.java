@@ -79,6 +79,8 @@ public class VistaCajero {
     private JTextField textFieldCantidadProducto;
     private JTextField textFieldApellidoCajero;
     private JLabel labelApellidoCajero;
+    private JTextField textFieldValorDescontado;
+    private JLabel labelDescontado;
     private DefaultTableModel modeloTablaCarrito;
     private String[] columnasCarrito = {"ID", "Descripción", "Precio Unit.", "Cantidad", "Descuento", "Subtotal"};
 
@@ -383,7 +385,9 @@ public class VistaCajero {
                 }
 
                 int total = subtotal * (100 - descuento) / 100;
+                int valorDescontado = subtotal - total;
                 textFieldTotal.setText(String.valueOf(total));
+                textFieldValorDescontado.setText(String.valueOf(valorDescontado));
             }
         });
         finalizarCompraButton.addActionListener(new ActionListener() {
@@ -428,8 +432,14 @@ public class VistaCajero {
                     });
                 }
 
+                int subtotalVal = Integer.parseInt(textFieldSubtotal.getText().trim());
+                String descuentoStrVal = textFieldDescuento.getText().trim();
+                int descuentoPorcentaje = descuentoStrVal.isEmpty() ? 0 : Integer.parseInt(descuentoStrVal);
+                int totalVal = Integer.parseInt(textFieldTotal.getText().trim());
+                int valorDescontadoVal = subtotalVal - totalVal;
+
                 ControladorCajero cc = new ControladorCajero();
-                if (cc.finalizarCompra(idCliente, nombreCliente, apellidoCliente, idVendedor, nombreVendedor, apellidoVendedor, carrito)) {
+                if (cc.finalizarCompra(idCliente, nombreCliente, apellidoCliente, idVendedor, nombreVendedor, apellidoVendedor, carrito, subtotalVal, descuentoPorcentaje, valorDescontadoVal, totalVal)) {
                     limpiarCarrito();
                 }
             }
@@ -482,6 +492,7 @@ public class VistaCajero {
         textFieldSubtotal.setText(String.valueOf(subtotal));
         textFieldDescuento.setText("");
         textFieldTotal.setText("");
+        textFieldValorDescontado.setText("");
     }
 
     private void limpiarCarrito() {
@@ -491,6 +502,7 @@ public class VistaCajero {
         textFieldSubtotal.setText("");
         textFieldDescuento.setText("");
         textFieldTotal.setText("");
+        textFieldValorDescontado.setText("");
         textFieldBuscarCliente.setText("");
         textFieldBuscarProducto.setText("");
     }
