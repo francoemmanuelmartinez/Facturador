@@ -12,7 +12,7 @@ public class ControladorCajero {
 
     public ControladorCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal){
         this.usuario = usuario;
-        VistaCajero vistaCajero = new VistaCajero();
+        VistaCajero vistaCajero = new VistaCajero(usuario, ventanaPrincipal);
         ventanaPrincipal.setVista(vistaCajero.panelCajero);
     }
 }

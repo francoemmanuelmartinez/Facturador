@@ -1,7 +1,11 @@
 package aplicacion.vistas;
 
+import aplicacion.controladores.ControladorAdmin;
 import aplicacion.controladores.ControladorClienteABM;
+import aplicacion.controladores.ControladorLogin;
 import aplicacion.modelos.Cliente;
+import aplicacion.modelos.Usuario;
+import aplicacion.vistas.VentanaPrincipal;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -9,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class VistaCajero {
+    private Usuario usuario;
+    private VentanaPrincipal ventanaPrincipal;
     public JPanel panelCajero;
     private JTable tableCarrito;
     private JLabel labelNombreCajero;
@@ -65,11 +71,19 @@ public class VistaCajero {
     private JTextField textFieldIDCliente;
     private JLabel labelIDCliente;
 
-    public VistaCajero() {
+    public VistaCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
+        this.usuario = usuario;
+        this.ventanaPrincipal = ventanaPrincipal;
+        textFieldNombreCajero.setText(usuario.getNombre());
+        textFieldIDCajero.setText(usuario.getId());
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (usuario.getRol().equals("Administrador")) {
+                    new ControladorAdmin(usuario, ventanaPrincipal);
+                } else {
+                    new ControladorLogin(ventanaPrincipal);
+                }
             }
         });
         buscarClienteButton.addActionListener(new ActionListener() {
