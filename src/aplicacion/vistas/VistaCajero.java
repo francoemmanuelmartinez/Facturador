@@ -1,6 +1,7 @@
 package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorAdmin;
+import aplicacion.controladores.ControladorCajero;
 import aplicacion.controladores.ControladorClienteABM;
 import aplicacion.controladores.ControladorDepositoABM;
 import aplicacion.controladores.ControladorLogin;
@@ -12,6 +13,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class VistaCajero {
@@ -74,6 +77,8 @@ public class VistaCajero {
     private JLabel labelStock;
     private JTextField textFieldStock;
     private JTextField textFieldCantidadProducto;
+    private JTextField textFieldApellidoCajero;
+    private JLabel labelApellidoCajero;
     private DefaultTableModel modeloTablaCarrito;
     private String[] columnasCarrito = {"ID", "Descripción", "Precio Unit.", "Cantidad", "Descuento", "Subtotal"};
 
@@ -81,7 +86,10 @@ public class VistaCajero {
         this.usuario = usuario;
         this.ventanaPrincipal = ventanaPrincipal;
         textFieldNombreCajero.setText(usuario.getNombre());
+        textFieldApellidoCajero.setText(usuario.getApellido());
         textFieldIDCajero.setText(usuario.getId());
+        textFieldSubtotal.setEditable(false);
+        textFieldTotal.setEditable(false);
         volverButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -265,6 +273,7 @@ public class VistaCajero {
                         idStr, descripcion, precio, cantidad, descuento + "%", subtotal
                 });
 
+                actualizarTotales();
                 limpiarCamposProducto();
             }
         });
@@ -297,31 +306,145 @@ public class VistaCajero {
         modificarArticuloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int fila = tableCarrito.getSelectedRow();
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un artículo del carrito");
+                    return;
+                }
 
+                String cantidadActual = modeloTablaCarrito.getValueAt(fila, 3).toString();
+                String descuentoActual = modeloTablaCarrito.getValueAt(fila, 4).toString().replace("%", "");
+
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Artículo",
+                        new VistaFormulario.Campo("Cantidad:", cantidadActual),
+                        new VistaFormulario.Campo("Descuento %:", descuentoActual)
+                );
+
+                if (valores != null) {
+                    try {
+                        int nuevaCantidad = Integer.parseInt(valores.get("Cantidad:"));
+                        int nuevoDescuento = Integer.parseInt(valores.get("Descuento %:"));
+                        if (nuevaCantidad <= 0) {
+                            JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a 0");
+                            return;
+                        }
+                        if (nuevoDescuento < 0 || nuevoDescuento > 100) {
+                            JOptionPane.showMessageDialog(null, "El descuento debe ser entre 0 y 100");
+                            return;
+                        }
+
+                        int precio = Integer.parseInt(modeloTablaCarrito.getValueAt(fila, 2).toString());
+                        int nuevoSubtotal = precio * nuevaCantidad * (100 - nuevoDescuento) / 100;
+
+                        modeloTablaCarrito.setValueAt(nuevaCantidad, fila, 3);
+                        modeloTablaCarrito.setValueAt(nuevoDescuento + "%", fila, 4);
+                        modeloTablaCarrito.setValueAt(nuevoSubtotal, fila, 5);
+
+                        actualizarTotales();
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Ingrese valores numéricos válidos");
+                    }
+                }
             }
         });
         eliminarArticuloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int fila = tableCarrito.getSelectedRow();
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un artículo del carrito");
+                    return;
+                }
 
+                int confirm = JOptionPane.showConfirmDialog(null,
+                        "¿Eliminar artículo del carrito?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    modeloTablaCarrito.removeRow(fila);
+                    actualizarTotales();
+                }
             }
         });
         calcularTotalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String subtotalStr = textFieldSubtotal.getText().trim();
+                if (subtotalStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No hay artículos en el carrito");
+                    return;
+                }
 
+                int subtotal = Integer.parseInt(subtotalStr);
+                String descuentoStr = textFieldDescuento.getText().trim();
+                int descuento = descuentoStr.isEmpty() ? 0 : Integer.parseInt(descuentoStr);
+
+                if (descuento < 0 || descuento > 100) {
+                    JOptionPane.showMessageDialog(null, "El descuento debe ser entre 0 y 100");
+                    return;
+                }
+
+                int total = subtotal * (100 - descuento) / 100;
+                textFieldTotal.setText(String.valueOf(total));
             }
         });
         finalizarCompraButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String idClienteStr = textFieldIDCliente.getText().trim();
+                if (idClienteStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente");
+                    return;
+                }
 
+                if (modeloTablaCarrito.getRowCount() == 0) {
+                    JOptionPane.showMessageDialog(null, "El carrito está vacío");
+                    return;
+                }
+
+                if (textFieldTotal.getText().trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Debe calcular el total primero");
+                    return;
+                }
+
+                int confirm = JOptionPane.showConfirmDialog(null,
+                        "¿Confirmar finalización de la compra?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                if (confirm != JOptionPane.YES_OPTION) return;
+
+                int idCliente = Integer.parseInt(idClienteStr);
+                String nombreCliente = textFieldNombreCliente.getText().trim();
+                String apellidoCliente = textFieldApellidoCliente.getText().trim();
+                int idVendedor = Integer.parseInt(usuario.getId());
+                String nombreVendedor = textFieldNombreCajero.getText().trim();
+                String apellidoVendedor = textFieldApellidoCajero.getText().trim();
+
+                List<Object[]> carrito = new ArrayList<>();
+                for (int i = 0; i < modeloTablaCarrito.getRowCount(); i++) {
+                    carrito.add(new Object[]{
+                            modeloTablaCarrito.getValueAt(i, 0),
+                            modeloTablaCarrito.getValueAt(i, 1),
+                            modeloTablaCarrito.getValueAt(i, 2),
+                            modeloTablaCarrito.getValueAt(i, 3),
+                            modeloTablaCarrito.getValueAt(i, 4),
+                            modeloTablaCarrito.getValueAt(i, 5)
+                    });
+                }
+
+                ControladorCajero cc = new ControladorCajero();
+                if (cc.finalizarCompra(idCliente, nombreCliente, apellidoCliente, idVendedor, nombreVendedor, apellidoVendedor, carrito)) {
+                    limpiarCarrito();
+                }
             }
         });
         cancelarCompraButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (modeloTablaCarrito.getRowCount() == 0) return;
 
+                int confirm = JOptionPane.showConfirmDialog(null,
+                        "¿Cancelar la compra? Se perderán todos los datos del carrito",
+                        "Confirmar", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    limpiarCarrito();
+                }
             }
         });
     }
@@ -349,5 +472,26 @@ public class VistaCajero {
         textFieldStock.setText("");
         textFieldCantidadProducto.setText("");
         textFieldDescuentoProducto.setText("");
+    }
+
+    private void actualizarTotales() {
+        int subtotal = 0;
+        for (int i = 0; i < modeloTablaCarrito.getRowCount(); i++) {
+            subtotal += (int) modeloTablaCarrito.getValueAt(i, 5);
+        }
+        textFieldSubtotal.setText(String.valueOf(subtotal));
+        textFieldDescuento.setText("");
+        textFieldTotal.setText("");
+    }
+
+    private void limpiarCarrito() {
+        modeloTablaCarrito.setRowCount(0);
+        limpiarCamposCliente();
+        limpiarCamposProducto();
+        textFieldSubtotal.setText("");
+        textFieldDescuento.setText("");
+        textFieldTotal.setText("");
+        textFieldBuscarCliente.setText("");
+        textFieldBuscarProducto.setText("");
     }
 }
