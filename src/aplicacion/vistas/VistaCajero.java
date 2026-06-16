@@ -9,6 +9,7 @@ import aplicacion.modelos.Producto;
 import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
@@ -73,6 +74,8 @@ public class VistaCajero {
     private JLabel labelStock;
     private JTextField textFieldStock;
     private JTextField textFieldCantidadProducto;
+    private DefaultTableModel modeloTablaCarrito;
+    private String[] columnasCarrito = {"ID", "Descripción", "Precio Unit.", "Cantidad", "Descuento", "Subtotal"};
 
     public VistaCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.usuario = usuario;
@@ -240,7 +243,29 @@ public class VistaCajero {
         agregarAlCarroButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String idStr = textFieldIDProducto.getText().trim();
+                if (idStr.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No hay producto seleccionado");
+                    return;
+                }
 
+                String descripcion = textFieldDescripcionProducto.getText();
+                int precio = Integer.parseInt(textFieldPrecioProducto.getText());
+                int cantidad = Integer.parseInt(textFieldCantidadProducto.getText().trim());
+                if (cantidad <= 0) {
+                    JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a 0");
+                    return;
+                }
+
+                String descuentoStr = textFieldDescuentoProducto.getText().trim();
+                int descuento = descuentoStr.isEmpty() ? 0 : Integer.parseInt(descuentoStr);
+                int subtotal = precio * cantidad * (100 - descuento) / 100;
+
+                modeloTablaCarrito.addRow(new Object[]{
+                        idStr, descripcion, precio, cantidad, descuento + "%", subtotal
+                });
+
+                limpiarCamposProducto();
             }
         });
         nuevoProductoButton.addActionListener(new ActionListener() {
@@ -268,6 +293,7 @@ public class VistaCajero {
                 }
             }
         });
+        configurarTablaCarrito();
         modificarArticuloButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -310,10 +336,18 @@ public class VistaCajero {
         textFieldMailCliente.setText("");
     }
 
+    private void configurarTablaCarrito() {
+        modeloTablaCarrito = new DefaultTableModel();
+        modeloTablaCarrito.setColumnIdentifiers(columnasCarrito);
+        tableCarrito.setModel(modeloTablaCarrito);
+    }
+
     private void limpiarCamposProducto() {
         textFieldIDProducto.setText("");
         textFieldDescripcionProducto.setText("");
         textFieldPrecioProducto.setText("");
         textFieldStock.setText("");
+        textFieldCantidadProducto.setText("");
+        textFieldDescuentoProducto.setText("");
     }
 }
