@@ -1,7 +1,8 @@
 package aplicacion.vistas;
 
-import aplicacion.controladores.ControladorClienteABM;
 import aplicacion.controladores.ControladorAdmin;
+import aplicacion.controladores.ControladorClienteABM;
+import aplicacion.controladores.ControladorFactura;
 import aplicacion.modelos.Cliente;
 import aplicacion.modelos.Usuario;
 
@@ -24,10 +25,13 @@ public class VistaClienteABM {
     private JButton agregarButton;
     private JButton botonVolver;
     private JComboBox comboBoxFiltroHabilitado;
+    private JButton mostrarFacturasButton;
     DefaultTableModel modeloTabla = new DefaultTableModel();
     String[] columnas = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
+    private VentanaPrincipal ventanaPrincipal;
 
     public VistaClienteABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
+        this.ventanaPrincipal = ventanaPrincipal;
 
         setModeloTabla();
 
@@ -169,6 +173,23 @@ public class VistaClienteABM {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorAdmin controladorAdmin = new ControladorAdmin(usuario, ventanaPrincipal);
+            }
+        });
+        mostrarFacturasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int fila = tablaClientes.getSelectedRow();
+                if (fila == -1) {
+                    JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla");
+                    return;
+                }
+
+                int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
+                String nombre = modeloTabla.getValueAt(fila, 1).toString();
+                String apellido = modeloTabla.getValueAt(fila, 2).toString();
+
+                VistaFactura vistaFactura = new VistaFactura(usuario, ventanaPrincipal, idCliente, nombre, apellido);
+                ventanaPrincipal.setVista(vistaFactura.panelFactura);
             }
         });
     }
