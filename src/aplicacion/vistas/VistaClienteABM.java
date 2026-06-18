@@ -36,7 +36,7 @@ public class VistaClienteABM {
         setModeloTabla();
 
         tablaClientes.removeColumn(tablaClientes.getColumnModel().getColumn(7));
-        tablaClientes.removeColumn(tablaClientes.getColumnModel().getColumn(0));
+        //tablaClientes.removeColumn(tablaClientes.getColumnModel().getColumn(0));
 
         comboBoxFiltroHabilitado.addItem("Habilitados");
         comboBoxFiltroHabilitado.addItem("Deshabilitados");

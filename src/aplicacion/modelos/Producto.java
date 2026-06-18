@@ -7,6 +7,8 @@ public class Producto {
     private String descripcion;
     private int precio;
     private int stock;
+    private int idProveedor;
+    private String nombreProveedor;
 
     public Producto(int id, int habilitado, String descripcion, int precio, int stock) {
         this.id = id;
@@ -52,6 +54,18 @@ public class Producto {
     }
     public void setStock(int stock) {
         this.stock = stock;
+    }
+    public int getIdProveedor() {
+        return idProveedor;
+    }
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+    public String getNombreProveedor() {
+        return nombreProveedor;
+    }
+    public void setNombreProveedor(String nombreProveedor) {
+        this.nombreProveedor = nombreProveedor;
     }
 
 }

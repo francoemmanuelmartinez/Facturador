@@ -2,7 +2,9 @@ package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorAdmin;
 import aplicacion.controladores.ControladorDepositoABM;
+import aplicacion.controladores.ControladorProveedorABM;
 import aplicacion.modelos.Producto;
+import aplicacion.modelos.Proveedor;
 import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
@@ -24,14 +26,13 @@ public class VistaDepositoABM {
     private JButton deshabilitarButton;
     public JPanel panelDepositoABM;
     DefaultTableModel modeloTabla = new DefaultTableModel();
-    String[] columnas = {"ID", "Descripcion", "Precio", "Stock", "Habilitado"};
+    String[] columnas = {"ID", "Descripcion", "Precio", "Stock", "Nombre Proveedor", "Habilitado"};
 
     public VistaDepositoABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         setModeloTabla();
 
-        tableProductos.removeColumn(tableProductos.getColumnModel().getColumn(4));
-        //tableProductos.removeColumn(tableProductos.getColumnModel().getColumn(0));
+        tableProductos.removeColumn(tableProductos.getColumnModel().getColumn(5));
 
         comboBoxFlitro.addItem("Habilitados");
         comboBoxFlitro.addItem("Deshabilitados");
@@ -76,20 +77,31 @@ public class VistaDepositoABM {
         agregarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ControladorProveedorABM ctrlProv = new ControladorProveedorABM();
+                List<Proveedor> proveedores = ctrlProv.obtenerProveedoresPorHabilitado(1);
+                String[] opcionesProveedores = new String[proveedores.size()];
+                for (int i = 0; i < proveedores.size(); i++) {
+                    opcionesProveedores[i] = proveedores.get(i).getId() + " - " + proveedores.get(i).getNombre();
+                }
+
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Producto",
-                        new VistaFormulario.Campo("Descripción:"),
+                        new VistaFormulario.Campo("Descripcion:"),
                         new VistaFormulario.Campo("Precio:"),
-                        new VistaFormulario.Campo("Stock:")
+                        new VistaFormulario.Campo("Stock:"),
+                        new VistaFormulario.Campo("Proveedor:", opcionesProveedores)
                 );
                 if (valores != null) {
                     ControladorDepositoABM ctrl = new ControladorDepositoABM();
                     try {
                         int precio = Integer.parseInt(valores.get("Precio:"));
                         int stock = Integer.parseInt(valores.get("Stock:"));
+                        String selProv = valores.get("Proveedor:");
+                        int idProveedor = Integer.parseInt(selProv.split(" - ")[0]);
                         if (ctrl.agregarProducto(
-                                valores.get("Descripción:"),
+                                valores.get("Descripcion:"),
                                 precio,
-                                stock
+                                stock,
+                                idProveedor
                         ) > -1) {
                             poblarTabla(ctrl.obtenerProductosPorHabilitado(comboBoxFlitro.getSelectedIndex() == 0 ? 1 : 0));
                         }
@@ -111,21 +123,38 @@ public class VistaDepositoABM {
 
                 int idProducto = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
 
+                ControladorProveedorABM ctrlProv = new ControladorProveedorABM();
+                List<Proveedor> proveedores = ctrlProv.obtenerProveedoresPorHabilitado(1);
+                String[] opcionesProveedores = new String[proveedores.size()];
+                String valorInicialProveedor = null;
+                String nombreActualProveedor = modeloTabla.getValueAt(fila, 4).toString();
+                for (int i = 0; i < proveedores.size(); i++) {
+                    String item = proveedores.get(i).getId() + " - " + proveedores.get(i).getNombre();
+                    opcionesProveedores[i] = item;
+                    if (proveedores.get(i).getNombre().equals(nombreActualProveedor)) {
+                        valorInicialProveedor = item;
+                    }
+                }
+
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Producto",
-                        new VistaFormulario.Campo("Descripción:", modeloTabla.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("Descripcion:", modeloTabla.getValueAt(fila, 1).toString()),
                         new VistaFormulario.Campo("Precio:", modeloTabla.getValueAt(fila, 2).toString()),
-                        new VistaFormulario.Campo("Stock:", modeloTabla.getValueAt(fila, 3).toString())
+                        new VistaFormulario.Campo("Stock:", modeloTabla.getValueAt(fila, 3).toString()),
+                        new VistaFormulario.Campo("Proveedor:", opcionesProveedores, valorInicialProveedor)
                 );
                 if (valores != null) {
                     ControladorDepositoABM ctrl = new ControladorDepositoABM();
                     try {
                         int precio = Integer.parseInt(valores.get("Precio:"));
                         int stock = Integer.parseInt(valores.get("Stock:"));
+                        String selProv = valores.get("Proveedor:");
+                        int idProveedor = Integer.parseInt(selProv.split(" - ")[0]);
                         if (ctrl.modificarProducto(
                                 idProducto,
-                                valores.get("Descripción:"),
+                                valores.get("Descripcion:"),
                                 precio,
-                                stock
+                                stock,
+                                idProveedor
                         )) {
                             poblarTabla(ctrl.obtenerProductosPorHabilitado(comboBoxFlitro.getSelectedIndex() == 0 ? 1 : 0));
                         }
@@ -146,7 +175,7 @@ public class VistaDepositoABM {
                 }
 
                 int idProducto = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
-                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 4).toString());
+                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 5).toString());
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
@@ -185,6 +214,7 @@ public class VistaDepositoABM {
                     p.getDescripcion(),
                     p.getPrecio(),
                     p.getStock(),
+                    p.getNombreProveedor(),
                     p.getHabilitado()
             });
         }

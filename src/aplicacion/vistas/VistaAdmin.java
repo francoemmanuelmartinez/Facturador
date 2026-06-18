@@ -14,6 +14,7 @@ public class VistaAdmin {
     private JButton botonAdministrarUsuarios;
     private JButton botonAdministrarClientes;
     private JButton botonAdministrarDeposito;
+    private JButton administrarProveedoresButton;
 
     public VistaAdmin(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
@@ -46,6 +47,12 @@ public class VistaAdmin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorLogin controladorLogin = new ControladorLogin(ventanaPrincipal);
+            }
+        });
+        administrarProveedoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ControladorProveedorABM controladorProveedorABM = new ControladorProveedorABM(usuario, ventanaPrincipal);
             }
         });
     }

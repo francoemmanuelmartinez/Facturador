@@ -25,22 +25,6 @@ public class ControladorClienteABM {
         ventanaPrincipal.setVista(vistaClienteABM.panelClienteABM);
     }
 
-    public List<Cliente> obtenerClientes() {
-        List<Cliente> clientes = new ArrayList<>();
-        try {
-            c.conectar();
-            String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, habilitado FROM clientes";
-            PreparedStatement stmt = c.con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                clientes.add(mapearCliente(rs));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return clientes;
-    }
-
     public List<Cliente> obtenerClientesPorHabilitado(int habilitado) {
         List<Cliente> clientes = new ArrayList<>();
         try {

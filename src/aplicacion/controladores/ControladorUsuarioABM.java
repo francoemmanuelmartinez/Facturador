@@ -30,11 +30,12 @@ public class ControladorUsuarioABM {
         List<Usuario> usuarios = new ArrayList<>();
         try {
             c.conectar();
-            String sql = "SELECT nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios";
+            String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios";
             PreparedStatement stmt = c.con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Usuario u = new Usuario();
+                u.setId(rs.getInt("id"));
                 u.setNombre(rs.getString("nombre"));
                 u.setApellido(rs.getString("apellido"));
                 u.setDni(rs.getString("dni"));
@@ -56,12 +57,13 @@ public class ControladorUsuarioABM {
         List<Usuario> usuarios = new ArrayList<>();
         try {
             c.conectar();
-            String sql = "SELECT nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE habilitado = ?";
+            String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE habilitado = ?";
             PreparedStatement stmt = c.con.prepareStatement(sql);
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Usuario u = new Usuario();
+                u.setId(rs.getInt("id"));
                 u.setNombre(rs.getString("nombre"));
                 u.setApellido(rs.getString("apellido"));
                 u.setDni(rs.getString("dni"));
@@ -164,13 +166,14 @@ public class ControladorUsuarioABM {
 
         try {
             c.conectar();
-            String sqlSelect = "SELECT nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE dni = ? AND habilitado = ?";
+            String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE dni = ? AND habilitado = ?";
             PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
             selectFrom.setString(1, dni);
             selectFrom.setInt(2, habilitado);
             ResultSet resultados = selectFrom.executeQuery();
             if (resultados.next()) {
                 u = new Usuario();
+                u.setId(resultados.getInt("id"));
                 u.setNombre(resultados.getString("nombre"));
                 u.setApellido(resultados.getString("apellido"));
                 u.setDni(resultados.getString("dni"));

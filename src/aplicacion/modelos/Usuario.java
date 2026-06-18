@@ -2,7 +2,7 @@ package aplicacion.modelos;
 
 public class Usuario {
 
-    String id;
+    int id;
     String nombre;
     String apellido;
     String dni;
@@ -15,10 +15,10 @@ public class Usuario {
 
     public Usuario() {}
 
-    public String getId() {
+    public int getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public String getNombre() {

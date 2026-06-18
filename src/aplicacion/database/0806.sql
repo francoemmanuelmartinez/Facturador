@@ -27,6 +27,21 @@ SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '58ff34c9-4d08-11f1-ae22-00d861db1593:1-
 -- Table structure for table `usuarios`
 --
 
+DROP TABLE IF EXISTS `proveedores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `proveedores` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `direccion` varchar(150) DEFAULT NULL,
+  `telefono` varchar(30) DEFAULT NULL,
+  `mail` varchar(60) NOT NULL,
+  `habilitado` int DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `mail` (`mail`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
 DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;

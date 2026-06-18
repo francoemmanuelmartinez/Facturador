@@ -24,11 +24,13 @@ public class VistaUsuarioABM {
     private JComboBox comboBoxFiltroHabilitado;
     private JButton volverButton;
     DefaultTableModel modeloTabla = new DefaultTableModel();
-    String[] columnas = {"Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
+    String[] columnas = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
 
     public VistaUsuarioABM(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
 
         setModeloTabla();
+
+        tablaUsuarios.removeColumn(tablaUsuarios.getColumnModel().getColumn(9));
 
         comboBoxFiltroHabilitado.addItem("Habilitados");
         comboBoxFiltroHabilitado.addItem("Deshabilitados");
@@ -108,19 +110,19 @@ public class VistaUsuarioABM {
                     return;
                 }
 
-                String dniOriginal = modeloTabla.getValueAt(fila, 2).toString();
+                String dniOriginal = modeloTabla.getValueAt(fila, 3).toString();
 
-                String rolActual = modeloTabla.getValueAt(fila, 6).toString();
+                String rolActual = modeloTabla.getValueAt(fila, 7).toString();
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Usuario",
-                        new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 0).toString()),
-                        new VistaFormulario.Campo("Apellido:", modeloTabla.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("Apellido:", modeloTabla.getValueAt(fila, 2).toString()),
                         new VistaFormulario.Campo("DNI:", dniOriginal),
-                        new VistaFormulario.Campo("Teléfono:", modeloTabla.getValueAt(fila, 3).toString()),
-                        new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 4).toString()),
-                        new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Teléfono:", modeloTabla.getValueAt(fila, 4).toString()),
+                        new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 6).toString()),
                         new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"}, rolActual),
-                        new VistaFormulario.Campo("Contraseña:", true, modeloTabla.getValueAt(fila, 7).toString())
+                        new VistaFormulario.Campo("Contraseña:", true, modeloTabla.getValueAt(fila, 8).toString())
                 );
                 if (valores != null) {
                     ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
@@ -149,8 +151,8 @@ public class VistaUsuarioABM {
                     return;
                 }
 
-                String dni = modeloTabla.getValueAt(fila, 2).toString();
-                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 8).toString());
+                String dni = modeloTabla.getValueAt(fila, 3).toString();
+                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 9).toString());
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
@@ -185,6 +187,7 @@ public class VistaUsuarioABM {
 
         for (Usuario u : usuarios) {
             modeloTabla.addRow(new Object[]{
+                    u.getId(),
                     u.getNombre(),
                     u.getApellido(),
                     u.getDni(),

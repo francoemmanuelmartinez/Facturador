@@ -89,7 +89,7 @@ public class VistaCajero {
         this.ventanaPrincipal = ventanaPrincipal;
         textFieldNombreCajero.setText(usuario.getNombre());
         textFieldApellidoCajero.setText(usuario.getApellido());
-        textFieldIDCajero.setText(usuario.getId());
+        textFieldIDCajero.setText(String.valueOf(usuario.getId()));
         textFieldSubtotal.setEditable(false);
         textFieldTotal.setEditable(false);
         volverButton.addActionListener(new ActionListener() {
@@ -416,7 +416,7 @@ public class VistaCajero {
                 int idCliente = Integer.parseInt(idClienteStr);
                 String nombreCliente = textFieldNombreCliente.getText().trim();
                 String apellidoCliente = textFieldApellidoCliente.getText().trim();
-                int idVendedor = Integer.parseInt(usuario.getId());
+                int idVendedor = usuario.getId();
                 String nombreVendedor = textFieldNombreCajero.getText().trim();
                 String apellidoVendedor = textFieldApellidoCajero.getText().trim();
 

@@ -44,7 +44,7 @@ public class ControladorLogin {
             ResultSet resultados = selectFrom.executeQuery();
 
             if (resultados.next()) {
-                usuario.setId(resultados.getString("id"));
+                usuario.setId(resultados.getInt("id"));
                 usuario.setNombre(resultados.getString("nombre"));
                 usuario.setApellido(resultados.getString("apellido"));
                 usuario.setDni(resultados.getString("dni"));
