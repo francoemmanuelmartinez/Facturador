@@ -103,14 +103,14 @@ public class ControladorDepositoABM {
             String sqlInsert;
             PreparedStatement pst;
             if (idProveedor > 0) {
-                sqlInsert = "INSERT INTO productos(descripcion, precio, stock, id_proveedor) VALUES(?,?,?,?)";
+                sqlInsert = "INSERT INTO productos(descripcion, precio, stock, id_proveedor) VALUES(?, ?, ?, ?)";
                 pst = c.con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
                 pst.setString(1, descripcion);
                 pst.setInt(2, precio);
                 pst.setInt(3, stock);
                 pst.setInt(4, idProveedor);
             } else {
-                sqlInsert = "INSERT INTO productos(descripcion, precio, stock) VALUES(?,?,?)";
+                sqlInsert = "INSERT INTO productos(descripcion, precio, stock) VALUES(?, ?, ?)";
                 pst = c.con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
                 pst.setString(1, descripcion);
                 pst.setInt(2, precio);
@@ -143,7 +143,7 @@ public class ControladorDepositoABM {
             String sqlUpdate;
             PreparedStatement pst;
             if (idProveedor > 0) {
-                sqlUpdate = "UPDATE productos SET descripcion=?, precio=?, stock=?, id_proveedor=? WHERE id=?";
+                sqlUpdate = "UPDATE productos SET descripcion = ?, precio = ?, stock = ?, id_proveedor = ? WHERE id = ?";
                 pst = c.con.prepareStatement(sqlUpdate);
                 pst.setString(1, descripcion);
                 pst.setInt(2, precio);
@@ -151,7 +151,7 @@ public class ControladorDepositoABM {
                 pst.setInt(4, idProveedor);
                 pst.setInt(5, id);
             } else {
-                sqlUpdate = "UPDATE productos SET descripcion=?, precio=?, stock=?, id_proveedor=NULL WHERE id=?";
+                sqlUpdate = "UPDATE productos SET descripcion = ?, precio = ?, stock = ?, id_proveedor = NULL WHERE id = ?";
                 pst = c.con.prepareStatement(sqlUpdate);
                 pst.setString(1, descripcion);
                 pst.setInt(2, precio);

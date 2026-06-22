@@ -40,7 +40,7 @@ public class ControladorCajero {
             String numeroFactura = generarNumeroFactura();
             LocalDate fechaEmision = LocalDate.now();
 
-            String sqlFactura = "INSERT INTO facturas(numero_factura, id_cliente, nombre_cliente, apellido_cliente, id_vendedor, nombre_vendedor, apellido_vendedor, fecha_emision, subtotal, descuento_porcentaje, valor_descontado, total_compra) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sqlFactura = "INSERT INTO facturas(numero_factura, id_cliente, nombre_cliente, apellido_cliente, id_vendedor, nombre_vendedor, apellido_vendedor, fecha_emision, subtotal, descuento_porcentaje, valor_descontado, total_compra) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstFactura = c.con.prepareStatement(sqlFactura, Statement.RETURN_GENERATED_KEYS);
             pstFactura.setString(1, numeroFactura);
             pstFactura.setInt(2, idCliente);
@@ -65,7 +65,7 @@ public class ControladorCajero {
                 return false;
             }
 
-            String sqlDetalle = "INSERT INTO detalles_de_facturas(id_factura, id_producto, cantidad, precio_unitario, descuento, subtotal) VALUES(?,?,?,?,?,?)";
+            String sqlDetalle = "INSERT INTO detalles_de_facturas(id_factura, id_producto, cantidad, precio_unitario, descuento, subtotal) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement pstDetalle = c.con.prepareStatement(sqlDetalle);
 
             String sqlStock = "UPDATE productos SET stock = stock - ? WHERE id = ? AND stock >= ?";

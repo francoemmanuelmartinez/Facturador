@@ -75,7 +75,7 @@ public class ControladorClienteABM {
                 return -1;
             }
 
-            String sqlInsert = "INSERT INTO clientes(nombre, apellido, dni, telefono, direccion, mail) VALUES(?,?,?,?,?,?)";
+            String sqlInsert = "INSERT INTO clientes(nombre, apellido, dni, telefono, direccion, mail) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = c.con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
@@ -113,7 +113,7 @@ public class ControladorClienteABM {
                 return false;
             }
 
-            String sqlUpdate = "UPDATE clientes SET nombre=?, apellido=?, dni=?, telefono=?, direccion=?, mail=? WHERE id=?";
+            String sqlUpdate = "UPDATE clientes SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ? WHERE id = ?";
             PreparedStatement pst = c.con.prepareStatement(sqlUpdate);
             pst.setString(1, nombre);
             pst.setString(2, apellido);

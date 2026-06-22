@@ -72,7 +72,7 @@ public class ControladorUsuarioABM {
                 return false;
             }
 
-            String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?,?,?,?,?,?,?,?)";
+            String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = c.con.prepareStatement(sqlInsert);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
@@ -105,7 +105,7 @@ public class ControladorUsuarioABM {
                 return false;
             }
 
-            String sqlUpdate = "UPDATE usuarios SET nombre=?, apellido=?, dni=?, telefono=?, direccion=?, mail=?, rol=?, password=? WHERE dni=?";
+            String sqlUpdate = "UPDATE usuarios SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ?, rol = ?, password = ? WHERE dni = ?";
             PreparedStatement pst = c.con.prepareStatement(sqlUpdate);
             pst.setString(1, nombre);
             pst.setString(2, apellido);

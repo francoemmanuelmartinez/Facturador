@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class ControladorLogin {
 
-    String sql = "SELECT id, nombre, apellido,dni,telefono,direccion,mail,rol,password FROM usuarios WHERE mail = ?";
+    String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password FROM usuarios WHERE mail = ?";
     Conexion c = new Conexion();
     Usuario usuario = new Usuario();
 
@@ -26,9 +26,6 @@ public class ControladorLogin {
     }
 
     public boolean validar(String mail, String password) {
-        this.mail=mail;
-        this.password=password;
-
         try {
             c.conectar();
         }
