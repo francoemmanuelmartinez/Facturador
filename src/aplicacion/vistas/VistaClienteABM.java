@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 public class VistaClienteABM {
-    private JLabel labelCliente;
+    private JLabel labelBuscarCliente;
     private JButton btnBuscar;
     private JTable tblClientes;
     public JPanel panelClienteABM;
     private JTextField tfDni;
-    private JButton btnEliminar;
+    private JButton btnDeshabilitar;
     private JButton btnModificar;
     private JButton btnAgregar;
     private JButton btnVolver;
@@ -53,9 +53,9 @@ public class VistaClienteABM {
                 poblarTabla(ctrl.obtenerClientesPorHabilitado(filtro));
 
                 if (cbxFiltroHabilitado.getSelectedIndex() == 0) {
-                    btnEliminar.setText("Deshabilitar");
+                    btnDeshabilitar.setText("Deshabilitar");
                 } else {
-                    btnEliminar.setText("Habilitar");
+                    btnDeshabilitar.setText("Habilitar");
                 }
             }
         });
@@ -141,7 +141,7 @@ public class VistaClienteABM {
             }
         });
 
-        btnEliminar.addActionListener(new ActionListener() {
+        btnDeshabilitar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int fila = tblClientes.getSelectedRow();

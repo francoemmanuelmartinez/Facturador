@@ -21,7 +21,7 @@ public class ControladorProveedorABM {
 
     public ControladorProveedorABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         VistaProveedorABM vistaProveedorABM = new VistaProveedorABM(usuario, ventanaPrincipal);
-        ventanaPrincipal.mostrarVista(vistaProveedorABM.panelProveedor);
+        ventanaPrincipal.mostrarVista(vistaProveedorABM.panelProveedorABM);
     }
 
     public List<Proveedor> obtenerProveedoresPorHabilitado(int habilitado) {
@@ -41,7 +41,7 @@ public class ControladorProveedorABM {
         return proveedores;
     }
 
-    public Proveedor buscarProveedores(int id, int habilitado) {
+    public Proveedor buscarProveedor(int id, int habilitado) {
         Proveedor proveedor = null;
         try {
             c.conectar();

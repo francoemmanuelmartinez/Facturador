@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class VistaDepositoABM {
     private JTable tblProductos;
-    private JLabel labelBuscar;
+    private JLabel labelBuscarProducto;
     private JComboBox cbxFiltroHabilitado;
     private JButton btnBuscar;
     private JButton btnAgregar;

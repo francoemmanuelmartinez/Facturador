@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class ControladorUsuarioABM {
         return usuarios;
     }
 
-    public boolean agregarUsuario(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password, String rol) {
+    public int agregarUsuario(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password, String rol) {
         try {
             c.conectar();
 
@@ -53,11 +54,11 @@ public class ControladorUsuarioABM {
             ResultSet rsMailExistente = stmtSelectMail.executeQuery();
             if (rsMailExistente.next()) {
                 JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");
-                return false;
+                return -1;
             }
 
             String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
             pst.setString(3, dni);
@@ -67,8 +68,15 @@ public class ControladorUsuarioABM {
             pst.setString(7, rol);
             pst.setString(8, password);
             pst.executeUpdate();
+
+            ResultSet rs = pst.getGeneratedKeys();
+            int id = -1;
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+
             JOptionPane.showMessageDialog(null, "Usuario agregado exitosamente");
-            return true;
+            return id;
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

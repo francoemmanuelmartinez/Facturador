@@ -13,12 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 public class VistaUsuarioABM {
-    private JLabel labelUsuario;
+    private JLabel labelBuscarUsuario;
     private JButton btnBuscar;
     private JTable tblUsuarios;
     public JPanel panelUsuarioABM;
     private JTextField tfDni;
-    private JButton btnEliminar;
+    private JButton btnDeshabilitar;
     private JButton btnModificar;
     private JButton btnAgregar;
     private JComboBox cbxFiltroHabilitado;
@@ -48,9 +48,9 @@ public class VistaUsuarioABM {
                 poblarTabla(ctrl.obtenerUsuariosPorHabilitado(filtro));
 
                 if (cbxFiltroHabilitado.getSelectedIndex() == 0) {
-                    btnEliminar.setText("Deshabilitar");
+                    btnDeshabilitar.setText("Deshabilitar");
                 } else {
-                    btnEliminar.setText("Habilitar");
+                    btnDeshabilitar.setText("Habilitar");
                 }
             }
         });
@@ -95,7 +95,7 @@ public class VistaUsuarioABM {
                             valores.get("Mail:"),
                             valores.get("Contraseña:"),
                             valores.get("Rol:")
-                    )) {
+                    ) > -1) {
                         poblarTabla(ctrl.obtenerUsuariosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
@@ -142,7 +142,7 @@ public class VistaUsuarioABM {
                 }
             }
         });
-        btnEliminar.addActionListener(new ActionListener() {
+        btnDeshabilitar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int fila = tblUsuarios.getSelectedRow();

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class VistaProveedorABM {
-    public JPanel panelProveedor;
+    public JPanel panelProveedorABM;
     private JTable tblProveedores;
     private JComboBox cbxFiltroHabilitado;
     private JButton btnBuscar;
@@ -23,7 +23,7 @@ public class VistaProveedorABM {
     private JButton btnModificar;
     private JButton btnDeshabilitar;
     private JButton btnVolver;
-    private JLabel labelIdProveedor;
+    private JLabel labelBuscarProveedor;
     private VentanaPrincipal ventanaPrincipal;
     private DefaultTableModel mdlProveedores = new DefaultTableModel();
     private String[] colsProveedores = {"ID", "Nombre", "Telefono", "Direccion", "Mail", "Habilitado"};
@@ -68,7 +68,7 @@ public class VistaProveedorABM {
                 if (texto.isEmpty()) {
                     poblarTabla(ctrl.obtenerProveedoresPorHabilitado(filtro));
                 } else {
-                    Proveedor proveedor = ctrl.buscarProveedores(Integer.parseInt(texto), filtro);
+                    Proveedor proveedor = ctrl.buscarProveedor(Integer.parseInt(texto), filtro);
                     if (proveedor != null) {
                         poblarTabla(Collections.singletonList(proveedor));
                     }
