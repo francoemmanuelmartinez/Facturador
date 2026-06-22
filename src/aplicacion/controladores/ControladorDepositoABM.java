@@ -34,7 +34,7 @@ public class ControladorDepositoABM {
             stmtProductos.setInt(1, habilitado);
             ResultSet rsProductos = stmtProductos.executeQuery();
             while (rsProductos.next()) {
-                productos.add(mapearProducto(rs));
+                productos.add(mapearProducto(rsProductos));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -60,7 +60,7 @@ public class ControladorDepositoABM {
             }
             ResultSet rsProductos = stmtProducto.executeQuery();
             while (rsProductos.next()) {
-                productos.add(mapearProducto(rs));
+                productos.add(mapearProducto(rsProductos));
             }
             if (productos.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No se encontraron productos con ese criterio");

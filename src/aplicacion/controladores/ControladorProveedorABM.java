@@ -33,7 +33,7 @@ public class ControladorProveedorABM {
             stmtProveedores.setInt(1, habilitado);
             ResultSet rsProveedores = stmtProveedores.executeQuery();
             while (rsProveedores.next()) {
-                proveedores.add(mapearProveedor(rs));
+                proveedores.add(mapearProveedor(rsProveedores));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -51,7 +51,7 @@ public class ControladorProveedorABM {
             stmtProveedor.setInt(2, habilitado);
             ResultSet rsProveedor = stmtProveedor.executeQuery();
             if (rsProveedor.next()) {
-                proveedor = mapearProveedor(rs);
+                proveedor = mapearProveedor(rsProveedor);
             } else {
                 JOptionPane.showMessageDialog(null, "No existe el proveedor con ese ID");
             }

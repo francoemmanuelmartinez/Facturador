@@ -36,7 +36,7 @@ public class ControladorUsuarioABM {
             stmtUsuarios.setInt(1, habilitado);
             ResultSet rsUsuarios = stmtUsuarios.executeQuery();
             while (rsUsuarios.next()) {
-                usuarios.add(mapearUsuario(rs));
+                usuarios.add(mapearUsuario(rsUsuarios));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
