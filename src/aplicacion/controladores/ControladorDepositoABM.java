@@ -32,8 +32,8 @@ public class ControladorDepositoABM {
             String sqlSelect = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.habilitado = ?";
             PreparedStatement stmtProductos = c.getConnection().prepareStatement(sqlSelect);
             stmtProductos.setInt(1, habilitado);
-            ResultSet rs = stmtProductos.executeQuery();
-            while (rs.next()) {
+            ResultSet rsProductos = stmtProductos.executeQuery();
+            while (rsProductos.next()) {
                 productos.add(mapearProducto(rs));
             }
         } catch (SQLException e) {
@@ -58,8 +58,8 @@ public class ControladorDepositoABM {
                 stmtProducto.setString(1, "%" + texto + "%");
                 stmtProducto.setInt(2, habilitado);
             }
-            ResultSet rs = stmtProducto.executeQuery();
-            while (rs.next()) {
+            ResultSet rsProductos = stmtProducto.executeQuery();
+            while (rsProductos.next()) {
                 productos.add(mapearProducto(rs));
             }
             if (productos.isEmpty()) {
@@ -101,27 +101,27 @@ public class ControladorDepositoABM {
             c.conectar();
 
             String sqlInsert;
-            PreparedStatement pst;
+            PreparedStatement pstInsert;
             if (idProveedor > 0) {
                 sqlInsert = "INSERT INTO productos(descripcion, precio, stock, id_proveedor) VALUES(?, ?, ?, ?)";
-                pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
-                pst.setString(1, descripcion);
-                pst.setInt(2, precio);
-                pst.setInt(3, stock);
-                pst.setInt(4, idProveedor);
+                pstInsert = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+                pstInsert.setString(1, descripcion);
+                pstInsert.setInt(2, precio);
+                pstInsert.setInt(3, stock);
+                pstInsert.setInt(4, idProveedor);
             } else {
                 sqlInsert = "INSERT INTO productos(descripcion, precio, stock) VALUES(?, ?, ?)";
-                pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
-                pst.setString(1, descripcion);
-                pst.setInt(2, precio);
-                pst.setInt(3, stock);
+                pstInsert = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+                pstInsert.setString(1, descripcion);
+                pstInsert.setInt(2, precio);
+                pstInsert.setInt(3, stock);
             }
-            pst.executeUpdate();
+            pstInsert.executeUpdate();
 
-            ResultSet rs = pst.getGeneratedKeys();
+            ResultSet rsGeneratedKeys = pstInsert.getGeneratedKeys();
             int id = -1;
-            if (rs.next()) {
-                id = rs.getInt(1);
+            if (rsGeneratedKeys.next()) {
+                id = rsGeneratedKeys.getInt(1);
             }
 
             JOptionPane.showMessageDialog(null, "Producto agregado exitosamente");
@@ -141,24 +141,24 @@ public class ControladorDepositoABM {
             c.conectar();
 
             String sqlUpdate;
-            PreparedStatement pst;
+            PreparedStatement pstUpdate;
             if (idProveedor > 0) {
                 sqlUpdate = "UPDATE productos SET descripcion = ?, precio = ?, stock = ?, id_proveedor = ? WHERE id = ?";
-                pst = c.getConnection().prepareStatement(sqlUpdate);
-                pst.setString(1, descripcion);
-                pst.setInt(2, precio);
-                pst.setInt(3, stock);
-                pst.setInt(4, idProveedor);
-                pst.setInt(5, id);
+                pstUpdate = c.getConnection().prepareStatement(sqlUpdate);
+                pstUpdate.setString(1, descripcion);
+                pstUpdate.setInt(2, precio);
+                pstUpdate.setInt(3, stock);
+                pstUpdate.setInt(4, idProveedor);
+                pstUpdate.setInt(5, id);
             } else {
                 sqlUpdate = "UPDATE productos SET descripcion = ?, precio = ?, stock = ?, id_proveedor = NULL WHERE id = ?";
-                pst = c.getConnection().prepareStatement(sqlUpdate);
-                pst.setString(1, descripcion);
-                pst.setInt(2, precio);
-                pst.setInt(3, stock);
-                pst.setInt(4, id);
+                pstUpdate = c.getConnection().prepareStatement(sqlUpdate);
+                pstUpdate.setString(1, descripcion);
+                pstUpdate.setInt(2, precio);
+                pstUpdate.setInt(3, stock);
+                pstUpdate.setInt(4, id);
             }
-            pst.executeUpdate();
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Producto modificado exitosamente");
             return true;
 
@@ -171,9 +171,9 @@ public class ControladorDepositoABM {
         try {
             c.conectar();
             String sqlUpdateHabilitado = "UPDATE productos SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
-            pst.setInt(1, id);
-            pst.executeUpdate();
+            PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdateHabilitado);
+            pstUpdate.setInt(1, id);
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
         } catch (SQLException e) {

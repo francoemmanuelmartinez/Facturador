@@ -32,9 +32,9 @@ public class ControladorClienteABM {
             String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, habilitado FROM clientes WHERE habilitado = ?";
             PreparedStatement stmtClientes = c.getConnection().prepareStatement(sqlSelect);
             stmtClientes.setInt(1, habilitado);
-            ResultSet rs = stmtClientes.executeQuery();
-            while (rs.next()) {
-                clientes.add(mapearCliente(rs));
+            ResultSet rsClientes = stmtClientes.executeQuery();
+            while (rsClientes.next()) {
+                clientes.add(mapearCliente(rsClientes));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -50,9 +50,9 @@ public class ControladorClienteABM {
             PreparedStatement stmtCliente = c.getConnection().prepareStatement(sqlSelect);
             stmtCliente.setString(1, dni);
             stmtCliente.setInt(2, habilitado);
-            ResultSet rs = stmtCliente.executeQuery();
-            if (rs.next()) {
-                cliente = mapearCliente(rs);
+            ResultSet rsCliente = stmtCliente.executeQuery();
+            if (rsCliente.next()) {
+                cliente = mapearCliente(rsCliente);
             } else {
                 JOptionPane.showMessageDialog(null, "No existe el cliente con ese dni");
             }
@@ -76,19 +76,19 @@ public class ControladorClienteABM {
             }
 
             String sqlInsert = "INSERT INTO clientes(nombre, apellido, dni, telefono, direccion, mail) VALUES(?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
-            pst.setString(1, nombre);
-            pst.setString(2, apellido);
-            pst.setString(3, dni);
-            pst.setString(4, telefono);
-            pst.setString(5, direccion);
-            pst.setString(6, mail);
-            pst.executeUpdate();
+            PreparedStatement pstInsert = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            pstInsert.setString(1, nombre);
+            pstInsert.setString(2, apellido);
+            pstInsert.setString(3, dni);
+            pstInsert.setString(4, telefono);
+            pstInsert.setString(5, direccion);
+            pstInsert.setString(6, mail);
+            pstInsert.executeUpdate();
 
-            ResultSet rs = pst.getGeneratedKeys();
+            ResultSet rsGeneratedKeys = pstInsert.getGeneratedKeys();
             int id = -1;
-            if (rs.next()) {
-                id = rs.getInt(1);
+            if (rsGeneratedKeys.next()) {
+                id = rsGeneratedKeys.getInt(1);
             }
 
             JOptionPane.showMessageDialog(null, "Cliente agregado exitosamente");
@@ -114,15 +114,15 @@ public class ControladorClienteABM {
             }
 
             String sqlUpdate = "UPDATE clientes SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ? WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdate);
-            pst.setString(1, nombre);
-            pst.setString(2, apellido);
-            pst.setString(3, dni);
-            pst.setString(4, telefono);
-            pst.setString(5, direccion);
-            pst.setString(6, mail);
-            pst.setInt(7, id);
-            pst.executeUpdate();
+            PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdate);
+            pstUpdate.setString(1, nombre);
+            pstUpdate.setString(2, apellido);
+            pstUpdate.setString(3, dni);
+            pstUpdate.setString(4, telefono);
+            pstUpdate.setString(5, direccion);
+            pstUpdate.setString(6, mail);
+            pstUpdate.setInt(7, id);
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cliente modificado exitosamente");
             return true;
 
@@ -135,9 +135,9 @@ public class ControladorClienteABM {
         try {
             c.conectar();
             String sqlUpdateHabilitado = "UPDATE clientes SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
-            pst.setInt(1, id);
-            pst.executeUpdate();
+            PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdateHabilitado);
+            pstUpdate.setInt(1, id);
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
         } catch (SQLException e) {

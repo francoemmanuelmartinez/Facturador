@@ -181,7 +181,7 @@ public class VistaDepositoABM {
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Esta seguro de " + nuevoEstado + " el producto \"" + mdlProductos.getValueAt(fila, 1) + "\"?",
+                        "¿Esta seguro de " + nuevoEstado + " al producto con ID " + idProducto + "?",
                         nuevoEstado.equals("deshabilitar") ? "Deshabilitar Producto" : "Habilitar Producto",
                         JOptionPane.YES_NO_OPTION);
 

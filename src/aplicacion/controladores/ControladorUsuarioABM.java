@@ -34,8 +34,8 @@ public class ControladorUsuarioABM {
             String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE habilitado = ?";
             PreparedStatement stmtUsuarios = c.getConnection().prepareStatement(sqlSelect);
             stmtUsuarios.setInt(1, habilitado);
-            ResultSet rs = stmtUsuarios.executeQuery();
-            while (rs.next()) {
+            ResultSet rsUsuarios = stmtUsuarios.executeQuery();
+            while (rsUsuarios.next()) {
                 usuarios.add(mapearUsuario(rs));
             }
         } catch (SQLException e) {
@@ -58,21 +58,21 @@ public class ControladorUsuarioABM {
             }
 
             String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
-            pst.setString(1, nombre);
-            pst.setString(2, apellido);
-            pst.setString(3, dni);
-            pst.setString(4, telefono);
-            pst.setString(5, direccion);
-            pst.setString(6, mail);
-            pst.setString(7, rol);
-            pst.setString(8, password);
-            pst.executeUpdate();
+            PreparedStatement pstInsert = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            pstInsert.setString(1, nombre);
+            pstInsert.setString(2, apellido);
+            pstInsert.setString(3, dni);
+            pstInsert.setString(4, telefono);
+            pstInsert.setString(5, direccion);
+            pstInsert.setString(6, mail);
+            pstInsert.setString(7, rol);
+            pstInsert.setString(8, password);
+            pstInsert.executeUpdate();
 
-            ResultSet rs = pst.getGeneratedKeys();
+            ResultSet rsGeneratedKeys = pstInsert.getGeneratedKeys();
             int id = -1;
-            if (rs.next()) {
-                id = rs.getInt(1);
+            if (rsGeneratedKeys.next()) {
+                id = rsGeneratedKeys.getInt(1);
             }
 
             JOptionPane.showMessageDialog(null, "Usuario agregado exitosamente");
@@ -98,17 +98,17 @@ public class ControladorUsuarioABM {
             }
 
             String sqlUpdate = "UPDATE usuarios SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ?, rol = ?, password = ? WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdate);
-            pst.setString(1, nombre);
-            pst.setString(2, apellido);
-            pst.setString(3, dni);
-            pst.setString(4, telefono);
-            pst.setString(5, direccion);
-            pst.setString(6, mail);
-            pst.setString(7, rol);
-            pst.setString(8, password);
-            pst.setInt(9, id);
-            pst.executeUpdate();
+            PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdate);
+            pstUpdate.setString(1, nombre);
+            pstUpdate.setString(2, apellido);
+            pstUpdate.setString(3, dni);
+            pstUpdate.setString(4, telefono);
+            pstUpdate.setString(5, direccion);
+            pstUpdate.setString(6, mail);
+            pstUpdate.setString(7, rol);
+            pstUpdate.setString(8, password);
+            pstUpdate.setInt(9, id);
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuario modificado exitosamente");
             return true;
 
@@ -121,9 +121,9 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sqlUpdateHabilitado = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
-            pst.setInt(1, id);
-            pst.executeUpdate();
+            PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdateHabilitado);
+            pstUpdate.setInt(1, id);
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
         } catch (SQLException e) {
@@ -137,10 +137,10 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE dni = ? AND habilitado = ?";
-            PreparedStatement stmtSelectUsuario = c.getConnection().prepareStatement(sqlSelect);
-            stmtSelectUsuario.setString(1, dni);
-            stmtSelectUsuario.setInt(2, habilitado);
-            ResultSet rsUsuario = stmtSelectUsuario.executeQuery();
+            PreparedStatement stmtUsuario = c.getConnection().prepareStatement(sqlSelect);
+            stmtUsuario.setString(1, dni);
+            stmtUsuario.setInt(2, habilitado);
+            ResultSet rsUsuario = stmtUsuario.executeQuery();
             if (rsUsuario.next()) {
                 u = mapearUsuario(rsUsuario);
             } else {

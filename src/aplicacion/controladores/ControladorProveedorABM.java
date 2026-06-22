@@ -31,8 +31,8 @@ public class ControladorProveedorABM {
             String sqlSelect = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE habilitado = ?";
             PreparedStatement stmtProveedores = c.getConnection().prepareStatement(sqlSelect);
             stmtProveedores.setInt(1, habilitado);
-            ResultSet rs = stmtProveedores.executeQuery();
-            while (rs.next()) {
+            ResultSet rsProveedores = stmtProveedores.executeQuery();
+            while (rsProveedores.next()) {
                 proveedores.add(mapearProveedor(rs));
             }
         } catch (SQLException e) {
@@ -49,8 +49,8 @@ public class ControladorProveedorABM {
             PreparedStatement stmtProveedor = c.getConnection().prepareStatement(sqlSelect);
             stmtProveedor.setInt(1, id);
             stmtProveedor.setInt(2, habilitado);
-            ResultSet rs = stmtProveedor.executeQuery();
-            if (rs.next()) {
+            ResultSet rsProveedor = stmtProveedor.executeQuery();
+            if (rsProveedor.next()) {
                 proveedor = mapearProveedor(rs);
             } else {
                 JOptionPane.showMessageDialog(null, "No existe el proveedor con ese ID");
@@ -75,17 +75,17 @@ public class ControladorProveedorABM {
             }
 
             String sqlInsert = "INSERT INTO proveedores(nombre, telefono, direccion, mail) VALUES(?, ?, ?, ?)";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
-            pst.setString(1, nombre);
-            pst.setString(2, telefono);
-            pst.setString(3, direccion);
-            pst.setString(4, mail);
-            pst.executeUpdate();
+            PreparedStatement pstInsert = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            pstInsert.setString(1, nombre);
+            pstInsert.setString(2, telefono);
+            pstInsert.setString(3, direccion);
+            pstInsert.setString(4, mail);
+            pstInsert.executeUpdate();
 
-            ResultSet rs = pst.getGeneratedKeys();
+            ResultSet rsGeneratedKeys = pstInsert.getGeneratedKeys();
             int id = -1;
-            if (rs.next()) {
-                id = rs.getInt(1);
+            if (rsGeneratedKeys.next()) {
+                id = rsGeneratedKeys.getInt(1);
             }
 
             JOptionPane.showMessageDialog(null, "Proveedor agregado exitosamente");
@@ -111,13 +111,13 @@ public class ControladorProveedorABM {
             }
 
             String sqlUpdate = "UPDATE proveedores SET nombre = ?, telefono = ?, direccion = ?, mail = ? WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdate);
-            pst.setString(1, nombre);
-            pst.setString(2, telefono);
-            pst.setString(3, direccion);
-            pst.setString(4, mail);
-            pst.setInt(5, id);
-            pst.executeUpdate();
+            PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdate);
+            pstUpdate.setString(1, nombre);
+            pstUpdate.setString(2, telefono);
+            pstUpdate.setString(3, direccion);
+            pstUpdate.setString(4, mail);
+            pstUpdate.setInt(5, id);
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Proveedor modificado exitosamente");
             return true;
 
@@ -130,9 +130,9 @@ public class ControladorProveedorABM {
         try {
             c.conectar();
             String sqlUpdateHabilitado = "UPDATE proveedores SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
-            pst.setInt(1, id);
-            pst.executeUpdate();
+            PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdateHabilitado);
+            pstUpdate.setInt(1, id);
+            pstUpdate.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
         } catch (SQLException e) {
