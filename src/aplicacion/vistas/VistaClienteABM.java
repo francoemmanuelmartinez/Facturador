@@ -16,18 +16,18 @@ import java.util.Map;
 
 public class VistaClienteABM {
     private JLabel labelCliente;
-    private JButton botonBuscar;
-    private JTable tablaClientes;
+    private JButton btnBuscar;
+    private JTable tblClientes;
     public JPanel panelClienteABM;
-    private JTextField dniTF;
-    private JButton eliminarButton;
-    private JButton modificarButton;
-    private JButton agregarButton;
-    private JButton botonVolver;
-    private JComboBox comboBoxFiltroHabilitado;
-    private JButton mostrarFacturasButton;
-    DefaultTableModel modeloTabla = new DefaultTableModel();
-    String[] columnas = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
+    private JTextField tfDni;
+    private JButton btnEliminar;
+    private JButton btnModificar;
+    private JButton btnAgregar;
+    private JButton btnVolver;
+    private JComboBox cbxFiltroHabilitado;
+    private JButton btnMostrarFacturas;
+    DefaultTableModel mdlClientes = new DefaultTableModel();
+    String[] colsClientes = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
     private VentanaPrincipal ventanaPrincipal;
 
     public VistaClienteABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
@@ -35,38 +35,38 @@ public class VistaClienteABM {
 
         setModeloTabla();
 
-        tablaClientes.removeColumn(tablaClientes.getColumnModel().getColumn(7));
-        //tablaClientes.removeColumn(tablaClientes.getColumnModel().getColumn(0));
+        tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(7));
+        //tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(0));
 
-        comboBoxFiltroHabilitado.addItem("Habilitados");
-        comboBoxFiltroHabilitado.addItem("Deshabilitados");
-        comboBoxFiltroHabilitado.setSelectedIndex(0);
+        cbxFiltroHabilitado.addItem("Habilitados");
+        cbxFiltroHabilitado.addItem("Deshabilitados");
+        cbxFiltroHabilitado.setSelectedIndex(0);
 
         ControladorClienteABM controlador = new ControladorClienteABM();
         List<Cliente> clientes = controlador.obtenerClientesPorHabilitado(1);
         poblarTabla(clientes);
 
-        comboBoxFiltroHabilitado.addActionListener(new ActionListener() {
+        cbxFiltroHabilitado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
+                int filtro = cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
                 ControladorClienteABM ctrl = new ControladorClienteABM();
                 poblarTabla(ctrl.obtenerClientesPorHabilitado(filtro));
 
-                if (comboBoxFiltroHabilitado.getSelectedIndex() == 0) {
-                    eliminarButton.setText("Deshabilitar");
+                if (cbxFiltroHabilitado.getSelectedIndex() == 0) {
+                    btnEliminar.setText("Deshabilitar");
                 } else {
-                    eliminarButton.setText("Habilitar");
+                    btnEliminar.setText("Habilitar");
                 }
             }
         });
 
-        botonBuscar.addActionListener(new ActionListener() {
+        btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
+                int filtro = cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
                 ControladorClienteABM ctrl = new ControladorClienteABM();
-                String texto = dniTF.getText().trim();
+                String texto = tfDni.getText().trim();
                 if (texto.isEmpty()) {
                     poblarTabla(ctrl.obtenerClientesPorHabilitado(filtro));
                 } else {
@@ -78,7 +78,7 @@ public class VistaClienteABM {
             }
         });
 
-        agregarButton.addActionListener(new ActionListener() {
+        btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Cliente",
@@ -100,30 +100,30 @@ public class VistaClienteABM {
                             valores.get("Mail:")
                     );
                     if (id > -1) {
-                        poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerClientesPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
 
-        modificarButton.addActionListener(new ActionListener() {
+        btnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tablaClientes.getSelectedRow();
+                int fila = tblClientes.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla");
                     return;
                 }
 
-                int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
+                int idCliente = Integer.parseInt(mdlClientes.getValueAt(fila, 0).toString());
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Cliente",
-                        new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 1).toString()),
-                        new VistaFormulario.Campo("Apellido:", modeloTabla.getValueAt(fila, 2).toString()),
-                        new VistaFormulario.Campo("DNI:", modeloTabla.getValueAt(fila, 3).toString()),
-                        new VistaFormulario.Campo("Teléfono:", modeloTabla.getValueAt(fila, 4).toString()),
-                        new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 5).toString()),
-                        new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 6).toString())
+                        new VistaFormulario.Campo("Nombre:", mdlClientes.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("Apellido:", mdlClientes.getValueAt(fila, 2).toString()),
+                        new VistaFormulario.Campo("DNI:", mdlClientes.getValueAt(fila, 3).toString()),
+                        new VistaFormulario.Campo("Teléfono:", mdlClientes.getValueAt(fila, 4).toString()),
+                        new VistaFormulario.Campo("Dirección:", mdlClientes.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Mail:", mdlClientes.getValueAt(fila, 6).toString())
                 );
                 if (valores != null) {
                     ControladorClienteABM ctrl = new ControladorClienteABM();
@@ -136,23 +136,23 @@ public class VistaClienteABM {
                             valores.get("Dirección:"),
                             valores.get("Mail:")
                     )) {
-                        poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerClientesPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
 
-        eliminarButton.addActionListener(new ActionListener() {
+        btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tablaClientes.getSelectedRow();
+                int fila = tblClientes.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla");
                     return;
                 }
 
-                int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
-                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 7).toString());
+                int idCliente = Integer.parseInt(mdlClientes.getValueAt(fila, 0).toString());
+                int habilitadoActual = Integer.parseInt(mdlClientes.getValueAt(fila, 7).toString());
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
@@ -163,30 +163,30 @@ public class VistaClienteABM {
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorClienteABM ctrl = new ControladorClienteABM();
                     if (ctrl.toggleHabilitadoCliente(idCliente)) {
-                        poblarTabla(ctrl.obtenerClientesPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerClientesPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
 
-        botonVolver.addActionListener(new ActionListener() {
+        btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorAdmin controladorAdmin = new ControladorAdmin(usuario, ventanaPrincipal);
             }
         });
-        mostrarFacturasButton.addActionListener(new ActionListener() {
+        btnMostrarFacturas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tablaClientes.getSelectedRow();
+                int fila = tblClientes.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un cliente de la tabla");
                     return;
                 }
 
-                int idCliente = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
-                String nombre = modeloTabla.getValueAt(fila, 1).toString();
-                String apellido = modeloTabla.getValueAt(fila, 2).toString();
+                int idCliente = Integer.parseInt(mdlClientes.getValueAt(fila, 0).toString());
+                String nombre = mdlClientes.getValueAt(fila, 1).toString();
+                String apellido = mdlClientes.getValueAt(fila, 2).toString();
 
                 VistaFactura vistaFactura = new VistaFactura(usuario, ventanaPrincipal, idCliente, nombre, apellido);
                 ventanaPrincipal.setVista(vistaFactura.panelFactura);
@@ -195,15 +195,15 @@ public class VistaClienteABM {
     }
 
     public void setModeloTabla() {
-        modeloTabla.setColumnIdentifiers(columnas);
-        tablaClientes.setModel(modeloTabla);
+        mdlClientes.setColumnIdentifiers(colsClientes);
+        tblClientes.setModel(mdlClientes);
     }
 
     public void poblarTabla(List<Cliente> clientes) {
-        modeloTabla.setRowCount(0);
+        mdlClientes.setRowCount(0);
 
         for (Cliente c : clientes) {
-            modeloTabla.addRow(new Object[]{
+            mdlClientes.addRow(new Object[]{
                     c.getId(),
                     c.getNombre(),
                     c.getApellido(),

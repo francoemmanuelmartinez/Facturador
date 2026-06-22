@@ -12,13 +12,13 @@ import java.util.List;
 
 public class VistaFactura {
     private JLabel labelTitulo;
-    private JTable tableFacturas;
-    private JButton verDetalleButton;
-    private JButton volverButton;
+    private JTable tblFacturas;
+    private JButton btnVerDetalle;
+    private JButton btnVolver;
     public JPanel panelFactura;
 
-    private DefaultTableModel modeloTablaFacturas;
-    private String[] columnasFacturas = {"N°", "Fecha", "Total ($)", "Vendedor"};
+    private DefaultTableModel mdlFacturas;
+    private String[] colsFacturas = {"N°", "Fecha", "Total ($)", "Vendedor"};
     private List<Object[]> facturas;
     private int idCliente;
     private String nombreCliente;
@@ -37,16 +37,16 @@ public class VistaFactura {
 
         labelTitulo.setText("Facturas de: " + nombreCliente + " " + apellidoCliente);
 
-        modeloTablaFacturas = new DefaultTableModel(columnasFacturas, 0);
-        tableFacturas.setModel(modeloTablaFacturas);
-        tableFacturas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        mdlFacturas = new DefaultTableModel(colsFacturas, 0);
+        tblFacturas.setModel(mdlFacturas);
+        tblFacturas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         cargarFacturas();
 
-        verDetalleButton.addActionListener(new ActionListener() {
+        btnVerDetalle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tableFacturas.getSelectedRow();
+                int fila = tblFacturas.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione una factura");
                     return;
@@ -57,7 +57,7 @@ public class VistaFactura {
             }
         });
 
-        volverButton.addActionListener(new ActionListener() {
+        btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ControladorClienteABM(usuario, ventanaPrincipal);
@@ -66,12 +66,12 @@ public class VistaFactura {
     }
 
     private void cargarFacturas() {
-        modeloTablaFacturas.setRowCount(0);
+        mdlFacturas.setRowCount(0);
         facturas = controladorFactura.obtenerFacturasPorCliente(idCliente);
         int contador = 1;
         for (Object[] f : facturas) {
             String vendedor = f[4] + " " + f[5];
-            modeloTablaFacturas.addRow(new Object[]{
+            mdlFacturas.addRow(new Object[]{
                     contador,
                     f[2],
                     f[3],

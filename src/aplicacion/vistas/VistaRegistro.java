@@ -9,30 +9,30 @@ import java.awt.event.ActionListener;
 public class VistaRegistro {
 
     public JPanel panelRegistro;
-    private JTextField nombreTF;
-    private JTextField apellidoTF;
-    private JTextField dniTF;
-    private JTextField telefonoTF;
-    private JTextField direccionTF;
-    private JTextField mailTF;
-    private JTextField password;
-    private JButton registrarse;
-    private JButton botonVolver;
+    private JTextField tfNombre;
+    private JTextField tfApellido;
+    private JTextField tfDni;
+    private JTextField tfTelefono;
+    private JTextField tfDireccion;
+    private JTextField tfMail;
+    private JTextField tfPassword;
+    private JButton btnCrearUsuario;
+    private JButton btnVolver;
 
 
     public VistaRegistro(VentanaPrincipal ventanaPrincipal) {
 
-        registrarse.addActionListener(new ActionListener() {
+        btnCrearUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorRegistro controlador = new ControladorRegistro();
-                if(controlador.registrar(nombreTF.getText(), apellidoTF.getText(),dniTF.getText(),telefonoTF.getText(),direccionTF.getText(),mailTF.getText(),password.getText())) {
+                if(controlador.registrar(tfNombre.getText(), tfApellido.getText(),tfDni.getText(),tfTelefono.getText(),tfDireccion.getText(),tfMail.getText(),tfPassword.getText())) {
                     ControladorLogin controladorLogin = new ControladorLogin(ventanaPrincipal);
                     JOptionPane.showMessageDialog(null, "Logee");
                 }
             }
         });
-        botonVolver.addActionListener(new ActionListener() {
+        btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorLogin controladorLogin = new ControladorLogin(ventanaPrincipal);

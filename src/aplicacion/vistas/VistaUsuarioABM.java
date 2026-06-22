@@ -14,53 +14,53 @@ import java.util.Map;
 
 public class VistaUsuarioABM {
     private JLabel labelUsuario;
-    private JButton botonBuscar;
-    private JTable tablaUsuarios;
+    private JButton btnBuscar;
+    private JTable tblUsuarios;
     public JPanel panelUsuarioABM;
-    private JTextField dniTF;
-    private JButton eliminarButton;
-    private JButton modificarButton;
-    private JButton agregarButton;
-    private JComboBox comboBoxFiltroHabilitado;
-    private JButton volverButton;
-    DefaultTableModel modeloTabla = new DefaultTableModel();
-    String[] columnas = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
+    private JTextField tfDni;
+    private JButton btnEliminar;
+    private JButton btnModificar;
+    private JButton btnAgregar;
+    private JComboBox cbxFiltroHabilitado;
+    private JButton btnVolver;
+    DefaultTableModel mdlUsuarios = new DefaultTableModel();
+    String[] colsUsuarios = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
 
     public VistaUsuarioABM(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
 
         setModeloTabla();
 
-        tablaUsuarios.removeColumn(tablaUsuarios.getColumnModel().getColumn(9));
+        tblUsuarios.removeColumn(tblUsuarios.getColumnModel().getColumn(9));
 
-        comboBoxFiltroHabilitado.addItem("Habilitados");
-        comboBoxFiltroHabilitado.addItem("Deshabilitados");
-        comboBoxFiltroHabilitado.setSelectedIndex(0);
+        cbxFiltroHabilitado.addItem("Habilitados");
+        cbxFiltroHabilitado.addItem("Deshabilitados");
+        cbxFiltroHabilitado.setSelectedIndex(0);
 
         ControladorUsuarioABM controlador = new ControladorUsuarioABM();
         List<Usuario> usuarios = controlador.obtenerUsuariosPorHabilitado(1);
         poblarTabla(usuarios);
 
-        comboBoxFiltroHabilitado.addActionListener(new ActionListener() {
+        cbxFiltroHabilitado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
+                int filtro = cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
                 ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
                 poblarTabla(ctrl.obtenerUsuariosPorHabilitado(filtro));
 
-                if (comboBoxFiltroHabilitado.getSelectedIndex() == 0) {
-                    eliminarButton.setText("Deshabilitar");
+                if (cbxFiltroHabilitado.getSelectedIndex() == 0) {
+                    btnEliminar.setText("Deshabilitar");
                 } else {
-                    eliminarButton.setText("Habilitar");
+                    btnEliminar.setText("Habilitar");
                 }
             }
         });
 
-        botonBuscar.addActionListener(new ActionListener() {
+        btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filtro = comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
+                int filtro = cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
                 ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
-                String texto = dniTF.getText().trim();
+                String texto = tfDni.getText().trim();
                 if (texto.isEmpty()) {
                     poblarTabla(ctrl.obtenerUsuariosPorHabilitado(filtro));
                 } else {
@@ -71,7 +71,7 @@ public class VistaUsuarioABM {
                 }
             }
         });
-        agregarButton.addActionListener(new ActionListener() {
+        btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Usuario",
@@ -96,33 +96,33 @@ public class VistaUsuarioABM {
                             valores.get("Contraseña:"),
                             valores.get("Rol:")
                     )) {
-                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
-        modificarButton.addActionListener(new ActionListener() {
+        btnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tablaUsuarios.getSelectedRow();
+                int fila = tblUsuarios.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un usuario de la tabla");
                     return;
                 }
 
-                String dniOriginal = modeloTabla.getValueAt(fila, 3).toString();
+                String dniOriginal = mdlUsuarios.getValueAt(fila, 3).toString();
 
-                String rolActual = modeloTabla.getValueAt(fila, 7).toString();
+                String rolActual = mdlUsuarios.getValueAt(fila, 7).toString();
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Usuario",
-                        new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 1).toString()),
-                        new VistaFormulario.Campo("Apellido:", modeloTabla.getValueAt(fila, 2).toString()),
+                        new VistaFormulario.Campo("Nombre:", mdlUsuarios.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("Apellido:", mdlUsuarios.getValueAt(fila, 2).toString()),
                         new VistaFormulario.Campo("DNI:", dniOriginal),
-                        new VistaFormulario.Campo("Teléfono:", modeloTabla.getValueAt(fila, 4).toString()),
-                        new VistaFormulario.Campo("Dirección:", modeloTabla.getValueAt(fila, 5).toString()),
-                        new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 6).toString()),
+                        new VistaFormulario.Campo("Teléfono:", mdlUsuarios.getValueAt(fila, 4).toString()),
+                        new VistaFormulario.Campo("Dirección:", mdlUsuarios.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Mail:", mdlUsuarios.getValueAt(fila, 6).toString()),
                         new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"}, rolActual),
-                        new VistaFormulario.Campo("Contraseña:", true, modeloTabla.getValueAt(fila, 8).toString())
+                        new VistaFormulario.Campo("Contraseña:", true, mdlUsuarios.getValueAt(fila, 8).toString())
                 );
                 if (valores != null) {
                     ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
@@ -137,22 +137,22 @@ public class VistaUsuarioABM {
                             valores.get("Rol:"),
                             valores.get("Contraseña:")
                     )) {
-                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
-        eliminarButton.addActionListener(new ActionListener() {
+        btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tablaUsuarios.getSelectedRow();
+                int fila = tblUsuarios.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un usuario de la tabla");
                     return;
                 }
 
-                String dni = modeloTabla.getValueAt(fila, 3).toString();
-                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 9).toString());
+                String dni = mdlUsuarios.getValueAt(fila, 3).toString();
+                int habilitadoActual = Integer.parseInt(mdlUsuarios.getValueAt(fila, 9).toString());
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
@@ -163,12 +163,12 @@ public class VistaUsuarioABM {
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
                     if (ctrl.toggleHabilitado(dni)) {
-                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(comboBoxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerUsuariosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
-        volverButton.addActionListener(new ActionListener() {
+        btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorAdmin controladorAdmin = new ControladorAdmin(usuario, ventanaPrincipal);
@@ -177,16 +177,16 @@ public class VistaUsuarioABM {
     }
 
     public void setModeloTabla() {
-        modeloTabla.setColumnIdentifiers(columnas);
-        tablaUsuarios.setModel(modeloTabla);
+        mdlUsuarios.setColumnIdentifiers(colsUsuarios);
+        tblUsuarios.setModel(mdlUsuarios);
     }
 
     public void poblarTabla(List<Usuario> usuarios) {
 
-        modeloTabla.setRowCount(0);
+        mdlUsuarios.setRowCount(0);
 
         for (Usuario u : usuarios) {
-            modeloTabla.addRow(new Object[]{
+            mdlUsuarios.addRow(new Object[]{
                     u.getId(),
                     u.getNombre(),
                     u.getApellido(),

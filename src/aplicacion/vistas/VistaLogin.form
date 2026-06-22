@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="31e12" class="javax.swing.JButton" binding="botonLogin">
+      <component id="31e12" class="javax.swing.JButton" binding="btnIngresar">
         <constraints>
           <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -16,7 +16,7 @@
           <text value="Iniciar Sesion"/>
         </properties>
       </component>
-      <component id="22ecc" class="javax.swing.JTextField" binding="mailTextField">
+      <component id="22ecc" class="javax.swing.JTextField" binding="tfMail">
         <constraints>
           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -28,7 +28,7 @@
           <toolTipText value="Ingrese nombre"/>
         </properties>
       </component>
-      <component id="b442c" class="javax.swing.JTextField" binding="passwordTextField">
+      <component id="b442c" class="javax.swing.JTextField" binding="tfPassword">
         <constraints>
           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -40,12 +40,12 @@
           <toolTipText value="ingrese password"/>
         </properties>
       </component>
-      <component id="f5761" class="javax.swing.JButton" binding="botonRegistrar">
+      <component id="f5761" class="javax.swing.JButton" binding="btnCrearCuenta">
         <constraints>
           <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Registrarse"/>
+          <text value="Crear Cuenta"/>
         </properties>
       </component>
       <component id="1a16a" class="javax.swing.JLabel">

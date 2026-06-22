@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="71bd6" class="javax.swing.JTextField" binding="nombreTF">
+      <component id="71bd6" class="javax.swing.JTextField" binding="tfNombre">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -18,7 +18,7 @@
           <toolTipText value="Ingrese su nombre"/>
         </properties>
       </component>
-      <component id="8ecbc" class="javax.swing.JTextField" binding="apellidoTF">
+      <component id="8ecbc" class="javax.swing.JTextField" binding="tfApellido">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -28,7 +28,7 @@
           <toolTipText value="Ingrese su apellido"/>
         </properties>
       </component>
-      <component id="993a4" class="javax.swing.JTextField" binding="dniTF">
+      <component id="993a4" class="javax.swing.JTextField" binding="tfDni">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -38,7 +38,7 @@
           <toolTipText value="Ingrese su dni"/>
         </properties>
       </component>
-      <component id="5e099" class="javax.swing.JTextField" binding="telefonoTF">
+      <component id="5e099" class="javax.swing.JTextField" binding="tfTelefono">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -48,7 +48,7 @@
           <toolTipText value="Ingrese su telefono"/>
         </properties>
       </component>
-      <component id="1bd9c" class="javax.swing.JTextField" binding="direccionTF">
+      <component id="1bd9c" class="javax.swing.JTextField" binding="tfDireccion">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -58,7 +58,7 @@
           <toolTipText value="Ingrese su direccion"/>
         </properties>
       </component>
-      <component id="b3daa" class="javax.swing.JTextField" binding="mailTF">
+      <component id="b3daa" class="javax.swing.JTextField" binding="tfMail">
         <constraints>
           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -68,7 +68,7 @@
           <toolTipText value="Ingrese su mail"/>
         </properties>
       </component>
-      <component id="372f2" class="javax.swing.JTextField" binding="password">
+      <component id="372f2" class="javax.swing.JTextField" binding="tfPassword">
         <constraints>
           <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -78,15 +78,15 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="4294" class="javax.swing.JButton" binding="registrarse">
+      <component id="4294" class="javax.swing.JButton" binding="btnCrearUsuario">
         <constraints>
           <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Registrarse"/>
+          <text value="Crear Usuario"/>
         </properties>
       </component>
-      <component id="3d771" class="javax.swing.JButton" binding="botonVolver">
+      <component id="3d771" class="javax.swing.JButton" binding="btnVolver">
         <constraints>
           <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>

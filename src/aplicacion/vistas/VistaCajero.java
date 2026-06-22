@@ -21,23 +21,23 @@ public class VistaCajero {
     private Usuario usuario;
     private VentanaPrincipal ventanaPrincipal;
     public JPanel panelCajero;
-    private JTable tableCarrito;
+    private JTable tblCarrito;
     private JLabel labelNombreCajero;
-    private JTextField textFieldNombreCliente;
-    private JTextField textFieldApellidoCliente;
-    private JTextField textFieldDNICliente;
-    private JTextField textFieldDomicilioCiente;
-    private JTextField textFieldTelefonoCliente;
-    private JTextField textFieldMailCliente;
-    private JTextField textFieldBuscarCliente;
-    private JButton buscarClienteButton;
-    private JTextField textFieldBuscarProducto;
-    private JButton buscarProductoButton;
-    private JButton modificarClienteButton;
-    private JButton nuevoClienteButton;
-    private JButton modificarProductoButton;
+    private JTextField tfNombreCliente;
+    private JTextField tfApellidoCliente;
+    private JTextField tfDniCliente;
+    private JTextField tfDireccionCliente;
+    private JTextField tfTelefonoCliente;
+    private JTextField tfMailCliente;
+    private JTextField tfBuscarCliente;
+    private JButton btnBuscarCliente;
+    private JTextField tfBuscarProducto;
+    private JButton btnBuscarProducto;
+    private JButton btnModificarCliente;
+    private JButton btnNuevoCliente;
+    private JButton btnModificarProducto;
     private JLabel labelIDProducto;
-    private JTextField textFieldIDProducto;
+    private JTextField tfIdProducto;
     private JLabel labelNombreCliente;
     private JLabel labelApellidoCliente;
     private JLabel labelDomicilioCliente;
@@ -45,26 +45,26 @@ public class VistaCajero {
     private JLabel labelMailCliente;
     private JLabel labelDNICliente;
     private JLabel labelDescripcionProducto;
-    private JTextField textFieldDescripcionProducto;
-    private JTextField textFieldPrecioProducto;
-    private JTextField textFieldDescuentoProducto;
+    private JTextField tfDescripcionProducto;
+    private JTextField tfPrecioProducto;
+    private JTextField tfDescuentoProducto;
     private JLabel labelPrecioProducto;
     private JLabel labelCantidadProducto;
     private JLabel labelDescuentoProducto;
-    private JButton nuevoProductoButton;
-    private JButton agregarAlCarroButton;
-    private JTextField textFieldNombreCajero;
-    private JTextField textFieldIDCajero;
+    private JButton btnNuevoProducto;
+    private JButton btnAgregarAlCarro;
+    private JTextField tfNombreCajero;
+    private JTextField tfIdCajero;
     private JLabel labelIDCajero;
-    private JButton volverButton;
-    private JButton modificarArticuloButton;
-    private JButton eliminarArticuloButton;
-    private JButton calcularTotalButton;
-    private JButton finalizarCompraButton;
-    private JButton cancelarCompraButton;
-    private JTextField textFieldSubtotal;
-    private JTextField textFieldDescuento;
-    private JTextField textFieldTotal;
+    private JButton btnVolver;
+    private JButton btnModificarArticulo;
+    private JButton btnEliminarArticulo;
+    private JButton btnCalcularTotal;
+    private JButton btnFinalizarCompra;
+    private JButton btnCancelarCompra;
+    private JTextField tfSubtotal;
+    private JTextField tfDescuento;
+    private JTextField tfTotal;
     private JLabel labelTotal;
     private JLabel labelDescuento;
     private JLabel labelSubtotal;
@@ -72,27 +72,27 @@ public class VistaCajero {
     private JPanel panelProducto;
     private JPanel panelOpcionesCarrito;
     private JScrollPane scrollCarrito;
-    private JTextField textFieldIDCliente;
+    private JTextField tfIdCliente;
     private JLabel labelIDCliente;
     private JLabel labelStock;
-    private JTextField textFieldStock;
-    private JTextField textFieldCantidadProducto;
-    private JTextField textFieldApellidoCajero;
+    private JTextField tfStockProducto;
+    private JTextField tfCantidadProducto;
+    private JTextField tfApellidoCajero;
     private JLabel labelApellidoCajero;
-    private JTextField textFieldValorDescontado;
+    private JTextField tfValorDescontado;
     private JLabel labelDescontado;
-    private DefaultTableModel modeloTablaCarrito;
-    private String[] columnasCarrito = {"ID", "Descripción", "Precio Unit.", "Cantidad", "Descuento", "Subtotal"};
+    private DefaultTableModel mdlCarrito;
+    private String[] colsCarrito = {"ID", "Descripción", "Precio Unit.", "Cantidad", "Descuento", "Subtotal"};
 
     public VistaCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.usuario = usuario;
         this.ventanaPrincipal = ventanaPrincipal;
-        textFieldNombreCajero.setText(usuario.getNombre());
-        textFieldApellidoCajero.setText(usuario.getApellido());
-        textFieldIDCajero.setText(String.valueOf(usuario.getId()));
-        textFieldSubtotal.setEditable(false);
-        textFieldTotal.setEditable(false);
-        volverButton.addActionListener(new ActionListener() {
+        tfNombreCajero.setText(usuario.getNombre());
+        tfApellidoCajero.setText(usuario.getApellido());
+        tfIdCajero.setText(String.valueOf(usuario.getId()));
+        tfSubtotal.setEditable(false);
+        tfTotal.setEditable(false);
+        btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (usuario.getRol().equals("Administrador")) {
@@ -102,42 +102,42 @@ public class VistaCajero {
                 }
             }
         });
-        buscarClienteButton.addActionListener(new ActionListener() {
+        btnBuscarCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String dni = textFieldBuscarCliente.getText().trim();
+                String dni = tfBuscarCliente.getText().trim();
                 if (dni.isEmpty()) return;
                 ControladorClienteABM ctrl = new ControladorClienteABM();
                 Cliente c = ctrl.buscarCliente(dni, 1);
                 if (c != null) {
-                    textFieldIDCliente.setText(String.valueOf(c.getId()));
-                    textFieldNombreCliente.setText(c.getNombre());
-                    textFieldApellidoCliente.setText(c.getApellido());
-                    textFieldDNICliente.setText(c.getDni());
-                    textFieldDomicilioCiente.setText(c.getDireccion());
-                    textFieldTelefonoCliente.setText(c.getTelefono());
-                    textFieldMailCliente.setText(c.getMail());
+                    tfIdCliente.setText(String.valueOf(c.getId()));
+                    tfNombreCliente.setText(c.getNombre());
+                    tfApellidoCliente.setText(c.getApellido());
+                    tfDniCliente.setText(c.getDni());
+                    tfDireccionCliente.setText(c.getDireccion());
+                    tfTelefonoCliente.setText(c.getTelefono());
+                    tfMailCliente.setText(c.getMail());
                 } else {
                     limpiarCamposCliente();
                 }
             }
         });
-        modificarClienteButton.addActionListener(new ActionListener() {
+        btnModificarCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String idStr = textFieldIDCliente.getText().trim();
+                String idStr = tfIdCliente.getText().trim();
                 if (idStr.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No hay cliente seleccionado");
                     return;
                 }
                 int id = Integer.parseInt(idStr);
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Cliente",
-                        new VistaFormulario.Campo("Nombre:", textFieldNombreCliente.getText()),
-                        new VistaFormulario.Campo("Apellido:", textFieldApellidoCliente.getText()),
-                        new VistaFormulario.Campo("DNI:", textFieldDNICliente.getText()),
-                        new VistaFormulario.Campo("Teléfono:", textFieldTelefonoCliente.getText()),
-                        new VistaFormulario.Campo("Dirección:", textFieldDomicilioCiente.getText()),
-                        new VistaFormulario.Campo("Mail:", textFieldMailCliente.getText())
+                        new VistaFormulario.Campo("Nombre:", tfNombreCliente.getText()),
+                        new VistaFormulario.Campo("Apellido:", tfApellidoCliente.getText()),
+                        new VistaFormulario.Campo("DNI:", tfDniCliente.getText()),
+                        new VistaFormulario.Campo("Teléfono:", tfTelefonoCliente.getText()),
+                        new VistaFormulario.Campo("Dirección:", tfDireccionCliente.getText()),
+                        new VistaFormulario.Campo("Mail:", tfMailCliente.getText())
                 );
                 if (valores != null) {
                     int confirm = JOptionPane.showConfirmDialog(null,
@@ -152,18 +152,18 @@ public class VistaCajero {
                                 valores.get("Dirección:"),
                                 valores.get("Mail:")
                         )) {
-                            textFieldNombreCliente.setText(valores.get("Nombre:"));
-                            textFieldApellidoCliente.setText(valores.get("Apellido:"));
-                            textFieldDNICliente.setText(valores.get("DNI:"));
-                            textFieldDomicilioCiente.setText(valores.get("Dirección:"));
-                            textFieldTelefonoCliente.setText(valores.get("Teléfono:"));
-                            textFieldMailCliente.setText(valores.get("Mail:"));
+                            tfNombreCliente.setText(valores.get("Nombre:"));
+                            tfApellidoCliente.setText(valores.get("Apellido:"));
+                            tfDniCliente.setText(valores.get("DNI:"));
+                            tfDireccionCliente.setText(valores.get("Dirección:"));
+                            tfTelefonoCliente.setText(valores.get("Teléfono:"));
+                            tfMailCliente.setText(valores.get("Mail:"));
                         }
                     }
                 }
             }
         });
-        nuevoClienteButton.addActionListener(new ActionListener() {
+        btnNuevoCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Cliente",
@@ -185,40 +185,40 @@ public class VistaCajero {
                             valores.get("Mail:")
                     );
                     if (id > -1) {
-                        textFieldIDCliente.setText(String.valueOf(id));
-                        textFieldNombreCliente.setText(valores.get("Nombre:"));
-                        textFieldApellidoCliente.setText(valores.get("Apellido:"));
-                        textFieldDNICliente.setText(valores.get("DNI:"));
-                        textFieldDomicilioCiente.setText(valores.get("Dirección:"));
-                        textFieldTelefonoCliente.setText(valores.get("Teléfono:"));
-                        textFieldMailCliente.setText(valores.get("Mail:"));
+                        tfIdCliente.setText(String.valueOf(id));
+                        tfNombreCliente.setText(valores.get("Nombre:"));
+                        tfApellidoCliente.setText(valores.get("Apellido:"));
+                        tfDniCliente.setText(valores.get("DNI:"));
+                        tfDireccionCliente.setText(valores.get("Dirección:"));
+                        tfTelefonoCliente.setText(valores.get("Teléfono:"));
+                        tfMailCliente.setText(valores.get("Mail:"));
                     }
                 }
             }
         });
-        buscarProductoButton.addActionListener(new ActionListener() {
+        btnBuscarProducto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String texto = textFieldBuscarProducto.getText().trim();
+                String texto = tfBuscarProducto.getText().trim();
                 if (texto.isEmpty()) return;
 
                 ControladorDepositoABM ctrl = new ControladorDepositoABM();
                 Producto p = ctrl.seleccionarProducto(texto, 1);
 
                 if (p != null) {
-                    textFieldIDProducto.setText(String.valueOf(p.getId()));
-                    textFieldDescripcionProducto.setText(p.getDescripcion());
-                    textFieldPrecioProducto.setText(String.valueOf(p.getPrecio()));
-                    textFieldStock.setText(String.valueOf(p.getStock()));
+                    tfIdProducto.setText(String.valueOf(p.getId()));
+                    tfDescripcionProducto.setText(p.getDescripcion());
+                    tfPrecioProducto.setText(String.valueOf(p.getPrecio()));
+                    tfStockProducto.setText(String.valueOf(p.getStock()));
                 } else {
                     limpiarCamposProducto();
                 }
             }
         });
-        modificarProductoButton.addActionListener(new ActionListener() {
+        btnModificarProducto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String idStr = textFieldIDProducto.getText().trim();
+                String idStr = tfIdProducto.getText().trim();
                 if (idStr.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No hay producto seleccionado");
                     return;
@@ -226,9 +226,9 @@ public class VistaCajero {
                 int id = Integer.parseInt(idStr);
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Producto",
-                        new VistaFormulario.Campo("Descripción:", textFieldDescripcionProducto.getText()),
-                        new VistaFormulario.Campo("Precio:", textFieldPrecioProducto.getText()),
-                        new VistaFormulario.Campo("Stock:", textFieldStock.getText())
+                        new VistaFormulario.Campo("Descripción:", tfDescripcionProducto.getText()),
+                        new VistaFormulario.Campo("Precio:", tfPrecioProducto.getText()),
+                        new VistaFormulario.Campo("Stock:", tfStockProducto.getText())
                 );
 
                 if (valores != null) {
@@ -242,36 +242,36 @@ public class VistaCajero {
                                 Integer.parseInt(valores.get("Stock:"))
                         );
                         if (ok) {
-                            textFieldDescripcionProducto.setText(valores.get("Descripción:"));
-                            textFieldPrecioProducto.setText(valores.get("Precio:"));
-                            textFieldStock.setText(valores.get("Stock:"));
+                            tfDescripcionProducto.setText(valores.get("Descripción:"));
+                            tfPrecioProducto.setText(valores.get("Precio:"));
+                            tfStockProducto.setText(valores.get("Stock:"));
                         }
                     }
                 }
             }
         });
-        agregarAlCarroButton.addActionListener(new ActionListener() {
+        btnAgregarAlCarro.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String idStr = textFieldIDProducto.getText().trim();
+                String idStr = tfIdProducto.getText().trim();
                 if (idStr.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No hay producto seleccionado");
                     return;
                 }
 
-                String descripcion = textFieldDescripcionProducto.getText();
-                int precio = Integer.parseInt(textFieldPrecioProducto.getText());
-                int cantidad = Integer.parseInt(textFieldCantidadProducto.getText().trim());
+                String descripcion = tfDescripcionProducto.getText();
+                int precio = Integer.parseInt(tfPrecioProducto.getText());
+                int cantidad = Integer.parseInt(tfCantidadProducto.getText().trim());
                 if (cantidad <= 0) {
                     JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a 0");
                     return;
                 }
 
-                String descuentoStr = textFieldDescuentoProducto.getText().trim();
+                String descuentoStr = tfDescuentoProducto.getText().trim();
                 int descuento = descuentoStr.isEmpty() ? 0 : Integer.parseInt(descuentoStr);
                 int subtotal = precio * cantidad * (100 - descuento) / 100;
 
-                modeloTablaCarrito.addRow(new Object[]{
+                mdlCarrito.addRow(new Object[]{
                         idStr, descripcion, precio, cantidad, descuento + "%", subtotal
                 });
 
@@ -279,7 +279,7 @@ public class VistaCajero {
                 limpiarCamposProducto();
             }
         });
-        nuevoProductoButton.addActionListener(new ActionListener() {
+        btnNuevoProducto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Producto",
@@ -296,26 +296,26 @@ public class VistaCajero {
                             Integer.parseInt(valores.get("Stock:"))
                     );
                     if (id > -1) {
-                        textFieldIDProducto.setText(String.valueOf(id));
-                        textFieldDescripcionProducto.setText(valores.get("Descripción:"));
-                        textFieldPrecioProducto.setText(valores.get("Precio:"));
-                        textFieldStock.setText(valores.get("Stock:"));
+                        tfIdProducto.setText(String.valueOf(id));
+                        tfDescripcionProducto.setText(valores.get("Descripción:"));
+                        tfPrecioProducto.setText(valores.get("Precio:"));
+                        tfStockProducto.setText(valores.get("Stock:"));
                     }
                 }
             }
         });
         configurarTablaCarrito();
-        modificarArticuloButton.addActionListener(new ActionListener() {
+        btnModificarArticulo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tableCarrito.getSelectedRow();
+                int fila = tblCarrito.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un artículo del carrito");
                     return;
                 }
 
-                String cantidadActual = modeloTablaCarrito.getValueAt(fila, 3).toString();
-                String descuentoActual = modeloTablaCarrito.getValueAt(fila, 4).toString().replace("%", "");
+                String cantidadActual = mdlCarrito.getValueAt(fila, 3).toString();
+                String descuentoActual = mdlCarrito.getValueAt(fila, 4).toString().replace("%", "");
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Artículo",
                         new VistaFormulario.Campo("Cantidad:", cantidadActual),
@@ -335,12 +335,12 @@ public class VistaCajero {
                             return;
                         }
 
-                        int precio = Integer.parseInt(modeloTablaCarrito.getValueAt(fila, 2).toString());
+                        int precio = Integer.parseInt(mdlCarrito.getValueAt(fila, 2).toString());
                         int nuevoSubtotal = precio * nuevaCantidad * (100 - nuevoDescuento) / 100;
 
-                        modeloTablaCarrito.setValueAt(nuevaCantidad, fila, 3);
-                        modeloTablaCarrito.setValueAt(nuevoDescuento + "%", fila, 4);
-                        modeloTablaCarrito.setValueAt(nuevoSubtotal, fila, 5);
+                        mdlCarrito.setValueAt(nuevaCantidad, fila, 3);
+                        mdlCarrito.setValueAt(nuevoDescuento + "%", fila, 4);
+                        mdlCarrito.setValueAt(nuevoSubtotal, fila, 5);
 
                         actualizarTotales();
                     } catch (NumberFormatException ex) {
@@ -349,10 +349,10 @@ public class VistaCajero {
                 }
             }
         });
-        eliminarArticuloButton.addActionListener(new ActionListener() {
+        btnEliminarArticulo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tableCarrito.getSelectedRow();
+                int fila = tblCarrito.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un artículo del carrito");
                     return;
@@ -361,22 +361,22 @@ public class VistaCajero {
                 int confirm = JOptionPane.showConfirmDialog(null,
                         "¿Eliminar artículo del carrito?", "Confirmar", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
-                    modeloTablaCarrito.removeRow(fila);
+                    mdlCarrito.removeRow(fila);
                     actualizarTotales();
                 }
             }
         });
-        calcularTotalButton.addActionListener(new ActionListener() {
+        btnCalcularTotal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String subtotalStr = textFieldSubtotal.getText().trim();
+                String subtotalStr = tfSubtotal.getText().trim();
                 if (subtotalStr.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No hay artículos en el carrito");
                     return;
                 }
 
                 int subtotal = Integer.parseInt(subtotalStr);
-                String descuentoStr = textFieldDescuento.getText().trim();
+                String descuentoStr = tfDescuento.getText().trim();
                 int descuento = descuentoStr.isEmpty() ? 0 : Integer.parseInt(descuentoStr);
 
                 if (descuento < 0 || descuento > 100) {
@@ -386,25 +386,25 @@ public class VistaCajero {
 
                 int total = subtotal * (100 - descuento) / 100;
                 int valorDescontado = subtotal - total;
-                textFieldTotal.setText(String.valueOf(total));
-                textFieldValorDescontado.setText(String.valueOf(valorDescontado));
+                tfTotal.setText(String.valueOf(total));
+                tfValorDescontado.setText(String.valueOf(valorDescontado));
             }
         });
-        finalizarCompraButton.addActionListener(new ActionListener() {
+        btnFinalizarCompra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String idClienteStr = textFieldIDCliente.getText().trim();
+                String idClienteStr = tfIdCliente.getText().trim();
                 if (idClienteStr.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Debe seleccionar un cliente");
                     return;
                 }
 
-                if (modeloTablaCarrito.getRowCount() == 0) {
+                if (mdlCarrito.getRowCount() == 0) {
                     JOptionPane.showMessageDialog(null, "El carrito está vacío");
                     return;
                 }
 
-                if (textFieldTotal.getText().trim().isEmpty()) {
+                if (tfTotal.getText().trim().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Debe calcular el total primero");
                     return;
                 }
@@ -414,28 +414,28 @@ public class VistaCajero {
                 if (confirm != JOptionPane.YES_OPTION) return;
 
                 int idCliente = Integer.parseInt(idClienteStr);
-                String nombreCliente = textFieldNombreCliente.getText().trim();
-                String apellidoCliente = textFieldApellidoCliente.getText().trim();
+                String nombreCliente = tfNombreCliente.getText().trim();
+                String apellidoCliente = tfApellidoCliente.getText().trim();
                 int idVendedor = usuario.getId();
-                String nombreVendedor = textFieldNombreCajero.getText().trim();
-                String apellidoVendedor = textFieldApellidoCajero.getText().trim();
+                String nombreVendedor = tfNombreCajero.getText().trim();
+                String apellidoVendedor = tfApellidoCajero.getText().trim();
 
                 List<Object[]> carrito = new ArrayList<>();
-                for (int i = 0; i < modeloTablaCarrito.getRowCount(); i++) {
+                for (int i = 0; i < mdlCarrito.getRowCount(); i++) {
                     carrito.add(new Object[]{
-                            modeloTablaCarrito.getValueAt(i, 0),
-                            modeloTablaCarrito.getValueAt(i, 1),
-                            modeloTablaCarrito.getValueAt(i, 2),
-                            modeloTablaCarrito.getValueAt(i, 3),
-                            modeloTablaCarrito.getValueAt(i, 4),
-                            modeloTablaCarrito.getValueAt(i, 5)
+                            mdlCarrito.getValueAt(i, 0),
+                            mdlCarrito.getValueAt(i, 1),
+                            mdlCarrito.getValueAt(i, 2),
+                            mdlCarrito.getValueAt(i, 3),
+                            mdlCarrito.getValueAt(i, 4),
+                            mdlCarrito.getValueAt(i, 5)
                     });
                 }
 
-                int subtotalVal = Integer.parseInt(textFieldSubtotal.getText().trim());
-                String descuentoStrVal = textFieldDescuento.getText().trim();
+                int subtotalVal = Integer.parseInt(tfSubtotal.getText().trim());
+                String descuentoStrVal = tfDescuento.getText().trim();
                 int descuentoPorcentaje = descuentoStrVal.isEmpty() ? 0 : Integer.parseInt(descuentoStrVal);
-                int totalVal = Integer.parseInt(textFieldTotal.getText().trim());
+                int totalVal = Integer.parseInt(tfTotal.getText().trim());
                 int valorDescontadoVal = subtotalVal - totalVal;
 
                 ControladorCajero cc = new ControladorCajero();
@@ -444,10 +444,10 @@ public class VistaCajero {
                 }
             }
         });
-        cancelarCompraButton.addActionListener(new ActionListener() {
+        btnCancelarCompra.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (modeloTablaCarrito.getRowCount() == 0) return;
+                if (mdlCarrito.getRowCount() == 0) return;
 
                 int confirm = JOptionPane.showConfirmDialog(null,
                         "¿Cancelar la compra? Se perderán todos los datos del carrito",
@@ -460,50 +460,50 @@ public class VistaCajero {
     }
 
     private void limpiarCamposCliente() {
-        textFieldIDCliente.setText("");
-        textFieldNombreCliente.setText("");
-        textFieldApellidoCliente.setText("");
-        textFieldDNICliente.setText("");
-        textFieldDomicilioCiente.setText("");
-        textFieldTelefonoCliente.setText("");
-        textFieldMailCliente.setText("");
+        tfIdCliente.setText("");
+        tfNombreCliente.setText("");
+        tfApellidoCliente.setText("");
+        tfDniCliente.setText("");
+        tfDireccionCliente.setText("");
+        tfTelefonoCliente.setText("");
+        tfMailCliente.setText("");
     }
 
     private void configurarTablaCarrito() {
-        modeloTablaCarrito = new DefaultTableModel();
-        modeloTablaCarrito.setColumnIdentifiers(columnasCarrito);
-        tableCarrito.setModel(modeloTablaCarrito);
+        mdlCarrito = new DefaultTableModel();
+        mdlCarrito.setColumnIdentifiers(colsCarrito);
+        tblCarrito.setModel(mdlCarrito);
     }
 
     private void limpiarCamposProducto() {
-        textFieldIDProducto.setText("");
-        textFieldDescripcionProducto.setText("");
-        textFieldPrecioProducto.setText("");
-        textFieldStock.setText("");
-        textFieldCantidadProducto.setText("");
-        textFieldDescuentoProducto.setText("");
+        tfIdProducto.setText("");
+        tfDescripcionProducto.setText("");
+        tfPrecioProducto.setText("");
+        tfStockProducto.setText("");
+        tfCantidadProducto.setText("");
+        tfDescuentoProducto.setText("");
     }
 
     private void actualizarTotales() {
         int subtotal = 0;
-        for (int i = 0; i < modeloTablaCarrito.getRowCount(); i++) {
-            subtotal += (int) modeloTablaCarrito.getValueAt(i, 5);
+        for (int i = 0; i < mdlCarrito.getRowCount(); i++) {
+            subtotal += (int) mdlCarrito.getValueAt(i, 5);
         }
-        textFieldSubtotal.setText(String.valueOf(subtotal));
-        textFieldDescuento.setText("");
-        textFieldTotal.setText("");
-        textFieldValorDescontado.setText("");
+        tfSubtotal.setText(String.valueOf(subtotal));
+        tfDescuento.setText("");
+        tfTotal.setText("");
+        tfValorDescontado.setText("");
     }
 
     private void limpiarCarrito() {
-        modeloTablaCarrito.setRowCount(0);
+        mdlCarrito.setRowCount(0);
         limpiarCamposCliente();
         limpiarCamposProducto();
-        textFieldSubtotal.setText("");
-        textFieldDescuento.setText("");
-        textFieldTotal.setText("");
-        textFieldValorDescontado.setText("");
-        textFieldBuscarCliente.setText("");
-        textFieldBuscarProducto.setText("");
+        tfSubtotal.setText("");
+        tfDescuento.setText("");
+        tfTotal.setText("");
+        tfValorDescontado.setText("");
+        tfBuscarCliente.setText("");
+        tfBuscarProducto.setText("");
     }
 }

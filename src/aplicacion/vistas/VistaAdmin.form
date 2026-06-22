@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="84eef" class="javax.swing.JButton" binding="cerrarSesion">
+      <component id="84eef" class="javax.swing.JButton" binding="btnCerrarSesion">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -18,15 +18,15 @@
           <text value="Cerrar Sesion"/>
         </properties>
       </component>
-      <component id="66f0e" class="javax.swing.JButton" binding="botonAdministrarDeposito">
+      <component id="66f0e" class="javax.swing.JButton" binding="btnAdministrarDeposito">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Deposito"/>
+          <text value="Administrar Deposito"/>
         </properties>
       </component>
-      <component id="9d3ae" class="javax.swing.JButton" binding="botonAdministrarUsuarios">
+      <component id="9d3ae" class="javax.swing.JButton" binding="btnAdministrarUsuarios">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -42,7 +42,7 @@
           <text value="Panel Administrador"/>
         </properties>
       </component>
-      <component id="be88" class="javax.swing.JButton" binding="botonAdministrarClientes">
+      <component id="be88" class="javax.swing.JButton" binding="btnAdministrarClientes">
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -50,7 +50,7 @@
           <text value="Administrar Clientes"/>
         </properties>
       </component>
-      <component id="cab88" class="javax.swing.JButton" binding="botonFacturar">
+      <component id="cab88" class="javax.swing.JButton" binding="btnFacturar">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -58,7 +58,7 @@
           <text value="Facturar"/>
         </properties>
       </component>
-      <component id="9bc7c" class="javax.swing.JButton" binding="administrarProveedoresButton" default-binding="true">
+      <component id="9bc7c" class="javax.swing.JButton" binding="btnAdministrarProveedores" default-binding="true">
         <constraints>
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>

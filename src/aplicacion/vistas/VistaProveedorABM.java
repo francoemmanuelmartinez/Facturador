@@ -15,60 +15,60 @@ import java.util.Map;
 
 public class VistaProveedorABM {
     public JPanel panelProveedor;
-    private JTable tableProveedores;
-    private JComboBox comboBoxHabilitado;
-    private JButton buscarButton;
-    private JTextField IDProveedorTextField;
-    private JButton agregarButton;
-    private JButton modificarButton;
-    private JButton deshabilitarButton;
-    private JButton volverButton;
+    private JTable tblProveedores;
+    private JComboBox cbxFiltroHabilitado;
+    private JButton btnBuscar;
+    private JTextField tfIdProveedor;
+    private JButton btnAgregar;
+    private JButton btnModificar;
+    private JButton btnDeshabilitar;
+    private JButton btnVolver;
     private JLabel labelIdProveedor;
-    private VentanaPrincipal ventana;
-    DefaultTableModel modeloTabla = new DefaultTableModel();
-    String[] columnas = {"ID", "Nombre", "Telefono", "Direccion", "Mail", "Habilitado"};
+    private VentanaPrincipal ventanaPrincipal;
+    DefaultTableModel mdlProveedores = new DefaultTableModel();
+    String[] colsProveedores = {"ID", "Nombre", "Telefono", "Direccion", "Mail", "Habilitado"};
 
     public VistaProveedorABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
-        this.ventana = ventanaPrincipal;
+        this.ventanaPrincipal = ventanaPrincipal;
         setModeloTabla();
-        comboBoxHabilitado.addItem("Habilitados");
-        comboBoxHabilitado.addItem("Deshabilitados");
-        comboBoxHabilitado.setSelectedIndex(0);
+        cbxFiltroHabilitado.addItem("Habilitados");
+        cbxFiltroHabilitado.addItem("Deshabilitados");
+        cbxFiltroHabilitado.setSelectedIndex(0);
 
-        tableProveedores.removeColumn(tableProveedores.getColumnModel().getColumn(5));
-        //tableProveedores.removeColumn(tableProveedores.getColumnModel().getColumn(0));
+        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(5));
+        //tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
 
         ControladorProveedorABM controlador = new ControladorProveedorABM();
         List<Proveedor> proveedores = controlador.obtenerProveedoresPorHabilitado(1);
         poblarTabla(proveedores);
 
-        comboBoxHabilitado.addActionListener(new ActionListener() {
+        cbxFiltroHabilitado.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filtro = comboBoxHabilitado.getSelectedIndex() == 0 ? 1 : 0;
+                int filtro = cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
 
                 ControladorProveedorABM ctrl = new ControladorProveedorABM();
 
                 poblarTabla(ctrl.obtenerProveedoresPorHabilitado(filtro));
 
-                if(comboBoxHabilitado.getSelectedIndex()==0)
+                if(cbxFiltroHabilitado.getSelectedIndex()==0)
 
                 {
-                    deshabilitarButton.setText("Deshabilitar");
+                    btnDeshabilitar.setText("Deshabilitar");
                 } else
 
                 {
-                    deshabilitarButton.setText("Habilitar");
+                    btnDeshabilitar.setText("Habilitar");
                 }
         }
         });
-        buscarButton.addActionListener(new ActionListener() {
+        btnBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int filtro = comboBoxHabilitado.getSelectedIndex() == 0 ? 1 : 0;
+                int filtro = cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0;
                 ControladorProveedorABM ctrl = new ControladorProveedorABM();
-                String texto = IDProveedorTextField.getText().trim();
+                String texto = tfIdProveedor.getText().trim();
                 if (texto.isEmpty()) {
                     poblarTabla(ctrl.obtenerProveedoresPorHabilitado(filtro));
                 } else {
@@ -79,7 +79,7 @@ public class VistaProveedorABM {
                 }
             }
         });
-        agregarButton.addActionListener(new ActionListener() {
+        btnAgregar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Proveedor",
@@ -97,27 +97,27 @@ public class VistaProveedorABM {
                             valores.get("Mail:")
                     );
                     if (id > -1) {
-                        poblarTabla(ctrl.obtenerProveedoresPorHabilitado(comboBoxHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerProveedoresPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
-        modificarButton.addActionListener(new ActionListener() {
+        btnModificar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tableProveedores.getSelectedRow();
+                int fila = tblProveedores.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un proveedor de la tabla");
                     return;
                 }
 
-                int idProveedor = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
+                int idProveedor = Integer.parseInt(mdlProveedores.getValueAt(fila, 0).toString());
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Proveedor",
-                        new VistaFormulario.Campo("Nombre:", modeloTabla.getValueAt(fila, 1).toString()),
-                        new VistaFormulario.Campo("Telefono:", modeloTabla.getValueAt(fila, 2).toString()),
-                        new VistaFormulario.Campo("Direccion:", modeloTabla.getValueAt(fila, 3).toString()),
-                        new VistaFormulario.Campo("Mail:", modeloTabla.getValueAt(fila, 4).toString())
+                        new VistaFormulario.Campo("Nombre:", mdlProveedores.getValueAt(fila, 1).toString()),
+                        new VistaFormulario.Campo("Telefono:", mdlProveedores.getValueAt(fila, 2).toString()),
+                        new VistaFormulario.Campo("Direccion:", mdlProveedores.getValueAt(fila, 3).toString()),
+                        new VistaFormulario.Campo("Mail:", mdlProveedores.getValueAt(fila, 4).toString())
                 );
                 if (valores != null) {
                     ControladorProveedorABM ctrl = new ControladorProveedorABM();
@@ -128,22 +128,22 @@ public class VistaProveedorABM {
                             valores.get("Direccion:"),
                             valores.get("Mail:")
                     )) {
-                        poblarTabla(ctrl.obtenerProveedoresPorHabilitado(comboBoxHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerProveedoresPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
-        deshabilitarButton.addActionListener(new ActionListener() {
+        btnDeshabilitar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int fila = tableProveedores.getSelectedRow();
+                int fila = tblProveedores.getSelectedRow();
                 if (fila == -1) {
                     JOptionPane.showMessageDialog(null, "Seleccione un proveedor de la tabla");
                     return;
                 }
 
-                int idProveedor = Integer.parseInt(modeloTabla.getValueAt(fila, 0).toString());
-                int habilitadoActual = Integer.parseInt(modeloTabla.getValueAt(fila, 5).toString());
+                int idProveedor = Integer.parseInt(mdlProveedores.getValueAt(fila, 0).toString());
+                int habilitadoActual = Integer.parseInt(mdlProveedores.getValueAt(fila, 5).toString());
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
@@ -154,29 +154,29 @@ public class VistaProveedorABM {
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorProveedorABM ctrl = new ControladorProveedorABM();
                     if (ctrl.toggleHabilitadoProveedor(idProveedor)) {
-                        poblarTabla(ctrl.obtenerProveedoresPorHabilitado(comboBoxHabilitado.getSelectedIndex() == 0 ? 1 : 0));
+                        poblarTabla(ctrl.obtenerProveedoresPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }
             }
         });
-        volverButton.addActionListener(new ActionListener() {
+        btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ControladorAdmin controladorAdmin = new ControladorAdmin(usuario, ventana);
+                ControladorAdmin controladorAdmin = new ControladorAdmin(usuario, ventanaPrincipal);
             }
         });
 
     }
     public void setModeloTabla() {
 
-        modeloTabla.setColumnIdentifiers(columnas);
-        tableProveedores.setModel(modeloTabla);
+        mdlProveedores.setColumnIdentifiers(colsProveedores);
+        tblProveedores.setModel(mdlProveedores);
     }
     public void poblarTabla(List<Proveedor> proveedores) {
-        modeloTabla.setRowCount(0);
+        mdlProveedores.setRowCount(0);
 
         for (Proveedor p : proveedores) {
-            modeloTabla.addRow(new Object[]{
+            mdlProveedores.addRow(new Object[]{
                     p.getId(),
                     p.getNombre(),
                     p.getTelefono(),

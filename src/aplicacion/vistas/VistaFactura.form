@@ -25,13 +25,13 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="af004" class="javax.swing.JTable" binding="tableFacturas">
+          <component id="af004" class="javax.swing.JTable" binding="tblFacturas">
             <constraints/>
             <properties/>
           </component>
         </children>
       </scrollpane>
-      <component id="af007" class="javax.swing.JButton" binding="volverButton" default-binding="true">
+      <component id="af007" class="javax.swing.JButton" binding="btnVolver" default-binding="true">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -39,7 +39,7 @@
           <text value="Volver"/>
         </properties>
       </component>
-      <component id="af005" class="javax.swing.JButton" binding="verDetalleButton" default-binding="true">
+      <component id="af005" class="javax.swing.JButton" binding="btnVerDetalle" default-binding="true">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>

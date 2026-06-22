@@ -11,19 +11,19 @@ public class VistaLogin {
 
     //private VentanaPrincipal ventana;
     public JPanel panelLogin;
-    private JTextField mailTextField;
-    private JTextField passwordTextField;
-    private JButton botonLogin;
-    private JButton botonRegistrar;
+    private JTextField tfMail;
+    private JTextField tfPassword;
+    private JButton btnIngresar;
+    private JButton btnCrearCuenta;
 
     public VistaLogin(VentanaPrincipal ventanaPrincipal) {
 
-        botonLogin.addActionListener(new ActionListener() {
+        btnIngresar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String mail = mailTextField.getText();
-                String password = passwordTextField.getText();
+                String mail = tfMail.getText();
+                String password = tfPassword.getText();
 
                 if(mail.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Ingrese ambos datos");
@@ -40,7 +40,7 @@ public class VistaLogin {
                 }
             }
         });
-        botonRegistrar.addActionListener(new ActionListener() {
+        btnCrearCuenta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorRegistro controladorRegistro = new ControladorRegistro(ventanaPrincipal);

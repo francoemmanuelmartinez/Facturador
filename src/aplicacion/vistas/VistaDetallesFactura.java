@@ -11,31 +11,31 @@ import java.util.List;
 
 public class VistaDetallesFactura {
     private JLabel labelTitulo;
-    private JTextField textFieldNumeroFactura;
-    private JTextField textFieldFecha;
-    private JTextField textFieldNombreCliente;
-    private JTextField textFieldApellidoCliente;
-    private JTextField textFieldDNICliente;
-    private JTextField textFieldDireccionCliente;
-    private JTextField textFieldNombreVendedor;
-    private JTextField textFieldApellidoVendedor;
-    private JTextField textFieldTotal;
-    private JTable tableDetalles;
-    private JButton volverButton;
+    private JTextField tfNumeroFactura;
+    private JTextField tfFechaFactura;
+    private JTextField tfNombreCliente;
+    private JTextField tfApellidoCliente;
+    private JTextField tfDniCliente;
+    private JTextField tfDireccionCliente;
+    private JTextField tfNombreVendedor;
+    private JTextField tfApellidoVendedor;
+    private JTextField tfTotal;
+    private JTable tblDetalles;
+    private JButton btnVolver;
     private JPanel panelCliente;
     private JPanel panelVendedor;
     public JPanel panelDetallesFactura;
-    private JTextField textFieldIDVendedor;
+    private JTextField tfIdVendedor;
     private JLabel labelIDVendedor;
-    private JTextField textFieldIDCliente;
+    private JTextField tfIdCliente;
     private JLabel labelIDCliente;
-    private JTextField textFieldDescontado;
+    private JTextField tfValorDescontado;
     private JLabel labelDescontado;
-    private JTextField textFieldPorcentajeDescuento;
-    private JTextField textFieldSubtotal;
+    private JTextField tfPorcentajeDescuento;
+    private JTextField tfSubtotal;
 
-    private DefaultTableModel modeloTablaDetalles;
-    private String[] columnasDetalles = {"ID", "Producto", "Cantidad", "P/U", "Descuento %", "Subtotal"};
+    private DefaultTableModel mdlDetalles;
+    private String[] colsDetalles = {"ID", "Producto", "Cantidad", "P/U", "Descuento %", "Subtotal"};
     private Usuario usuario;
     private VentanaPrincipal ventanaPrincipal;
     private int idFactura;
@@ -53,26 +53,26 @@ public class VistaDetallesFactura {
         this.apellidoCliente = apellidoCliente;
         this.controladorFactura = new ControladorFactura();
 
-        modeloTablaDetalles = new DefaultTableModel(columnasDetalles, 0);
-        tableDetalles.setModel(modeloTablaDetalles);
+        mdlDetalles = new DefaultTableModel(colsDetalles, 0);
+        tblDetalles.setModel(mdlDetalles);
 
-        textFieldNumeroFactura.setEditable(false);
-        textFieldFecha.setEditable(false);
-        textFieldNombreCliente.setEditable(false);
-        textFieldApellidoCliente.setEditable(false);
-        textFieldDNICliente.setEditable(false);
-        textFieldDireccionCliente.setEditable(false);
-        textFieldNombreVendedor.setEditable(false);
-        textFieldApellidoVendedor.setEditable(false);
-        textFieldTotal.setEditable(false);
-        textFieldIDCliente.setEditable(false);
-        textFieldIDVendedor.setEditable(false);
-        textFieldDescontado.setEditable(false);
+        tfNumeroFactura.setEditable(false);
+        tfFechaFactura.setEditable(false);
+        tfNombreCliente.setEditable(false);
+        tfApellidoCliente.setEditable(false);
+        tfDniCliente.setEditable(false);
+        tfDireccionCliente.setEditable(false);
+        tfNombreVendedor.setEditable(false);
+        tfApellidoVendedor.setEditable(false);
+        tfTotal.setEditable(false);
+        tfIdCliente.setEditable(false);
+        tfIdVendedor.setEditable(false);
+        tfValorDescontado.setEditable(false);
 
         cargarFactura();
         cargarDetalles();
 
-        volverButton.addActionListener(new ActionListener() {
+        btnVolver.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 VistaFactura vf = new VistaFactura(usuario, ventanaPrincipal, idCliente, nombreCliente, apellidoCliente);
@@ -85,27 +85,27 @@ public class VistaDetallesFactura {
         Object[] factura = controladorFactura.obtenerFacturaCompleta(idFactura);
         if (factura == null) return;
 
-        textFieldNumeroFactura.setText((String) factura[0]);
-        textFieldFecha.setText(factura[1].toString());
-        textFieldNombreCliente.setText((String) factura[2]);
-        textFieldApellidoCliente.setText((String) factura[3]);
-        textFieldNombreVendedor.setText((String) factura[4]);
-        textFieldApellidoVendedor.setText((String) factura[5]);
-        textFieldSubtotal.setText("$ " + factura[6].toString());
-        textFieldPorcentajeDescuento.setText(factura[7].toString() + "%");
-        textFieldDescontado.setText("$ " + factura[8].toString());
-        textFieldTotal.setText("$ " + factura[9].toString());
-        textFieldDNICliente.setText((String) factura[10]);
-        textFieldDireccionCliente.setText((String) factura[11]);
-        textFieldIDCliente.setText(factura[12].toString());
-        textFieldIDVendedor.setText(factura[13].toString());
+        tfNumeroFactura.setText((String) factura[0]);
+        tfFechaFactura.setText(factura[1].toString());
+        tfNombreCliente.setText((String) factura[2]);
+        tfApellidoCliente.setText((String) factura[3]);
+        tfNombreVendedor.setText((String) factura[4]);
+        tfApellidoVendedor.setText((String) factura[5]);
+        tfSubtotal.setText("$ " + factura[6].toString());
+        tfPorcentajeDescuento.setText(factura[7].toString() + "%");
+        tfValorDescontado.setText("$ " + factura[8].toString());
+        tfTotal.setText("$ " + factura[9].toString());
+        tfDniCliente.setText((String) factura[10]);
+        tfDireccionCliente.setText((String) factura[11]);
+        tfIdCliente.setText(factura[12].toString());
+        tfIdVendedor.setText(factura[13].toString());
     }
 
     private void cargarDetalles() {
-        modeloTablaDetalles.setRowCount(0);
+        mdlDetalles.setRowCount(0);
         List<Object[]> detalles = controladorFactura.obtenerDetallesPorFactura(idFactura);
         for (Object[] d : detalles) {
-            modeloTablaDetalles.addRow(new Object[]{
+            mdlDetalles.addRow(new Object[]{
                     d[0],
                     d[1],
                     d[2],
