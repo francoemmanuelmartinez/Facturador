@@ -1,7 +1,8 @@
 package aplicacion.modelos;
 
 public class DetalleFactura {
-    private Producto producto;
+    private int id;
+    private String descripcion;
     private int cantidad;
     private int precioUnitario;
     private int descuento;
@@ -9,20 +10,29 @@ public class DetalleFactura {
 
     public DetalleFactura() {}
 
-    public DetalleFactura(Producto producto, int cantidad, int precioUnitario, int descuento, int subtotal) {
-        this.producto = producto;
+    public DetalleFactura(int id, String descripcion, int cantidad, int precioUnitario, int descuento, int subtotal) {
+        this.id = id;
+        this.descripcion = descripcion;
         this.cantidad = cantidad;
         this.precioUnitario = precioUnitario;
         this.descuento = descuento;
         this.subtotal = subtotal;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public int getId() {
+        return id;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public int getCantidad() {

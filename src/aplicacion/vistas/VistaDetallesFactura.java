@@ -1,6 +1,8 @@
 package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorFactura;
+import aplicacion.modelos.DetalleFactura;
+import aplicacion.modelos.Factura;
 import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
@@ -82,36 +84,36 @@ public class VistaDetallesFactura {
     }
 
     private void cargarFactura() {
-        Object[] factura = controladorFactura.obtenerFacturaCompleta(idFactura);
+        Factura factura = controladorFactura.obtenerFacturaCompleta(idFactura);
         if (factura == null) return;
 
-        tfNumeroFactura.setText((String) factura[0]);
-        tfFechaFactura.setText(factura[1].toString());
-        tfNombreCliente.setText((String) factura[2]);
-        tfApellidoCliente.setText((String) factura[3]);
-        tfNombreVendedor.setText((String) factura[4]);
-        tfApellidoVendedor.setText((String) factura[5]);
-        tfSubtotal.setText("$ " + factura[6].toString());
-        tfPorcentajeDescuento.setText(factura[7].toString() + "%");
-        tfValorDescontado.setText("$ " + factura[8].toString());
-        tfTotal.setText("$ " + factura[9].toString());
-        tfDniCliente.setText((String) factura[10]);
-        tfDireccionCliente.setText((String) factura[11]);
-        tfIdCliente.setText(factura[12].toString());
-        tfIdVendedor.setText(factura[13].toString());
+        tfNumeroFactura.setText(factura.getNumeroFactura());
+        tfFechaFactura.setText(factura.getFechaEmision().toString());
+        tfNombreCliente.setText(factura.getNombreCliente());
+        tfApellidoCliente.setText(factura.getApellidoCliente());
+        tfNombreVendedor.setText(factura.getNombreVendedor());
+        tfApellidoVendedor.setText(factura.getApellidoVendedor());
+        tfSubtotal.setText("$ " + factura.getSubtotal());
+        tfPorcentajeDescuento.setText(factura.getDescuentoPorcentaje() + "%");
+        tfValorDescontado.setText("$ " + factura.getValorDescontado());
+        tfTotal.setText("$ " + factura.getTotalCompra());
+        tfDniCliente.setText(factura.getDniCliente());
+        tfDireccionCliente.setText(factura.getDireccionCliente());
+        tfIdCliente.setText(String.valueOf(factura.getIdCliente()));
+        tfIdVendedor.setText(String.valueOf(factura.getIdVendedor()));
     }
 
     private void cargarDetalles() {
         mdlDetalles.setRowCount(0);
-        List<Object[]> detalles = controladorFactura.obtenerDetallesPorFactura(idFactura);
-        for (Object[] d : detalles) {
+        List<DetalleFactura> detalles = controladorFactura.obtenerDetallesPorFactura(idFactura);
+        for (DetalleFactura d : detalles) {
             mdlDetalles.addRow(new Object[]{
-                    d[0],
-                    d[1],
-                    d[2],
-                    d[3],
-                    d[4] + "%",
-                    d[5]
+                    d.getId(),
+                    d.getDescripcion(),
+                    d.getCantidad(),
+                    d.getPrecioUnitario(),
+                    d.getDescuento() + "%",
+                    d.getSubtotal()
             });
         }
     }

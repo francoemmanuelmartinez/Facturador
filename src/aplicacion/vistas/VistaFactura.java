@@ -2,6 +2,7 @@ package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorClienteABM;
 import aplicacion.controladores.ControladorFactura;
+import aplicacion.modelos.Factura;
 import aplicacion.modelos.Usuario;
 
 import javax.swing.*;
@@ -19,7 +20,7 @@ public class VistaFactura {
 
     private DefaultTableModel mdlFacturas;
     private String[] colsFacturas = {"N°", "Fecha", "Total ($)", "Vendedor"};
-    private List<Object[]> facturas;
+    private List<Factura> facturas;
     private int idCliente;
     private String nombreCliente;
     private String apellidoCliente;
@@ -51,7 +52,7 @@ public class VistaFactura {
                     JOptionPane.showMessageDialog(null, "Seleccione una factura");
                     return;
                 }
-                int idFactura = (int) facturas.get(fila)[0];
+                int idFactura = facturas.get(fila).getId();
                 VistaDetallesFactura vdf = new VistaDetallesFactura(usuario, ventanaPrincipal, idFactura, idCliente, nombreCliente, apellidoCliente);
                 ventanaPrincipal.setVista(vdf.panelDetallesFactura);
             }
@@ -69,12 +70,12 @@ public class VistaFactura {
         mdlFacturas.setRowCount(0);
         facturas = controladorFactura.obtenerFacturasPorCliente(idCliente);
         int contador = 1;
-        for (Object[] f : facturas) {
-            String vendedor = f[4] + " " + f[5];
+        for (Factura f : facturas) {
+            String vendedor = f.getNombreVendedor() + " " + f.getApellidoVendedor();
             mdlFacturas.addRow(new Object[]{
                     contador,
-                    f[2],
-                    f[3],
+                    f.getFechaEmision(),
+                    f.getTotalCompra(),
                     vendedor.trim()
             });
             contador++;

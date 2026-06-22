@@ -9,8 +9,12 @@ public class Factura {
     private String numeroFactura;
     private int idCliente;
     private String nombreCliente;
+    private String apellidoCliente;
+    private String dniCliente;
+    private String direccionCliente;
     private int idVendedor;
     private String nombreVendedor;
+    private String apellidoVendedor;
     private LocalDate fechaEmision;
     private int subtotal;
     private int descuentoPorcentaje;
@@ -20,22 +24,22 @@ public class Factura {
 
     public Factura() {}
 
-    public Factura(int id, int idCliente, String numeroFactura, LocalDate fechaEmision,
-                   int subtotal, int descuentoPorcentaje, int valorDescontado,
-                   int totalCompra, String nombreCliente, int idVendedor,
-                   String nombreVendedor, List<DetalleFactura> detalles) {
+    public Factura(int id, String numeroFactura, int idCliente, String nombreCliente, String apellidoCliente, String dniCliente, String direccionCliente, int idVendedor, String nombreVendedor, String apellidoVendedor, LocalDate fechaEmision, int subtotal, int descuentoPorcentaje, int valorDescontado, int totalCompra) {
         this.id = id;
-        this.idCliente = idCliente;
         this.numeroFactura = numeroFactura;
+        this.idCliente = idCliente;
+        this.nombreCliente = nombreCliente;
+        this.apellidoCliente = apellidoCliente;
+        this.dniCliente = dniCliente;
+        this.direccionCliente = direccionCliente;
+        this.idVendedor = idVendedor;
+        this.nombreVendedor = nombreVendedor;
+        this.apellidoVendedor = apellidoVendedor;
         this.fechaEmision = fechaEmision;
         this.subtotal = subtotal;
         this.descuentoPorcentaje = descuentoPorcentaje;
         this.valorDescontado = valorDescontado;
         this.totalCompra = totalCompra;
-        this.nombreCliente = nombreCliente;
-        this.idVendedor = idVendedor;
-        this.nombreVendedor = nombreVendedor;
-        this.detalles = detalles;
     }
 
     public int getId() {
@@ -70,6 +74,30 @@ public class Factura {
         this.nombreCliente = nombreCliente;
     }
 
+    public String getApellidoCliente() {
+        return apellidoCliente;
+    }
+
+    public void setApellidoCliente(String apellidoCliente) {
+        this.apellidoCliente = apellidoCliente;
+    }
+
+    public String getDniCliente() {
+        return dniCliente;
+    }
+
+    public void setDniCliente(String dniCliente) {
+        this.dniCliente = dniCliente;
+    }
+
+    public String getDireccionCliente() {
+        return direccionCliente;
+    }
+
+    public void setDireccionCliente(String direccionCliente) {
+        this.direccionCliente = direccionCliente;
+    }
+
     public int getIdVendedor() {
         return idVendedor;
     }
@@ -84,6 +112,14 @@ public class Factura {
 
     public void setNombreVendedor(String nombreVendedor) {
         this.nombreVendedor = nombreVendedor;
+    }
+
+    public String getApellidoVendedor() {
+        return apellidoVendedor;
+    }
+
+    public void setApellidoVendedor(String apellidoVendedor) {
+        this.apellidoVendedor = apellidoVendedor;
     }
 
     public LocalDate getFechaEmision() {
