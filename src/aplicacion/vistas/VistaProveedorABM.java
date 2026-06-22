@@ -52,13 +52,9 @@ public class VistaProveedorABM {
 
                 poblarTabla(ctrl.obtenerProveedoresPorHabilitado(filtro));
 
-                if(cbxFiltroHabilitado.getSelectedIndex()==0)
-
-                {
+                if (cbxFiltroHabilitado.getSelectedIndex() == 0) {
                     btnDeshabilitar.setText("Deshabilitar");
-                } else
-
-                {
+                } else {
                     btnDeshabilitar.setText("Habilitar");
                 }
         }

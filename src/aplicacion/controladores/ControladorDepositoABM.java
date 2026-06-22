@@ -184,10 +184,10 @@ public class ControladorDepositoABM {
     private Producto mapearProducto(ResultSet rs) throws SQLException {
         Producto p = new Producto(
                 rs.getInt("id"),
-                rs.getInt("habilitado"),
                 rs.getString("descripcion"),
                 rs.getInt("precio"),
-                rs.getInt("stock")
+                rs.getInt("stock"),
+                rs.getInt("habilitado")
         );
         p.setIdProveedor(rs.getInt("id_proveedor"));
         p.setNombreProveedor(rs.getString("nombreProveedor"));

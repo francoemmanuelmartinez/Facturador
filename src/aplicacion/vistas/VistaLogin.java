@@ -25,12 +25,12 @@ public class VistaLogin {
                 String mail = tfMail.getText();
                 String password = new String(tfPassword.getPassword());
 
-                if(mail.isEmpty() || password.isEmpty()) {
+                if (mail.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Ingrese ambos datos");
                 }
                 else {
                     ControladorLogin controladorLogin = new ControladorLogin();
-                    if(controladorLogin.validar(mail,password)) {
+                    if (controladorLogin.validar(mail, password)) {
                         controladorLogin.iniciarSesion(ventanaPrincipal);
                     }
                     else {

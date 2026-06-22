@@ -16,7 +16,7 @@ public class ControladorLogin {
     private Conexion c = new Conexion();
     private Usuario usuario = new Usuario();
 
-    public ControladorLogin(VentanaPrincipal ventanaPrincipal){
+    public ControladorLogin(VentanaPrincipal ventanaPrincipal) {
 
         VistaLogin vistaLogin = new VistaLogin(ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaLogin.panelLogin);
@@ -34,7 +34,7 @@ public class ControladorLogin {
 
         try {
             PreparedStatement selectFrom = c.getConnection().prepareStatement(sql);
-            selectFrom.setString(1,mail);
+            selectFrom.setString(1, mail);
             ResultSet resultados = selectFrom.executeQuery();
 
             if (resultados.next()) {
@@ -53,8 +53,8 @@ public class ControladorLogin {
             throw new RuntimeException(e);
         }
 
-        Autenticacion autenticacion = new Autenticacion(mail,password);
-        if(autenticacion.autenticar(usuario) == false){
+        Autenticacion autenticacion = new Autenticacion(mail, password);
+        if (autenticacion.autenticar(usuario) == false) {
             return false;
         }
         else {
@@ -62,10 +62,10 @@ public class ControladorLogin {
         }
     }
 
-    public void iniciarSesion (VentanaPrincipal ventanaPrincipal){
+    public void iniciarSesion(VentanaPrincipal ventanaPrincipal) {
         switch (usuario.getRol()) {
             case "Administrador" -> {
-                ControladorAdmin controladorAdmin = new ControladorAdmin(usuario,ventanaPrincipal);
+                ControladorAdmin controladorAdmin = new ControladorAdmin(usuario, ventanaPrincipal);
             }
             case "Cajero" -> {
                 ControladorCajero cajero = new ControladorCajero(usuario, ventanaPrincipal);

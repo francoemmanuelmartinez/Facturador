@@ -20,9 +20,9 @@ public class ControladorCajero {
     private Conexion c = new Conexion();
     private Usuario usuario;
 
-    public ControladorCajero(){}
+    public ControladorCajero() {}
 
-    public ControladorCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal){
+    public ControladorCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.usuario = usuario;
         VistaCajero vistaCajero = new VistaCajero(usuario, ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaCajero.panelCajero);

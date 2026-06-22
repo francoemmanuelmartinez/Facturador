@@ -1,6 +1,5 @@
 package aplicacion.controladores;
 
-import aplicacion.modelos.Usuario;
 import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaRegistro;
@@ -15,7 +14,7 @@ public class ControladorRegistro {
     private Conexion c = new Conexion();
     private String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public ControladorRegistro(){}
+    public ControladorRegistro() {}
 
     public ControladorRegistro(VentanaPrincipal ventanaPrincipal) {
 
@@ -23,12 +22,12 @@ public class ControladorRegistro {
         ventanaPrincipal.mostrarVista(vistaRegistro.panelRegistro);
     }
 
-    public boolean registrar(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password){
+    public boolean registrar(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password) {
         try {
             c.conectar();
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ?";
             PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1,mail);
+            selectFrom.setString(1, mail);
             ResultSet mailDatabase = selectFrom.executeQuery();
             if (mailDatabase.next()) {
                 JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");

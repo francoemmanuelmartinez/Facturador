@@ -2,7 +2,6 @@ package aplicacion.vistas;
 
 import aplicacion.controladores.ControladorAdmin;
 import aplicacion.controladores.ControladorClienteABM;
-import aplicacion.controladores.ControladorFactura;
 import aplicacion.modelos.Cliente;
 import aplicacion.modelos.Usuario;
 

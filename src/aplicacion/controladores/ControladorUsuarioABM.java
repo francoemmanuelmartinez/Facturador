@@ -26,22 +26,6 @@ public class ControladorUsuarioABM {
 
     }
 
-    public List<Usuario> obtenerTodosLosUsuarios() {
-        List<Usuario> usuarios = new ArrayList<>();
-        try {
-            c.conectar();
-            String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                usuarios.add(mapearUsuario(rs));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return usuarios;
-    }
-
     public List<Usuario> obtenerUsuariosPorHabilitado(int habilitado) {
         List<Usuario> usuarios = new ArrayList<>();
         try {
