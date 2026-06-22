@@ -25,12 +25,12 @@ public class VistaDepositoABM {
     private JButton btnVolver;
     private JButton btnDeshabilitar;
     public JPanel panelDepositoABM;
-    DefaultTableModel mdlProductos = new DefaultTableModel();
-    String[] colsProductos = {"ID", "Descripcion", "Precio", "Stock", "Nombre Proveedor", "Habilitado"};
+    private DefaultTableModel mdlProductos = new DefaultTableModel();
+    private String[] colsProductos = {"ID", "Descripcion", "Precio", "Stock", "Nombre Proveedor", "Habilitado"};
 
     public VistaDepositoABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
-        setModeloTabla();
+        configurarTabla();
 
         tblProductos.removeColumn(tblProductos.getColumnModel().getColumn(5));
 
@@ -106,7 +106,7 @@ public class VistaDepositoABM {
                             poblarTabla(ctrl.obtenerProductosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                         }
                     } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Precio y Stock deben ser números enteros");
+                        JOptionPane.showMessageDialog(null, "Precio y Stock deben ser numeros enteros");
                     }
                 }
             }
@@ -159,7 +159,7 @@ public class VistaDepositoABM {
                             poblarTabla(ctrl.obtenerProductosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                         }
                     } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Precio y Stock deben ser números enteros");
+                        JOptionPane.showMessageDialog(null, "Precio y Stock deben ser numeros enteros");
                     }
                 }
             }
@@ -179,7 +179,7 @@ public class VistaDepositoABM {
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Está seguro de " + nuevoEstado + " el producto \"" + mdlProductos.getValueAt(fila, 1) + "\"?",
+                        "¿Esta seguro de " + nuevoEstado + " el producto \"" + mdlProductos.getValueAt(fila, 1) + "\"?",
                         nuevoEstado.equals("deshabilitar") ? "Deshabilitar Producto" : "Habilitar Producto",
                         JOptionPane.YES_NO_OPTION);
 
@@ -200,7 +200,7 @@ public class VistaDepositoABM {
         });
     }
 
-    public void setModeloTabla() {
+    public void configurarTabla() {
         mdlProductos.setColumnIdentifiers(colsProductos);
         tblProductos.setModel(mdlProductos);
     }

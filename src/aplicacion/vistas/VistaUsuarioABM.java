@@ -23,12 +23,12 @@ public class VistaUsuarioABM {
     private JButton btnAgregar;
     private JComboBox cbxFiltroHabilitado;
     private JButton btnVolver;
-    DefaultTableModel mdlUsuarios = new DefaultTableModel();
-    String[] colsUsuarios = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
+    private DefaultTableModel mdlUsuarios = new DefaultTableModel();
+    private String[] colsUsuarios = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
 
     public VistaUsuarioABM(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
 
-        setModeloTabla();
+        configurarTabla();
 
         tblUsuarios.removeColumn(tblUsuarios.getColumnModel().getColumn(9));
 
@@ -78,8 +78,8 @@ public class VistaUsuarioABM {
                         new VistaFormulario.Campo("Nombre:"),
                         new VistaFormulario.Campo("Apellido:"),
                         new VistaFormulario.Campo("DNI:"),
-                        new VistaFormulario.Campo("Teléfono:"),
-                        new VistaFormulario.Campo("Dirección:"),
+                        new VistaFormulario.Campo("Telefono:"),
+                        new VistaFormulario.Campo("Direccion:"),
                         new VistaFormulario.Campo("Mail:"),
                         new VistaFormulario.Campo("Contraseña:", true),
                         new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"})
@@ -90,8 +90,8 @@ public class VistaUsuarioABM {
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
                             valores.get("DNI:"),
-                            valores.get("Teléfono:"),
-                            valores.get("Dirección:"),
+                            valores.get("Telefono:"),
+                            valores.get("Direccion:"),
                             valores.get("Mail:"),
                             valores.get("Contraseña:"),
                             valores.get("Rol:")
@@ -118,8 +118,8 @@ public class VistaUsuarioABM {
                         new VistaFormulario.Campo("Nombre:", mdlUsuarios.getValueAt(fila, 1).toString()),
                         new VistaFormulario.Campo("Apellido:", mdlUsuarios.getValueAt(fila, 2).toString()),
                         new VistaFormulario.Campo("DNI:", dniOriginal),
-                        new VistaFormulario.Campo("Teléfono:", mdlUsuarios.getValueAt(fila, 4).toString()),
-                        new VistaFormulario.Campo("Dirección:", mdlUsuarios.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Telefono:", mdlUsuarios.getValueAt(fila, 4).toString()),
+                        new VistaFormulario.Campo("Direccion:", mdlUsuarios.getValueAt(fila, 5).toString()),
                         new VistaFormulario.Campo("Mail:", mdlUsuarios.getValueAt(fila, 6).toString()),
                         new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"}, rolActual),
                         new VistaFormulario.Campo("Contraseña:", true, mdlUsuarios.getValueAt(fila, 8).toString())
@@ -131,8 +131,8 @@ public class VistaUsuarioABM {
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
                             valores.get("DNI:"),
-                            valores.get("Teléfono:"),
-                            valores.get("Dirección:"),
+                            valores.get("Telefono:"),
+                            valores.get("Direccion:"),
                             valores.get("Mail:"),
                             valores.get("Rol:"),
                             valores.get("Contraseña:")
@@ -156,7 +156,7 @@ public class VistaUsuarioABM {
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Está seguro de " + nuevoEstado + " al usuario con DNI " + dni + "?",
+                        "¿Esta seguro de " + nuevoEstado + " al usuario con DNI " + dni + "?",
                         nuevoEstado.equals("deshabilitar") ? "Deshabilitar Usuario" : "Habilitar Usuario",
                         JOptionPane.YES_NO_OPTION);
 
@@ -176,7 +176,7 @@ public class VistaUsuarioABM {
         });
     }
 
-    public void setModeloTabla() {
+    public void configurarTabla() {
         mdlUsuarios.setColumnIdentifiers(colsUsuarios);
         tblUsuarios.setModel(mdlUsuarios);
     }

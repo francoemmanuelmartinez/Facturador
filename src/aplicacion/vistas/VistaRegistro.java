@@ -15,7 +15,7 @@ public class VistaRegistro {
     private JTextField tfTelefono;
     private JTextField tfDireccion;
     private JTextField tfMail;
-    private JTextField tfPassword;
+    private JPasswordField tfPassword;
     private JButton btnCrearUsuario;
     private JButton btnVolver;
 
@@ -26,7 +26,7 @@ public class VistaRegistro {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ControladorRegistro controlador = new ControladorRegistro();
-                if(controlador.registrar(tfNombre.getText(), tfApellido.getText(),tfDni.getText(),tfTelefono.getText(),tfDireccion.getText(),tfMail.getText(),tfPassword.getText())) {
+                if(controlador.registrar(tfNombre.getText(), tfApellido.getText(),tfDni.getText(),tfTelefono.getText(),tfDireccion.getText(),tfMail.getText(),new String(tfPassword.getPassword()))) {
                     ControladorLogin controladorLogin = new ControladorLogin(ventanaPrincipal);
                     JOptionPane.showMessageDialog(null, "Logee");
                 }

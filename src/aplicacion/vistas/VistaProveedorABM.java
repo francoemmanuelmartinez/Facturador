@@ -25,13 +25,13 @@ public class VistaProveedorABM {
     private JButton btnVolver;
     private JLabel labelIdProveedor;
     private VentanaPrincipal ventanaPrincipal;
-    DefaultTableModel mdlProveedores = new DefaultTableModel();
-    String[] colsProveedores = {"ID", "Nombre", "Telefono", "Direccion", "Mail", "Habilitado"};
+    private DefaultTableModel mdlProveedores = new DefaultTableModel();
+    private String[] colsProveedores = {"ID", "Nombre", "Telefono", "Direccion", "Mail", "Habilitado"};
 
     public VistaProveedorABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         this.ventanaPrincipal = ventanaPrincipal;
-        setModeloTabla();
+        configurarTabla();
         cbxFiltroHabilitado.addItem("Habilitados");
         cbxFiltroHabilitado.addItem("Deshabilitados");
         cbxFiltroHabilitado.setSelectedIndex(0);
@@ -167,7 +167,7 @@ public class VistaProveedorABM {
         });
 
     }
-    public void setModeloTabla() {
+    public void configurarTabla() {
 
         mdlProveedores.setColumnIdentifiers(colsProveedores);
         tblProveedores.setModel(mdlProveedores);

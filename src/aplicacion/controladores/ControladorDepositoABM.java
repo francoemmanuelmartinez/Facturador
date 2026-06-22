@@ -82,7 +82,7 @@ public class ControladorDepositoABM {
             opciones[i] = p.getId() + " - " + p.getDescripcion() + " - $" + p.getPrecio() + " - Stock: " + p.getStock();
         }
         String seleccion = (String) JOptionPane.showInputDialog(null,
-                "Seleccione un producto:", "Múltiples productos encontrados",
+                "Seleccione un producto:", "Multiples productos encontrados",
                 JOptionPane.QUESTION_MESSAGE, null, opciones, opciones[0]);
         if (seleccion == null) return null;
         int id = Integer.parseInt(seleccion.split(" - ")[0]);

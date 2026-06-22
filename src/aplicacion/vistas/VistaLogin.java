@@ -12,7 +12,7 @@ public class VistaLogin {
     //private VentanaPrincipal ventana;
     public JPanel panelLogin;
     private JTextField tfMail;
-    private JTextField tfPassword;
+    private JPasswordField tfPassword;
     private JButton btnIngresar;
     private JButton btnCrearCuenta;
 
@@ -23,7 +23,7 @@ public class VistaLogin {
             public void actionPerformed(ActionEvent e) {
 
                 String mail = tfMail.getText();
-                String password = tfPassword.getText();
+                String password = new String(tfPassword.getPassword());
 
                 if(mail.isEmpty() || password.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Ingrese ambos datos");

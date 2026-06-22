@@ -82,7 +82,7 @@ public class VistaCajero {
     private JTextField tfValorDescontado;
     private JLabel labelDescontado;
     private DefaultTableModel mdlCarrito;
-    private String[] colsCarrito = {"ID", "Descripción", "Precio Unit.", "Cantidad", "Descuento", "Subtotal"};
+    private String[] colsCarrito = {"ID", "Descripcion", "Precio Unit.", "Cantidad", "Descuento", "Subtotal"};
 
     public VistaCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.usuario = usuario;
@@ -135,28 +135,28 @@ public class VistaCajero {
                         new VistaFormulario.Campo("Nombre:", tfNombreCliente.getText()),
                         new VistaFormulario.Campo("Apellido:", tfApellidoCliente.getText()),
                         new VistaFormulario.Campo("DNI:", tfDniCliente.getText()),
-                        new VistaFormulario.Campo("Teléfono:", tfTelefonoCliente.getText()),
-                        new VistaFormulario.Campo("Dirección:", tfDireccionCliente.getText()),
+                        new VistaFormulario.Campo("Telefono:", tfTelefonoCliente.getText()),
+                        new VistaFormulario.Campo("Direccion:", tfDireccionCliente.getText()),
                         new VistaFormulario.Campo("Mail:", tfMailCliente.getText())
                 );
                 if (valores != null) {
                     int confirm = JOptionPane.showConfirmDialog(null,
-                            "¿Confirmar modificación del cliente?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                            "¿Confirmar modificacion del cliente?", "Confirmar", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         ControladorClienteABM ctrl = new ControladorClienteABM();
                         if (ctrl.modificarCliente(id,
                                 valores.get("Nombre:"),
                                 valores.get("Apellido:"),
                                 valores.get("DNI:"),
-                                valores.get("Teléfono:"),
-                                valores.get("Dirección:"),
+                                valores.get("Telefono:"),
+                                valores.get("Direccion:"),
                                 valores.get("Mail:")
                         )) {
                             tfNombreCliente.setText(valores.get("Nombre:"));
                             tfApellidoCliente.setText(valores.get("Apellido:"));
                             tfDniCliente.setText(valores.get("DNI:"));
-                            tfDireccionCliente.setText(valores.get("Dirección:"));
-                            tfTelefonoCliente.setText(valores.get("Teléfono:"));
+                            tfDireccionCliente.setText(valores.get("Direccion:"));
+                            tfTelefonoCliente.setText(valores.get("Telefono:"));
                             tfMailCliente.setText(valores.get("Mail:"));
                         }
                     }
@@ -170,8 +170,8 @@ public class VistaCajero {
                         new VistaFormulario.Campo("Nombre:"),
                         new VistaFormulario.Campo("Apellido:"),
                         new VistaFormulario.Campo("DNI:"),
-                        new VistaFormulario.Campo("Teléfono:"),
-                        new VistaFormulario.Campo("Dirección:"),
+                        new VistaFormulario.Campo("Telefono:"),
+                        new VistaFormulario.Campo("Direccion:"),
                         new VistaFormulario.Campo("Mail:")
                 );
                 if (valores != null) {
@@ -180,8 +180,8 @@ public class VistaCajero {
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
                             valores.get("DNI:"),
-                            valores.get("Teléfono:"),
-                            valores.get("Dirección:"),
+                            valores.get("Telefono:"),
+                            valores.get("Direccion:"),
                             valores.get("Mail:")
                     );
                     if (id > -1) {
@@ -189,8 +189,8 @@ public class VistaCajero {
                         tfNombreCliente.setText(valores.get("Nombre:"));
                         tfApellidoCliente.setText(valores.get("Apellido:"));
                         tfDniCliente.setText(valores.get("DNI:"));
-                        tfDireccionCliente.setText(valores.get("Dirección:"));
-                        tfTelefonoCliente.setText(valores.get("Teléfono:"));
+                        tfDireccionCliente.setText(valores.get("Direccion:"));
+                        tfTelefonoCliente.setText(valores.get("Telefono:"));
                         tfMailCliente.setText(valores.get("Mail:"));
                     }
                 }
@@ -226,23 +226,23 @@ public class VistaCajero {
                 int id = Integer.parseInt(idStr);
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Producto",
-                        new VistaFormulario.Campo("Descripción:", tfDescripcionProducto.getText()),
+                        new VistaFormulario.Campo("Descripcion:", tfDescripcionProducto.getText()),
                         new VistaFormulario.Campo("Precio:", tfPrecioProducto.getText()),
                         new VistaFormulario.Campo("Stock:", tfStockProducto.getText())
                 );
 
                 if (valores != null) {
                     int confirm = JOptionPane.showConfirmDialog(null,
-                            "¿Confirmar modificación del producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                            "¿Confirmar modificacion del producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         ControladorDepositoABM ctrl = new ControladorDepositoABM();
                         boolean ok = ctrl.modificarProducto(id,
-                                valores.get("Descripción:"),
+                                valores.get("Descripcion:"),
                                 Integer.parseInt(valores.get("Precio:")),
                                 Integer.parseInt(valores.get("Stock:"))
                         );
                         if (ok) {
-                            tfDescripcionProducto.setText(valores.get("Descripción:"));
+                            tfDescripcionProducto.setText(valores.get("Descripcion:"));
                             tfPrecioProducto.setText(valores.get("Precio:"));
                             tfStockProducto.setText(valores.get("Stock:"));
                         }
@@ -283,7 +283,7 @@ public class VistaCajero {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Producto",
-                        new VistaFormulario.Campo("Descripción:"),
+                        new VistaFormulario.Campo("Descripcion:"),
                         new VistaFormulario.Campo("Precio:"),
                         new VistaFormulario.Campo("Stock:")
                 );
@@ -291,13 +291,13 @@ public class VistaCajero {
                 if (valores != null) {
                     ControladorDepositoABM ctrl = new ControladorDepositoABM();
                     int id = ctrl.agregarProducto(
-                            valores.get("Descripción:"),
+                            valores.get("Descripcion:"),
                             Integer.parseInt(valores.get("Precio:")),
                             Integer.parseInt(valores.get("Stock:"))
                     );
                     if (id > -1) {
                         tfIdProducto.setText(String.valueOf(id));
-                        tfDescripcionProducto.setText(valores.get("Descripción:"));
+                        tfDescripcionProducto.setText(valores.get("Descripcion:"));
                         tfPrecioProducto.setText(valores.get("Precio:"));
                         tfStockProducto.setText(valores.get("Stock:"));
                     }
@@ -310,14 +310,14 @@ public class VistaCajero {
             public void actionPerformed(ActionEvent e) {
                 int fila = tblCarrito.getSelectedRow();
                 if (fila == -1) {
-                    JOptionPane.showMessageDialog(null, "Seleccione un artículo del carrito");
+                    JOptionPane.showMessageDialog(null, "Seleccione un articulo del carrito");
                     return;
                 }
 
                 String cantidadActual = mdlCarrito.getValueAt(fila, 3).toString();
                 String descuentoActual = mdlCarrito.getValueAt(fila, 4).toString().replace("%", "");
 
-                Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Artículo",
+                Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Articulo",
                         new VistaFormulario.Campo("Cantidad:", cantidadActual),
                         new VistaFormulario.Campo("Descuento %:", descuentoActual)
                 );
@@ -344,7 +344,7 @@ public class VistaCajero {
 
                         actualizarTotales();
                     } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Ingrese valores numéricos válidos");
+                        JOptionPane.showMessageDialog(null, "Ingrese valores numericos validos");
                     }
                 }
             }
@@ -354,12 +354,12 @@ public class VistaCajero {
             public void actionPerformed(ActionEvent e) {
                 int fila = tblCarrito.getSelectedRow();
                 if (fila == -1) {
-                    JOptionPane.showMessageDialog(null, "Seleccione un artículo del carrito");
+                    JOptionPane.showMessageDialog(null, "Seleccione un articulo del carrito");
                     return;
                 }
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Eliminar artículo del carrito?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                        "¿Eliminar articulo del carrito?", "Confirmar", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     mdlCarrito.removeRow(fila);
                     actualizarTotales();
@@ -371,7 +371,7 @@ public class VistaCajero {
             public void actionPerformed(ActionEvent e) {
                 String subtotalStr = tfSubtotal.getText().trim();
                 if (subtotalStr.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No hay artículos en el carrito");
+                    JOptionPane.showMessageDialog(null, "No hay articulos en el carrito");
                     return;
                 }
 
@@ -400,7 +400,7 @@ public class VistaCajero {
                 }
 
                 if (mdlCarrito.getRowCount() == 0) {
-                    JOptionPane.showMessageDialog(null, "El carrito está vacío");
+                    JOptionPane.showMessageDialog(null, "El carrito esta vacio");
                     return;
                 }
 
@@ -410,7 +410,7 @@ public class VistaCajero {
                 }
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Confirmar finalización de la compra?", "Confirmar", JOptionPane.YES_NO_OPTION);
+                        "¿Confirmar finalizacion de la compra?", "Confirmar", JOptionPane.YES_NO_OPTION);
                 if (confirm != JOptionPane.YES_OPTION) return;
 
                 int idCliente = Integer.parseInt(idClienteStr);
@@ -450,7 +450,7 @@ public class VistaCajero {
                 if (mdlCarrito.getRowCount() == 0) return;
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Cancelar la compra? Se perderán todos los datos del carrito",
+                        "¿Cancelar la compra? Se perderan todos los datos del carrito",
                         "Confirmar", JOptionPane.YES_NO_OPTION);
                 if (confirm == JOptionPane.YES_OPTION) {
                     limpiarCarrito();

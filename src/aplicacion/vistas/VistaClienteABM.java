@@ -26,14 +26,14 @@ public class VistaClienteABM {
     private JButton btnVolver;
     private JComboBox cbxFiltroHabilitado;
     private JButton btnMostrarFacturas;
-    DefaultTableModel mdlClientes = new DefaultTableModel();
-    String[] colsClientes = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
+    private DefaultTableModel mdlClientes = new DefaultTableModel();
+    private String[] colsClientes = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
     private VentanaPrincipal ventanaPrincipal;
 
     public VistaClienteABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.ventanaPrincipal = ventanaPrincipal;
 
-        setModeloTabla();
+        configurarTabla();
 
         tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(7));
         //tblClientes.removeColumn(tblClientes.getColumnModel().getColumn(0));
@@ -85,8 +85,8 @@ public class VistaClienteABM {
                         new VistaFormulario.Campo("Nombre:"),
                         new VistaFormulario.Campo("Apellido:"),
                         new VistaFormulario.Campo("DNI:"),
-                        new VistaFormulario.Campo("Teléfono:"),
-                        new VistaFormulario.Campo("Dirección:"),
+                        new VistaFormulario.Campo("Telefono:"),
+                        new VistaFormulario.Campo("Direccion:"),
                         new VistaFormulario.Campo("Mail:")
                 );
                 if (valores != null) {
@@ -95,8 +95,8 @@ public class VistaClienteABM {
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
                             valores.get("DNI:"),
-                            valores.get("Teléfono:"),
-                            valores.get("Dirección:"),
+                            valores.get("Telefono:"),
+                            valores.get("Direccion:"),
                             valores.get("Mail:")
                     );
                     if (id > -1) {
@@ -121,8 +121,8 @@ public class VistaClienteABM {
                         new VistaFormulario.Campo("Nombre:", mdlClientes.getValueAt(fila, 1).toString()),
                         new VistaFormulario.Campo("Apellido:", mdlClientes.getValueAt(fila, 2).toString()),
                         new VistaFormulario.Campo("DNI:", mdlClientes.getValueAt(fila, 3).toString()),
-                        new VistaFormulario.Campo("Teléfono:", mdlClientes.getValueAt(fila, 4).toString()),
-                        new VistaFormulario.Campo("Dirección:", mdlClientes.getValueAt(fila, 5).toString()),
+                        new VistaFormulario.Campo("Telefono:", mdlClientes.getValueAt(fila, 4).toString()),
+                        new VistaFormulario.Campo("Direccion:", mdlClientes.getValueAt(fila, 5).toString()),
                         new VistaFormulario.Campo("Mail:", mdlClientes.getValueAt(fila, 6).toString())
                 );
                 if (valores != null) {
@@ -132,8 +132,8 @@ public class VistaClienteABM {
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
                             valores.get("DNI:"),
-                            valores.get("Teléfono:"),
-                            valores.get("Dirección:"),
+                            valores.get("Telefono:"),
+                            valores.get("Direccion:"),
                             valores.get("Mail:")
                     )) {
                         poblarTabla(ctrl.obtenerClientesPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
@@ -156,7 +156,7 @@ public class VistaClienteABM {
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Está seguro de " + nuevoEstado + " al cliente con ID " + idCliente + "?",
+                        "¿Esta seguro de " + nuevoEstado + " al cliente con ID " + idCliente + "?",
                         nuevoEstado.equals("deshabilitar") ? "Deshabilitar Cliente" : "Habilitar Cliente",
                         JOptionPane.YES_NO_OPTION);
 
@@ -194,7 +194,7 @@ public class VistaClienteABM {
         });
     }
 
-    public void setModeloTabla() {
+    public void configurarTabla() {
         mdlClientes.setColumnIdentifiers(colsClientes);
         tblClientes.setModel(mdlClientes);
     }
