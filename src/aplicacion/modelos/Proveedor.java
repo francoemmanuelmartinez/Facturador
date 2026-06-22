@@ -1,5 +1,16 @@
 package aplicacion.modelos;
 
+/**
+ * Modelo que representa un proveedor.
+ * Mapea la tabla {@code proveedores} de la BD.
+ *
+ * @see aplicacion.controladores.ControladorProveedorABM
+ * @see aplicacion.controladores.ControladorDepositoABM
+ * @see aplicacion.vistas.VistaCajero
+ * @see aplicacion.vistas.VistaProveedorABM
+ * @see aplicacion.vistas.VistaDepositoABM
+ * @since 1.0
+ */
 public class Proveedor {
 
     private int id;

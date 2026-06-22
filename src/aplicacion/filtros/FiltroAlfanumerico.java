@@ -4,6 +4,17 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Filtro de entrada que permite letras, digitos, espacios y los
+ * caracteres especiales {@code @ . _ -}. El resto se descarta
+ * silenciosamente.
+ *
+ * <p>Aplicado en campos como direccion y descripcion.</p>
+ *
+ * @see aplicacion.vistas.VistaFormulario
+ * @see aplicacion.vistas.VistaRegistro
+ * @since 1.0
+ */
 public class FiltroAlfanumerico extends DocumentFilter {
     @Override
     public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {

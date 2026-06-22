@@ -16,6 +16,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Dialogo generico para formularios de entrada de datos. Construye
+ * un panel con {@link GridBagLayout} a partir de una lista de
+ * {@link Campo}, aplica {@link FiltroNumerico}, {@link FiltroTexto} y
+ * {@link FiltroAlfanumerico} segun la etiqueta, y retorna un mapa
+ * con los valores ingresados.
+ *
+ * @see FiltroNumerico
+ * @see FiltroTexto
+ * @see FiltroAlfanumerico
+ * @since 1.0
+ */
 public class VistaFormulario {
 
     public static class Campo {

@@ -10,20 +10,49 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Controlador de inicio de sesion. Busca el usuario en BD por mail,
+ * valida credenciales via {@link Autenticacion} y redirige segun el
+ * rol al panel correspondiente.
+ *
+ * @see VistaLogin
+ * @see Conexion
+ * @see Autenticacion
+ * @see Usuario
+ * @see ControladorAdmin
+ * @see ControladorCajero
+ * @see ControladorDepositoABM
+ * @since 1.0
+ */
 public class ControladorLogin {
 
     private Conexion c = new Conexion();
     private Usuario usuario = new Usuario();
 
+    /**
+     * Constructor que muestra la vista de login.
+     *
+     * @param ventanaPrincipal JFrame contenedor donde se mostrara el panel
+     */
     public ControladorLogin(VentanaPrincipal ventanaPrincipal) {
 
         VistaLogin vistaLogin = new VistaLogin(ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaLogin.panelLogin);
     }
 
+    /** Constructor vacio para instanciacion desde la vista. */
     public ControladorLogin() {
     }
 
+    /**
+     * Busca un usuario por mail en BD y valida la contrasena.
+     *
+     * @param mail     Mail ingresado
+     * @param password Contrasena ingresada
+     * @return {@code true} si las credenciales son correctas
+     * @throws RuntimeException si hay error de SQL
+     * @see Autenticacion#autenticar(Usuario)
+     */
     public boolean validar(String mail, String password) {
         try {
             c.conectar();
@@ -57,6 +86,15 @@ public class ControladorLogin {
         }
     }
 
+    /**
+     * Redirige al usuario al panel correspondiente segun su rol.
+     * Roles: Administrador, Cajero, Deposito, Ninguno.
+     *
+     * @param ventanaPrincipal JFrame contenedor
+     * @see ControladorAdmin
+     * @see ControladorCajero
+     * @see ControladorDepositoABM
+     */
     public void iniciarSesion(VentanaPrincipal ventanaPrincipal) {
         switch (usuario.getRol()) {
             case "Administrador" -> {

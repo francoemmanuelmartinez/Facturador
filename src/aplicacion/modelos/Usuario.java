@@ -1,5 +1,20 @@
 package aplicacion.modelos;
 
+/**
+ * Modelo que representa un usuario del sistema.
+ * Mapea la tabla {@code usuarios} de la BD.
+ *
+ * @see aplicacion.controladores.ControladorLogin
+ * @see aplicacion.controladores.ControladorRegistro
+ * @see aplicacion.controladores.ControladorUsuarioABM
+ * @see aplicacion.controladores.ControladorAdmin
+ * @see aplicacion.controladores.ControladorCajero
+ * @see aplicacion.vistas.VistaAdmin
+ * @see aplicacion.vistas.VistaCajero
+ * @see aplicacion.vistas.VistaUsuarioABM
+ * @see aplicacion.servicios.Autenticacion
+ * @since 1.0
+ */
 public class Usuario {
 
     private int id;

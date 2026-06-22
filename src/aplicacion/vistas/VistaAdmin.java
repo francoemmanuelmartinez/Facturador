@@ -12,6 +12,19 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Panel principal del administrador con acceso a todos los modulos
+ * del sistema: usuarios, clientes, caja, deposito y proveedores.
+ *
+ * @see ControladorUsuarioABM
+ * @see ControladorClienteABM
+ * @see ControladorCajero
+ * @see ControladorDepositoABM
+ * @see ControladorProveedorABM
+ * @see ControladorLogin
+ * @see Usuario
+ * @since 1.0
+ */
 public class VistaAdmin {
     public JPanel panelAdmin;
     private JButton btnCerrarSesion;

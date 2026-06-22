@@ -6,8 +6,28 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Evita deshabilitar al unico administrador habilitado en el sistema.
+ *
+ * <p>Ejecuta un conteo en BD de administradores habilitados excluyendo
+ * al usuario en cuestion. Si es el unico, muestra un mensaje y rechaza
+ * la operacion.</p>
+ *
+ * @see aplicacion.servicios.Conexion
+ * @see aplicacion.controladores.ControladorUsuarioABM#alternarHabilitadoUsuario(int)
+ * @since 1.0
+ */
 public class ValidadorCantidadAdmin {
 
+    /**
+     * Verifica si existe al menos otro administrador habilitado
+     * ademas del especificado.
+     *
+     * @param idUsuario ID del usuario que se intenta deshabilitar
+     * @return {@code true} si hay otro administrador disponible,
+     *         {@code false} si es el unico
+     * @throws RuntimeException si ocurre un error de SQL
+     */
     public static boolean permitirDeshabilitar(int idUsuario) {
         try {
             Conexion c = new Conexion();

@@ -11,6 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Vista que muestra los detalles completos de una factura: datos del
+ * cliente, vendedor, y la tabla de lineas de detalle.
+ *
+ * @see ControladorFactura
+ * @see Factura
+ * @see DetalleFactura
+ * @see VistaFactura
+ * @since 1.0
+ */
 public class VistaDetallesFactura {
     private JLabel labelTitulo;
     private JTextField tfNumeroFactura;

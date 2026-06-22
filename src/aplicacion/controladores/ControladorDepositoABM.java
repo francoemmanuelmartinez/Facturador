@@ -15,17 +15,42 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CRUD de productos del deposito. Valida campos requeridos
+ * (descripcion, proveedor) antes de cada operacion.
+ *
+ * @see VistaDepositoABM
+ * @see Producto
+ * @see ValidadorCampos
+ * @see Conexion
+ * @since 1.0
+ */
 public class ControladorDepositoABM {
 
     private Conexion c = new Conexion();
 
+    /** Constructor vacio requerido por instanciacion directa. */
     public ControladorDepositoABM() {}
 
+    /**
+     * Construye la vista de ABM de deposito y la muestra.
+     *
+     * @param usuario           Usuario autenticado
+     * @param ventanaPrincipal  JFrame contenedor
+     */
     public ControladorDepositoABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         VistaDepositoABM vistaDepositoABM = new VistaDepositoABM(usuario, ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaDepositoABM.panelDepositoABM);
     }
 
+    /**
+     * Obtiene productos filtrados por estado de habilitacion,
+     * incluyendo datos del proveedor via JOIN.
+     *
+     * @param habilitado 1 para habilitados, 0 para deshabilitados
+     * @return Lista de productos
+     * @throws RuntimeException si error de SQL
+     */
     public List<Producto> obtenerProductosPorHabilitado(int habilitado) {
         List<Producto> productos = new ArrayList<>();
         try {
@@ -43,6 +68,15 @@ public class ControladorDepositoABM {
         return productos;
     }
 
+    /**
+     * Busca productos por ID (busqueda exacta) o descripcion (LIKE).
+     *
+     * @param texto      ID numerico o texto para busqueda por descripcion
+     * @param habilitado Filtro de estado
+     * @return Lista de productos coincidentes
+     * @throws RuntimeException si error de SQL
+     * @see #seleccionarProducto(String, int)
+     */
     public List<Producto> buscarProductos(String texto, int habilitado) {
         List<Producto> productos = new ArrayList<>();
         try {
@@ -72,6 +106,15 @@ public class ControladorDepositoABM {
         return productos;
     }
 
+    /**
+     * Busca productos y si hay multiples resultados, muestra un dialogo
+     * de seleccion. Retorna el producto elegido.
+     *
+     * @param texto      Criterio de busqueda
+     * @param habilitado Filtro de estado
+     * @return Producto seleccionado, o null si no hay resultados
+     * @see #buscarProductos(String, int)
+     */
     public Producto seleccionarProducto(String texto, int habilitado) {
         List<Producto> productos = buscarProductos(texto, habilitado);
         if (productos.isEmpty()) return null;
@@ -93,6 +136,18 @@ public class ControladorDepositoABM {
         return null;
     }
 
+    /**
+     * Inserta un nuevo producto. Requiere descripcion y proveedor.
+     *
+     * @param descripcion  Descripcion del producto
+     * @param precio       Precio unitario
+     * @param stock        Stock inicial
+     * @param idProveedor  ID del proveedor (debe ser > 0)
+     * @return ID generado, o -1 si falla validacion
+     * @throws RuntimeException si error de SQL
+     * @see ValidadorCampos#validarRequeridos(String[][])
+     * @see #modificarProducto(int, String, int, int, int)
+     */
     public int agregarProducto(String descripcion, int precio, int stock, int idProveedor) {
         try {
             String[][] requeridos = {
@@ -135,6 +190,19 @@ public class ControladorDepositoABM {
         }
     }
 
+    /**
+     * Actualiza un producto existente. Requiere descripcion y proveedor.
+     *
+     * @param id           ID del producto
+     * @param descripcion  Nueva descripcion
+     * @param precio       Nuevo precio
+     * @param stock        Nuevo stock
+     * @param idProveedor  Nuevo ID de proveedor (debe ser > 0)
+     * @return true si exito, false si falla validacion
+     * @throws RuntimeException si error de SQL
+     * @see #agregarProducto(String, int, int, int)
+     * @see ValidadorCampos#validarRequeridos(String[][])
+     */
     public boolean modificarProducto(int id, String descripcion, int precio, int stock, int idProveedor) {
         try {
             String[][] requeridos = {
@@ -172,6 +240,13 @@ public class ControladorDepositoABM {
         }
     }
 
+    /**
+     * Invierte el estado de habilitacion de un producto.
+     *
+     * @param id ID del producto
+     * @return true siempre
+     * @throws RuntimeException si error de SQL
+     */
     public boolean alternarHabilitadoProducto(int id) {
         try {
             c.conectar();
@@ -186,6 +261,14 @@ public class ControladorDepositoABM {
         }
     }
 
+    /**
+     * Construye un objeto {@link Producto} desde la fila actual del ResultSet,
+     * incluyendo id_proveedor y nombreProveedor del JOIN.
+     *
+     * @param rs ResultSet posicionado
+     * @return Producto poblado
+     * @throws SQLException si error de columnas
+     */
     private Producto mapearProducto(ResultSet rs) throws SQLException {
         Producto p = new Producto(
                 rs.getInt("id"),

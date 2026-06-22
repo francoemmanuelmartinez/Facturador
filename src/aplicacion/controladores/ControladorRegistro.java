@@ -12,18 +12,50 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Controlador de registro de nuevos usuarios. Valida campos requeridos
+ * y formato de mail antes de insertar en BD con rol "Ninguno".
+ *
+ * @see VistaRegistro
+ * @see Conexion
+ * @see ValidadorCampos
+ * @see ValidadorMail
+ * @since 1.0
+ */
 public class ControladorRegistro {
 
     private Conexion c = new Conexion();
 
+    /** Constructor vacio para instanciacion desde la vista. */
     public ControladorRegistro() {}
 
+    /**
+     * Constructor que muestra el formulario de registro.
+     *
+     * @param ventanaPrincipal JFrame contenedor
+     */
     public ControladorRegistro(VentanaPrincipal ventanaPrincipal) {
 
         VistaRegistro vistaRegistro = new VistaRegistro(ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaRegistro.panelRegistro);
     }
 
+    /**
+     * Registra un nuevo usuario. Valida campos requeridos, formato de mail
+     * y unicidad del mail. Asigna rol "Ninguno" por defecto.
+     *
+     * @param nombre     Nombre
+     * @param apellido   Apellido
+     * @param dni        Documento
+     * @param telefono   Telefono
+     * @param direccion  Direccion
+     * @param mail       Mail (debe ser unico)
+     * @param password   Contrasena
+     * @return {@code true} si el registro fue exitoso
+     * @throws RuntimeException si hay error de SQL
+     * @see ValidadorCampos#validarRequeridos(String[][])
+     * @see ValidadorMail#esValido(String)
+     */
     public boolean registrar(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password) {
         try {
             String[][] requeridos = {

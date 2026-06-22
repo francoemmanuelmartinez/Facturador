@@ -1,5 +1,15 @@
 package aplicacion.modelos;
 
+/**
+ * Modelo que representa un producto del deposito.
+ * Mapea la tabla {@code productos} de la BD.
+ *
+ * @see aplicacion.controladores.ControladorDepositoABM
+ * @see aplicacion.controladores.ControladorCajero
+ * @see aplicacion.vistas.VistaCajero
+ * @see aplicacion.vistas.VistaDepositoABM
+ * @since 1.0
+ */
 public class Producto {
 
     private int id;

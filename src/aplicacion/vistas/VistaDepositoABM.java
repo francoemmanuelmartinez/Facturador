@@ -17,6 +17,19 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ABM de productos del deposito. Tabla con filtro por habilitacion,
+ * busqueda por ID/descripcion, y dialogos de formulario con proveedor.
+ *
+ * @see ControladorAdmin
+ * @see ControladorDepositoABM
+ * @see ControladorProveedorABM
+ * @see Producto
+ * @see Proveedor
+ * @see VistaFormulario
+ * @see FiltroNumerico
+ * @since 1.0
+ */
 public class VistaDepositoABM {
     private JLabel labelBuscarProducto;
     private JTextField tfIdProducto;

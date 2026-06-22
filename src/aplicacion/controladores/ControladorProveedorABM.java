@@ -17,16 +17,41 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CRUD de proveedores. Valida campos requeridos y formato de mail
+ * antes de cada operacion contra la base de datos.
+ *
+ * @see VistaProveedorABM
+ * @see Proveedor
+ * @see ValidadorCampos
+ * @see ValidadorMail
+ * @see Conexion
+ * @since 1.0
+ */
 public class ControladorProveedorABM {
     private Conexion c = new Conexion();
 
+    /** Constructor vacio requerido por instanciacion directa. */
     public ControladorProveedorABM() {}
 
+    /**
+     * Construye la vista de ABM de proveedores y la muestra.
+     *
+     * @param usuario           Usuario autenticado
+     * @param ventanaPrincipal  JFrame contenedor
+     */
     public ControladorProveedorABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         VistaProveedorABM vistaProveedorABM = new VistaProveedorABM(usuario, ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaProveedorABM.panelProveedorABM);
     }
 
+    /**
+     * Obtiene proveedores filtrados por estado de habilitacion.
+     *
+     * @param habilitado 1 para habilitados, 0 para deshabilitados
+     * @return Lista de proveedores
+     * @throws RuntimeException si error de SQL
+     */
     public List<Proveedor> obtenerProveedoresPorHabilitado(int habilitado) {
         List<Proveedor> proveedores = new ArrayList<>();
         try {
@@ -44,6 +69,14 @@ public class ControladorProveedorABM {
         return proveedores;
     }
 
+    /**
+     * Busca un proveedor por ID y estado de habilitacion.
+     *
+     * @param id         ID del proveedor
+     * @param habilitado 1 para habilitados, 0 para deshabilitados
+     * @return El proveedor encontrado, o null si no existe
+     * @throws RuntimeException si error de SQL
+     */
     public Proveedor buscarProveedor(int id, int habilitado) {
         Proveedor proveedor = null;
         try {
@@ -64,6 +97,19 @@ public class ControladorProveedorABM {
         return proveedor;
     }
 
+    /**
+     * Inserta un nuevo proveedor. Valida campos requeridos, mail y unicidad.
+     *
+     * @param nombre     Nombre
+     * @param telefono   Telefono
+     * @param direccion  Direccion
+     * @param mail       Mail (debe ser unico)
+     * @return ID generado, o -1 si falla validacion
+     * @throws RuntimeException si error de SQL
+     * @see ValidadorCampos#validarRequeridos(String[][])
+     * @see ValidadorMail#esValido(String)
+     * @see #modificarProveedor(int, String, String, String, String)
+     */
     public int agregarProveedor(String nombre, String telefono, String direccion, String mail) {
         try {
             String[][] requeridos = {
@@ -111,6 +157,21 @@ public class ControladorProveedorABM {
         }
     }
 
+    /**
+     * Actualiza un proveedor existente. Valida campos requeridos, mail y
+     * unicidad excluyendo el propio ID.
+     *
+     * @param id         ID del proveedor
+     * @param nombre     Nuevo nombre
+     * @param telefono   Nuevo telefono
+     * @param direccion  Nueva direccion
+     * @param mail       Nuevo mail
+     * @return true si exito, false si falla validacion
+     * @throws RuntimeException si error de SQL
+     * @see #agregarProveedor(String, String, String, String)
+     * @see ValidadorCampos#validarRequeridos(String[][])
+     * @see ValidadorMail#esValido(String)
+     */
     public boolean modificarProveedor(int id, String nombre, String telefono, String direccion, String mail) {
         try {
             String[][] requeridos = {
@@ -153,6 +214,13 @@ public class ControladorProveedorABM {
         }
     }
 
+    /**
+     * Invierte el estado de habilitacion de un proveedor.
+     *
+     * @param id ID del proveedor
+     * @return true siempre
+     * @throws RuntimeException si error de SQL
+     */
     public boolean alternarHabilitadoProveedor(int id) {
         try {
             c.conectar();
@@ -167,6 +235,13 @@ public class ControladorProveedorABM {
         }
     }
 
+    /**
+     * Construye un objeto {@link Proveedor} desde la fila actual del ResultSet.
+     *
+     * @param rs ResultSet posicionado
+     * @return Proveedor poblado
+     * @throws SQLException si error de columnas
+     */
     private Proveedor mapearProveedor(ResultSet rs) throws SQLException {
         Proveedor p = new Proveedor();
         p.setId(rs.getInt("id"));

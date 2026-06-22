@@ -11,6 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Vista que muestra el listado de facturas de un cliente.
+ * Permite seleccionar una factura y ver sus detalles.
+ *
+ * @see ControladorFactura
+ * @see ControladorClienteABM
+ * @see Factura
+ * @see VistaDetallesFactura
+ * @since 1.0
+ */
 public class VistaFactura {
     private JLabel labelTitulo;
     private JTable tblFacturas;

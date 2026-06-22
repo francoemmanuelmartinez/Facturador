@@ -4,6 +4,17 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Filtro de entrada que permite solo letras y espacios.
+ * Los caracteres no alfabeticos (digitos, simbolos) son descartados
+ * silenciosamente.
+ *
+ * <p>Aplicado en campos como nombre y apellido.</p>
+ *
+ * @see aplicacion.vistas.VistaFormulario
+ * @see aplicacion.vistas.VistaRegistro
+ * @since 1.0
+ */
 public class FiltroTexto extends DocumentFilter {
     @Override
     public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {

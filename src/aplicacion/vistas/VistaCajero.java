@@ -22,6 +22,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interfaz de caja para realizar ventas (POS). Permite buscar/crear
+ * clientes, buscar/crear productos, armar un carrito, aplicar descuentos
+ * y finalizar la compra.
+ *
+ * @see ControladorAdmin
+ * @see ControladorCajero
+ * @see ControladorClienteABM
+ * @see ControladorDepositoABM
+ * @see ControladorProveedorABM
+ * @see ControladorLogin
+ * @see Cliente
+ * @see Producto
+ * @see Proveedor
+ * @see FiltroNumerico
+ * @see VistaFormulario
+ * @since 1.0
+ */
 public class VistaCajero {
     private Usuario usuario;
     private VentanaPrincipal ventanaPrincipal;

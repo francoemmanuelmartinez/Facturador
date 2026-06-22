@@ -4,6 +4,21 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * Filtro de entrada que permite solo digitos (0-9).
+ * Los caracteres no numericos son descartados silenciosamente.
+ *
+ * <p>Aplicado en campos como DNI, telefono, precio, stock,
+ * cantidad y descuento en las vistas del sistema.</p>
+ *
+ * @see aplicacion.vistas.VistaFormulario
+ * @see aplicacion.vistas.VistaRegistro
+ * @see aplicacion.vistas.VistaCajero
+ * @see aplicacion.vistas.VistaClienteABM
+ * @see aplicacion.vistas.VistaProveedorABM
+ * @see aplicacion.vistas.VistaDepositoABM
+ * @since 1.0
+ */
 public class FiltroNumerico extends DocumentFilter {
     @Override
     public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {

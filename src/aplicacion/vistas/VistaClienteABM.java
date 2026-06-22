@@ -16,6 +16,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ABM de clientes. Tabla con filtro por habilitacion, busqueda por DNI,
+ * y dialogos de formulario para agregar/modificar.
+ *
+ * @see ControladorAdmin
+ * @see ControladorClienteABM
+ * @see Cliente
+ * @see VistaFormulario
+ * @see VistaFactura
+ * @see FiltroNumerico
+ * @since 1.0
+ */
 public class VistaClienteABM {
     private JLabel labelBuscarCliente;
     private JTextField tfDni;

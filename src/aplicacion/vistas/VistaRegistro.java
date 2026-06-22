@@ -12,6 +12,19 @@ import javax.swing.text.AbstractDocument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Formulario de registro de nuevo usuario. Aplica filtros de entrada
+ * (FiltroNumerico, FiltroTexto, FiltroAlfanumerico) y valida campos
+ * requeridos antes de llamar al controlador.
+ *
+ * @see ControladorRegistro
+ * @see ControladorLogin
+ * @see FiltroNumerico
+ * @see FiltroTexto
+ * @see FiltroAlfanumerico
+ * @see ValidadorCampos
+ * @since 1.0
+ */
 public class VistaRegistro {
 
     public JPanel panelRegistro;

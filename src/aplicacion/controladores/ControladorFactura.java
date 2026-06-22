@@ -10,10 +10,30 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controlador de consulta de facturas. Obtiene facturas por cliente,
+ * factura completa con datos del cliente y detalles de una factura.
+ *
+ * @see Factura
+ * @see DetalleFactura
+ * @see Conexion
+ * @see aplicacion.vistas.VistaFactura
+ * @see aplicacion.vistas.VistaDetallesFactura
+ * @since 1.0
+ */
 public class ControladorFactura {
 
     private Conexion c = new Conexion();
 
+    /**
+     * Obtiene todas las facturas de un cliente, ordenadas por fecha
+     * descendente.
+     *
+     * @param idCliente ID del cliente
+     * @return Lista de facturas (solo datos basicos)
+     * @throws RuntimeException si error de SQL
+     * @see #obtenerFacturaCompleta(int)
+     */
     public List<Factura> obtenerFacturasPorCliente(int idCliente) {
         List<Factura> facturas = new ArrayList<>();
         try {
@@ -38,6 +58,15 @@ public class ControladorFactura {
         return facturas;
     }
 
+    /**
+     * Obtiene una factura completa con datos del cliente (DNI, direccion).
+     *
+     * @param idFactura ID de la factura
+     * @return Factura completa, o null si no existe
+     * @throws RuntimeException si error de SQL
+     * @see #obtenerFacturasPorCliente(int)
+     * @see #obtenerDetallesPorFactura(int)
+     */
     public Factura obtenerFacturaCompleta(int idFactura) {
         try {
             c.conectar();
@@ -70,6 +99,14 @@ public class ControladorFactura {
         return null;
     }
 
+    /**
+     * Obtiene las lineas de detalle de una factura.
+     *
+     * @param idFactura ID de la factura
+     * @return Lista de detalles (producto, cantidad, precio, descuento, subtotal)
+     * @throws RuntimeException si error de SQL
+     * @see #obtenerFacturaCompleta(int)
+     */
     public List<DetalleFactura> obtenerDetallesPorFactura(int idFactura) {
         List<DetalleFactura> detalles = new ArrayList<>();
         try {

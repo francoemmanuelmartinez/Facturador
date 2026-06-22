@@ -1,5 +1,15 @@
 package aplicacion.modelos;
 
+/**
+ * Modelo que representa una linea de detalle de una factura.
+ * Mapea la tabla {@code detalles_de_facturas} de la BD.
+ *
+ * @see Factura
+ * @see aplicacion.controladores.ControladorCajero
+ * @see aplicacion.controladores.ControladorFactura
+ * @see aplicacion.vistas.VistaDetallesFactura
+ * @since 1.0
+ */
 public class DetalleFactura {
     private int id;
     private String descripcion;

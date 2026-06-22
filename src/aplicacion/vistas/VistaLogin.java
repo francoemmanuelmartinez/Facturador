@@ -7,6 +7,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Pantalla de inicio de sesion. Contiene campos de mail y password,
+ * y botones para ingresar o crear una cuenta nueva.
+ *
+ * @see ControladorLogin
+ * @see ControladorRegistro
+ * @since 1.0
+ */
 public class VistaLogin {
 
     //private VentanaPrincipal ventana;

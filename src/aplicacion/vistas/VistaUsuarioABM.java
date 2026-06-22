@@ -12,6 +12,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ABM de usuarios. Tabla con filtro por habilitacion, busqueda por DNI,
+ * y dialogos de formulario con rol y contrasena.
+ *
+ * @see ControladorAdmin
+ * @see ControladorUsuarioABM
+ * @see Usuario
+ * @see VistaFormulario
+ * @since 1.0
+ */
 public class VistaUsuarioABM {
     private JLabel labelBuscarUsuario;
     private JTextField tfDni;

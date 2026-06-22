@@ -1,5 +1,17 @@
 package aplicacion.modelos;
 
+/**
+ * Modelo que representa un cliente.
+ * Mapea la tabla {@code clientes} de la BD.
+ *
+ * @see aplicacion.controladores.ControladorClienteABM
+ * @see aplicacion.controladores.ControladorCajero
+ * @see aplicacion.controladores.ControladorFactura
+ * @see aplicacion.vistas.VistaCajero
+ * @see aplicacion.vistas.VistaClienteABM
+ * @see aplicacion.vistas.VistaFactura
+ * @since 1.0
+ */
 public class Cliente {
 
     private int id;

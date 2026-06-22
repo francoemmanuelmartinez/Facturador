@@ -15,23 +15,62 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Controlador del modulo de ventas (POS). Gestiona la creacion de
+ * facturas, descuento de stock y registro de detalles en una transaccion.
+ *
+ * @see VistaCajero
+ * @see Conexion
+ * @see Usuario
+ * @since 1.0
+ */
 public class ControladorCajero {
 
     private Conexion c = new Conexion();
     private Usuario usuario;
 
+    /** Constructor vacio requerido por instanciacion directa. */
     public ControladorCajero() {}
 
+    /**
+     * Construye la vista de caja y la muestra.
+     *
+     * @param usuario           Usuario autenticado (vendedor)
+     * @param ventanaPrincipal  JFrame contenedor
+     */
     public ControladorCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.usuario = usuario;
         VistaCajero vistaCajero = new VistaCajero(usuario, ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaCajero.panelCajero);
     }
 
+    /**
+     * Genera un numero de factura unico basado en fecha y hora.
+     *
+     * @return String con formato FACT-YYYYMMDD-HHmmss
+     */
     public String generarNumeroFactura() {
         return "FACT-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
     }
 
+    /**
+     * Finaliza la compra en una transaccion: inserta factura, detalles
+     * y descuenta stock. Si algo falla, revierte la transaccion.
+     *
+     * @param idCliente              ID del cliente
+     * @param nombreCliente          Nombre del cliente
+     * @param apellidoCliente        Apellido del cliente
+     * @param idVendedor             ID del vendedor
+     * @param nombreVendedor         Nombre del vendedor
+     * @param apellidoVendedor       Apellido del vendedor
+     * @param carrito                Lista de filas del carrito
+     * @param subtotal               Subtotal de la compra
+     * @param descuentoPorcentaje    Descuento aplicado (0-100)
+     * @param valorDescontado        Valor descontado en pesos
+     * @param totalCompra            Total final
+     * @return true si la compra se completo exitosamente
+     * @throws RuntimeException si error de SQL
+     */
     public boolean finalizarCompra(int idCliente, String nombreCliente, String apellidoCliente, int idVendedor, String nombreVendedor, String apellidoVendedor, List<Object[]> carrito, int subtotal, int descuentoPorcentaje, int valorDescontado, int totalCompra) {
         try {
             c.conectar();

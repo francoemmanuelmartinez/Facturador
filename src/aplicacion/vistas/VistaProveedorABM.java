@@ -16,6 +16,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ABM de proveedores. Tabla con filtro por habilitacion, busqueda por ID,
+ * y dialogos de formulario para agregar/modificar.
+ *
+ * @see ControladorAdmin
+ * @see ControladorProveedorABM
+ * @see Proveedor
+ * @see VistaFormulario
+ * @see FiltroNumerico
+ * @since 1.0
+ */
 public class VistaProveedorABM {
     private JLabel labelBuscarProveedor;
     private JTextField tfIdProveedor;

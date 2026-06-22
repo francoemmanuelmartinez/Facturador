@@ -17,13 +17,32 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CRUD de usuarios con validacion de mail, campos requeridos y
+ * proteccion contra deshabilitar al unico administrador.
+ *
+ * @see VistaUsuarioABM
+ * @see Usuario
+ * @see ValidadorCampos
+ * @see ValidadorMail
+ * @see ValidadorCantidadAdmin
+ * @see Conexion
+ * @since 1.0
+ */
 public class ControladorUsuarioABM {
 
     private Conexion c = new Conexion();
 
+    /** Constructor vacio requerido por instanciacion directa. */
     public ControladorUsuarioABM() {
     }
 
+    /**
+     * Construye la vista de ABM de usuarios y la muestra.
+     *
+     * @param usuario           Usuario autenticado
+     * @param ventanaPrincipal  JFrame contenedor
+     */
     public ControladorUsuarioABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         VistaUsuarioABM vistaUsuarioABM = new VistaUsuarioABM(usuario, ventanaPrincipal);
@@ -31,6 +50,13 @@ public class ControladorUsuarioABM {
 
     }
 
+    /**
+     * Obtiene usuarios filtrados por estado de habilitacion.
+     *
+     * @param habilitado 1 para habilitados, 0 para deshabilitados
+     * @return Lista de usuarios
+     * @throws RuntimeException si error de SQL
+     */
     public List<Usuario> obtenerUsuariosPorHabilitado(int habilitado) {
         List<Usuario> usuarios = new ArrayList<>();
         try {
@@ -48,6 +74,23 @@ public class ControladorUsuarioABM {
         return usuarios;
     }
 
+    /**
+     * Inserta un nuevo usuario. Valida campos requeridos, mail y unicidad.
+     *
+     * @param nombre     Nombre
+     * @param apellido   Apellido
+     * @param dni        Documento
+     * @param telefono   Telefono
+     * @param direccion  Direccion
+     * @param mail       Mail (debe ser unico)
+     * @param password   Contrasena
+     * @param rol        Rol del usuario
+     * @return ID generado, o -1 si falla validacion
+     * @throws RuntimeException si error de SQL
+     * @see ValidadorCampos#validarRequeridos(String[][])
+     * @see ValidadorMail#esValido(String)
+     * @see #modificarUsuario(int, String, String, String, String, String, String, String, String)
+     */
     public int agregarUsuario(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password, String rol) {
         try {
             String[][] requeridos = {
@@ -100,6 +143,25 @@ public class ControladorUsuarioABM {
         }
     }
 
+    /**
+     * Actualiza un usuario existente. Valida campos requeridos, mail y
+     * unicidad excluyendo el propio ID.
+     *
+     * @param id         ID del usuario
+     * @param nombre     Nuevo nombre
+     * @param apellido   Nuevo apellido
+     * @param dni        Nuevo DNI
+     * @param telefono   Nuevo telefono
+     * @param direccion  Nueva direccion
+     * @param mail       Nuevo mail
+     * @param rol        Nuevo rol
+     * @param password   Nueva contrasena
+     * @return true si exito, false si falla validacion
+     * @throws RuntimeException si error de SQL
+     * @see #agregarUsuario(String, String, String, String, String, String, String, String)
+     * @see ValidadorCampos#validarRequeridos(String[][])
+     * @see ValidadorMail#esValido(String)
+     */
     public boolean modificarUsuario(int id, String nombre, String apellido, String dni, String telefono, String direccion, String mail, String rol, String password) {
         try {
             String[][] requeridos = {
@@ -147,6 +209,16 @@ public class ControladorUsuarioABM {
         }
     }
 
+    /**
+     * Invierte el estado de habilitacion de un usuario. Si es un
+     * administrador habilitado, verifica que no sea el unico antes
+     * de deshabilitarlo.
+     *
+     * @param id ID del usuario
+     * @return true si el cambio fue exitoso
+     * @throws RuntimeException si error de SQL
+     * @see ValidadorCantidadAdmin#permitirDeshabilitar(int)
+     */
     public boolean alternarHabilitadoUsuario(int id) {
         try {
             c.conectar();
@@ -172,6 +244,14 @@ public class ControladorUsuarioABM {
         }
     }
 
+    /**
+     * Busca un usuario por DNI exacto y estado de habilitacion.
+     *
+     * @param dni        Documento a buscar
+     * @param habilitado 1 para habilitados, 0 para deshabilitados
+     * @return El usuario encontrado, o null si no existe
+     * @throws RuntimeException si error de SQL
+     */
     public Usuario buscarUsuario(String dni, int habilitado) {
         Usuario u = null;
 
@@ -193,6 +273,13 @@ public class ControladorUsuarioABM {
         return u;
     }
 
+    /**
+     * Construye un objeto {@link Usuario} desde la fila actual del ResultSet.
+     *
+     * @param rs ResultSet posicionado
+     * @return Usuario poblado
+     * @throws SQLException si error de columnas
+     */
     private Usuario mapearUsuario(ResultSet rs) throws SQLException {
         Usuario u = new Usuario();
         u.setId(rs.getInt("id"));

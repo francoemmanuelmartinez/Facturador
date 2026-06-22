@@ -3,6 +3,18 @@ package aplicacion.modelos;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Modelo que representa una factura emitida.
+ * Mapea la tabla {@code facturas} de la BD e incluye una lista de
+ * {@link DetalleFactura} con las lineas de la factura.
+ *
+ * @see DetalleFactura
+ * @see aplicacion.controladores.ControladorCajero
+ * @see aplicacion.controladores.ControladorFactura
+ * @see aplicacion.vistas.VistaFactura
+ * @see aplicacion.vistas.VistaDetallesFactura
+ * @since 1.0
+ */
 public class Factura {
 
     private int id;
