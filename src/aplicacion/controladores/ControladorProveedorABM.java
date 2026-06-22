@@ -6,6 +6,8 @@ import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaProveedorABM;
 
+import aplicacion.filtros.ValidadorMail;
+
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -63,6 +65,10 @@ public class ControladorProveedorABM {
 
     public int agregarProveedor(String nombre, String telefono, String direccion, String mail) {
         try {
+            if (!ValidadorMail.esValido(mail)) {
+                JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
+                return -1;
+            }
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM proveedores WHERE mail = ?";
@@ -98,6 +104,10 @@ public class ControladorProveedorABM {
 
     public boolean modificarProveedor(int id, String nombre, String telefono, String direccion, String mail) {
         try {
+            if (!ValidadorMail.esValido(mail)) {
+                JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
+                return false;
+            }
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM proveedores WHERE mail = ? AND id != ?";

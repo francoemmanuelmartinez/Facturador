@@ -4,6 +4,8 @@ import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaRegistro;
 
+import aplicacion.filtros.ValidadorMail;
+
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +25,10 @@ public class ControladorRegistro {
 
     public boolean registrar(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password) {
         try {
+            if (!ValidadorMail.esValido(mail)) {
+                JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
+                return false;
+            }
             c.conectar();
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ?";
             PreparedStatement stmtSelectMail = c.getConnection().prepareStatement(sqlSelect);

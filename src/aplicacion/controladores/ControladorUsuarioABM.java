@@ -5,6 +5,8 @@ import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaUsuarioABM;
 
+import aplicacion.filtros.ValidadorMail;
+
 import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,6 +48,10 @@ public class ControladorUsuarioABM {
 
     public int agregarUsuario(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password, String rol) {
         try {
+            if (!ValidadorMail.esValido(mail)) {
+                JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
+                return -1;
+            }
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ?";
@@ -85,6 +91,10 @@ public class ControladorUsuarioABM {
 
     public boolean modificarUsuario(int id, String nombre, String apellido, String dni, String telefono, String direccion, String mail, String rol, String password) {
         try {
+            if (!ValidadorMail.esValido(mail)) {
+                JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
+                return false;
+            }
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ? AND id != ?";
