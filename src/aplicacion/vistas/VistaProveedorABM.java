@@ -68,7 +68,7 @@ public class VistaProveedorABM {
                 if (texto.isEmpty()) {
                     poblarTabla(ctrl.obtenerProveedoresPorHabilitado(filtro));
                 } else {
-                    Proveedor proveedor = ctrl.buscarProveedores(texto, filtro);
+                    Proveedor proveedor = ctrl.buscarProveedores(Integer.parseInt(texto), filtro);
                     if (proveedor != null) {
                         poblarTabla(Collections.singletonList(proveedor));
                     }

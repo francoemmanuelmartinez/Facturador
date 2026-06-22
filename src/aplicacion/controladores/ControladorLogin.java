@@ -27,26 +27,21 @@ public class ControladorLogin {
     public boolean validar(String mail, String password) {
         try {
             c.conectar();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
             String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password FROM usuarios WHERE mail = ?";
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1, mail);
-            ResultSet resultados = selectFrom.executeQuery();
+            PreparedStatement stmtSelectUsuario = c.getConnection().prepareStatement(sqlSelect);
+            stmtSelectUsuario.setString(1, mail);
+            ResultSet rsUsuario = stmtSelectUsuario.executeQuery();
 
-            if (resultados.next()) {
-                usuario.setId(resultados.getInt("id"));
-                usuario.setNombre(resultados.getString("nombre"));
-                usuario.setApellido(resultados.getString("apellido"));
-                usuario.setDni(resultados.getString("dni"));
-                usuario.setTelefono(resultados.getString("telefono"));
-                usuario.setDireccion(resultados.getString("direccion"));
-                usuario.setMail(resultados.getString("mail"));
-                usuario.setRol(resultados.getString("rol"));
-                usuario.setPassword(resultados.getString("password"));
+            if (rsUsuario.next()) {
+                usuario.setId(rsUsuario.getInt("id"));
+                usuario.setNombre(rsUsuario.getString("nombre"));
+                usuario.setApellido(rsUsuario.getString("apellido"));
+                usuario.setDni(rsUsuario.getString("dni"));
+                usuario.setTelefono(rsUsuario.getString("telefono"));
+                usuario.setDireccion(rsUsuario.getString("direccion"));
+                usuario.setMail(rsUsuario.getString("mail"));
+                usuario.setRol(rsUsuario.getString("rol"));
+                usuario.setPassword(rsUsuario.getString("password"));
             }
 
         } catch (SQLException e) {
@@ -73,6 +68,7 @@ public class ControladorLogin {
             case "Deposito" -> {
                 ControladorDepositoABM deposito = new ControladorDepositoABM(usuario, ventanaPrincipal);
             }
+            case "Ninguno" -> JOptionPane.showMessageDialog(null, "Sin rol asignado. Contacte a un administrador");
             default -> JOptionPane.showMessageDialog(null, "USUARIO INVALIDO");
         }
     }

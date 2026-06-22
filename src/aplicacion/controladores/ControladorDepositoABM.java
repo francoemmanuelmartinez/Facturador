@@ -30,9 +30,9 @@ public class ControladorDepositoABM {
         try {
             c.conectar();
             String sqlSelect = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
-            stmt.setInt(1, habilitado);
-            ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmtProductos = c.getConnection().prepareStatement(sqlSelect);
+            stmtProductos.setInt(1, habilitado);
+            ResultSet rs = stmtProductos.executeQuery();
             while (rs.next()) {
                 productos.add(mapearProducto(rs));
             }
@@ -46,19 +46,19 @@ public class ControladorDepositoABM {
         List<Producto> productos = new ArrayList<>();
         try {
             c.conectar();
-            PreparedStatement stmt;
+            PreparedStatement stmtProducto;
             if (texto.matches("\\d+")) {
                 String sqlSelect = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.id = ? AND p.habilitado = ?";
-                stmt = c.getConnection().prepareStatement(sqlSelect);
-                stmt.setInt(1, Integer.parseInt(texto));
-                stmt.setInt(2, habilitado);
+                stmtProducto = c.getConnection().prepareStatement(sqlSelect);
+                stmtProducto.setInt(1, Integer.parseInt(texto));
+                stmtProducto.setInt(2, habilitado);
             } else {
                 String sqlSelect = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.descripcion LIKE ? AND p.habilitado = ?";
-                stmt = c.getConnection().prepareStatement(sqlSelect);
-                stmt.setString(1, "%" + texto + "%");
-                stmt.setInt(2, habilitado);
+                stmtProducto = c.getConnection().prepareStatement(sqlSelect);
+                stmtProducto.setString(1, "%" + texto + "%");
+                stmtProducto.setInt(2, habilitado);
             }
-            ResultSet rs = stmt.executeQuery();
+            ResultSet rs = stmtProducto.executeQuery();
             while (rs.next()) {
                 productos.add(mapearProducto(rs));
             }

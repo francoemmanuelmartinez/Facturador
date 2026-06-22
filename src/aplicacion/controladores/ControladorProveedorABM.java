@@ -29,9 +29,9 @@ public class ControladorProveedorABM {
         try {
             c.conectar();
             String sqlSelect = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
-            stmt.setInt(1, habilitado);
-            ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmtProveedores = c.getConnection().prepareStatement(sqlSelect);
+            stmtProveedores.setInt(1, habilitado);
+            ResultSet rs = stmtProveedores.executeQuery();
             while (rs.next()) {
                 proveedores.add(mapearProveedores(rs));
             }
@@ -41,15 +41,15 @@ public class ControladorProveedorABM {
         return proveedores;
     }
 
-    public Proveedor buscarProveedores(String id, int habilitado) {
+    public Proveedor buscarProveedores(int id, int habilitado) {
         Proveedor proveedor = null;
         try {
             c.conectar();
             String sqlSelect = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE id = ? AND habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
-            stmt.setString(1, id);
-            stmt.setInt(2, habilitado);
-            ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmtProveedor = c.getConnection().prepareStatement(sqlSelect);
+            stmtProveedor.setInt(1, id);
+            stmtProveedor.setInt(2, habilitado);
+            ResultSet rs = stmtProveedor.executeQuery();
             if (rs.next()) {
                 proveedor = mapearProveedores(rs);
             } else {
@@ -66,10 +66,10 @@ public class ControladorProveedorABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM proveedores WHERE mail = ?";
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1, mail);
-            ResultSet mailDatabase = selectFrom.executeQuery();
-            if (mailDatabase.next()) {
+            PreparedStatement stmtSelectMail = c.getConnection().prepareStatement(sqlSelect);
+            stmtSelectMail.setString(1, mail);
+            ResultSet rsMailExistente = stmtSelectMail.executeQuery();
+            if (rsMailExistente.next()) {
                 JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");
                 return -1;
             }
@@ -101,11 +101,11 @@ public class ControladorProveedorABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM proveedores WHERE mail = ? AND id != ?";
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1, mail);
-            selectFrom.setInt(2, id);
-            ResultSet mailDatabase = selectFrom.executeQuery();
-            if (mailDatabase.next()) {
+            PreparedStatement stmtSelectMail = c.getConnection().prepareStatement(sqlSelect);
+            stmtSelectMail.setString(1, mail);
+            stmtSelectMail.setInt(2, id);
+            ResultSet rsMailExistente = stmtSelectMail.executeQuery();
+            if (rsMailExistente.next()) {
                 JOptionPane.showMessageDialog(null, "Ese mail ya pertenece a otro proveedor");
                 return false;
             }

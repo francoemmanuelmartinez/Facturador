@@ -25,10 +25,10 @@ public class ControladorRegistro {
         try {
             c.conectar();
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ?";
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1, mail);
-            ResultSet mailDatabase = selectFrom.executeQuery();
-            if (mailDatabase.next()) {
+            PreparedStatement stmtSelectMail = c.getConnection().prepareStatement(sqlSelect);
+            stmtSelectMail.setString(1, mail);
+            ResultSet rsMailExistente = stmtSelectMail.executeQuery();
+            if (rsMailExistente.next()) {
                 JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");
                 return false;
             }
@@ -42,7 +42,7 @@ public class ControladorRegistro {
                 pst.setString(4, telefono);
                 pst.setString(5, direccion);
                 pst.setString(6, mail);
-                pst.setInt(7, 3);
+                pst.setString(7, "Ninguno");
                 pst.setString(8, password);
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Registro exitoso");

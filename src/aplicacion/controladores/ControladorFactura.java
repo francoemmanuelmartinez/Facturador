@@ -19,9 +19,9 @@ public class ControladorFactura {
         try {
             c.conectar();
             String sqlSelect = "SELECT id, numero_factura, fecha_emision, total_compra, nombre_vendedor, apellido_vendedor FROM facturas WHERE id_cliente = ? ORDER BY fecha_emision DESC, id DESC";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
-            stmt.setInt(1, idCliente);
-            ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmtFacturas = c.getConnection().prepareStatement(sqlSelect);
+            stmtFacturas.setInt(1, idCliente);
+            ResultSet rs = stmtFacturas.executeQuery();
             while (rs.next()) {
                 Factura f = new Factura();
                 f.setId(rs.getInt("id"));
@@ -42,9 +42,9 @@ public class ControladorFactura {
         try {
             c.conectar();
             String sqlSelect = "SELECT f.id, f.id_cliente, f.id_vendedor, f.numero_factura, f.fecha_emision, f.nombre_cliente, f.apellido_cliente, f.nombre_vendedor, f.apellido_vendedor, f.subtotal, f.descuento_porcentaje, f.valor_descontado, f.total_compra, c.dni, c.direccion FROM facturas f JOIN clientes c ON f.id_cliente = c.id WHERE f.id = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
-            stmt.setInt(1, idFactura);
-            ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmtFactura = c.getConnection().prepareStatement(sqlSelect);
+            stmtFactura.setInt(1, idFactura);
+            ResultSet rs = stmtFactura.executeQuery();
             if (rs.next()) {
                 return new Factura(
                         rs.getInt("id"),
@@ -75,9 +75,9 @@ public class ControladorFactura {
         try {
             c.conectar();
             String sqlSelect = "SELECT p.id, df.cantidad, df.precio_unitario, df.descuento, df.subtotal, p.descripcion FROM detalles_de_facturas df JOIN productos p ON df.id_producto = p.id WHERE df.id_factura = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
-            stmt.setInt(1, idFactura);
-            ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmtDetalles = c.getConnection().prepareStatement(sqlSelect);
+            stmtDetalles.setInt(1, idFactura);
+            ResultSet rs = stmtDetalles.executeQuery();
             while (rs.next()) {
                 detalles.add(new DetalleFactura(
                         rs.getInt("id"),

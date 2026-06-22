@@ -31,9 +31,9 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
-            stmt.setInt(1, habilitado);
-            ResultSet rs = stmt.executeQuery();
+            PreparedStatement stmtUsuarios = c.getConnection().prepareStatement(sqlSelect);
+            stmtUsuarios.setInt(1, habilitado);
+            ResultSet rs = stmtUsuarios.executeQuery();
             while (rs.next()) {
                 usuarios.add(mapearUsuario(rs));
             }
@@ -48,10 +48,10 @@ public class ControladorUsuarioABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ?";
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1, mail);
-            ResultSet mailDatabase = selectFrom.executeQuery();
-            if (mailDatabase.next()) {
+            PreparedStatement stmtSelectMail = c.getConnection().prepareStatement(sqlSelect);
+            stmtSelectMail.setString(1, mail);
+            ResultSet rsMailExistente = stmtSelectMail.executeQuery();
+            if (rsMailExistente.next()) {
                 JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");
                 return false;
             }
@@ -80,11 +80,11 @@ public class ControladorUsuarioABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ? AND dni != ?";
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1, mail);
-            selectFrom.setString(2, dniOriginal);
-            ResultSet mailDatabase = selectFrom.executeQuery();
-            if (mailDatabase.next()) {
+            PreparedStatement stmtSelectMail = c.getConnection().prepareStatement(sqlSelect);
+            stmtSelectMail.setString(1, mail);
+            stmtSelectMail.setString(2, dniOriginal);
+            ResultSet rsMailExistente = stmtSelectMail.executeQuery();
+            if (rsMailExistente.next()) {
                 JOptionPane.showMessageDialog(null, "Ese mail ya pertenece a otro usuario");
                 return false;
             }
@@ -129,12 +129,12 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE dni = ? AND habilitado = ?";
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
-            selectFrom.setString(1, dni);
-            selectFrom.setInt(2, habilitado);
-            ResultSet resultados = selectFrom.executeQuery();
-            if (resultados.next()) {
-                u = mapearUsuario(resultados);
+            PreparedStatement stmtSelectUsuario = c.getConnection().prepareStatement(sqlSelect);
+            stmtSelectUsuario.setString(1, dni);
+            stmtSelectUsuario.setInt(2, habilitado);
+            ResultSet rsUsuario = stmtSelectUsuario.executeQuery();
+            if (rsUsuario.next()) {
+                u = mapearUsuario(rsUsuario);
             } else {
                 JOptionPane.showMessageDialog(null, "No existe el usuario con el dni");
             }
