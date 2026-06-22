@@ -4,6 +4,7 @@ import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaRegistro;
 
+import aplicacion.filtros.ValidadorCampos;
 import aplicacion.filtros.ValidadorMail;
 
 import javax.swing.*;
@@ -25,6 +26,15 @@ public class ControladorRegistro {
 
     public boolean registrar(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password) {
         try {
+            String[][] requeridos = {
+                {"Nombre", nombre},
+                {"Apellido", apellido},
+                {"DNI", dni},
+                {"Mail", mail},
+                {"Contrasena", password}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return false;
+
             if (!ValidadorMail.esValido(mail)) {
                 JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
                 return false;

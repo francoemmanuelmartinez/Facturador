@@ -87,10 +87,10 @@ public class VistaProveedorABM {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Proveedor",
-                        new VistaFormulario.Campo("Nombre:"),
-                        new VistaFormulario.Campo("Telefono:"),
-                        new VistaFormulario.Campo("Direccion:"),
-                        new VistaFormulario.Campo("Mail:")
+                        new VistaFormulario.Campo("Nombre:", false, true),
+                        new VistaFormulario.Campo("Telefono:", false, true),
+                        new VistaFormulario.Campo("Direccion:", false, true),
+                        new VistaFormulario.Campo("Mail:", false, true)
                 );
                 if (valores != null) {
                     ControladorProveedorABM ctrl = new ControladorProveedorABM();
@@ -118,10 +118,10 @@ public class VistaProveedorABM {
                 int idProveedor = Integer.parseInt(mdlProveedores.getValueAt(fila, 0).toString());
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Proveedor",
-                        new VistaFormulario.Campo("Nombre:", mdlProveedores.getValueAt(fila, 1).toString()),
-                        new VistaFormulario.Campo("Telefono:", mdlProveedores.getValueAt(fila, 2).toString()),
-                        new VistaFormulario.Campo("Direccion:", mdlProveedores.getValueAt(fila, 3).toString()),
-                        new VistaFormulario.Campo("Mail:", mdlProveedores.getValueAt(fila, 4).toString())
+                        new VistaFormulario.Campo("Nombre:", false, mdlProveedores.getValueAt(fila, 1).toString(), true),
+                        new VistaFormulario.Campo("Telefono:", false, mdlProveedores.getValueAt(fila, 2).toString(), true),
+                        new VistaFormulario.Campo("Direccion:", false, mdlProveedores.getValueAt(fila, 3).toString(), true),
+                        new VistaFormulario.Campo("Mail:", false, mdlProveedores.getValueAt(fila, 4).toString(), true)
                 );
                 if (valores != null) {
                     ControladorProveedorABM ctrl = new ControladorProveedorABM();

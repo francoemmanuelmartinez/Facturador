@@ -92,9 +92,9 @@ public class VistaDepositoABM {
                 }
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Producto",
-                        new VistaFormulario.Campo("Descripcion:"),
-                        new VistaFormulario.Campo("Precio:"),
-                        new VistaFormulario.Campo("Stock:"),
+                        new VistaFormulario.Campo("Descripcion:", false, true),
+                        new VistaFormulario.Campo("Precio:", false, true),
+                        new VistaFormulario.Campo("Stock:", false, true),
                         new VistaFormulario.Campo("Proveedor:", opcionesProveedores)
                 );
                 if (valores != null) {
@@ -144,9 +144,9 @@ public class VistaDepositoABM {
                 }
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Producto",
-                        new VistaFormulario.Campo("Descripcion:", mdlProductos.getValueAt(fila, 1).toString()),
-                        new VistaFormulario.Campo("Precio:", mdlProductos.getValueAt(fila, 2).toString()),
-                        new VistaFormulario.Campo("Stock:", mdlProductos.getValueAt(fila, 3).toString()),
+                        new VistaFormulario.Campo("Descripcion:", false, mdlProductos.getValueAt(fila, 1).toString(), true),
+                        new VistaFormulario.Campo("Precio:", false, mdlProductos.getValueAt(fila, 2).toString(), true),
+                        new VistaFormulario.Campo("Stock:", false, mdlProductos.getValueAt(fila, 3).toString(), true),
                         new VistaFormulario.Campo("Proveedor:", opcionesProveedores, valorInicialProveedor)
                 );
                 if (valores != null) {

@@ -1,5 +1,6 @@
 package aplicacion.controladores;
 
+import aplicacion.filtros.ValidadorCampos;
 import aplicacion.modelos.Producto;
 import aplicacion.modelos.Usuario;
 import aplicacion.servicios.Conexion;
@@ -92,12 +93,14 @@ public class ControladorDepositoABM {
         return null;
     }
 
-    public int agregarProducto(String descripcion, int precio, int stock) {
-        return agregarProducto(descripcion, precio, stock, 0);
-    }
-
     public int agregarProducto(String descripcion, int precio, int stock, int idProveedor) {
         try {
+            String[][] requeridos = {
+                {"Descripcion", descripcion},
+                {"Proveedor", idProveedor <= 0 ? "" : String.valueOf(idProveedor)}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return -1;
+
             c.conectar();
 
             String sqlInsert;
@@ -132,12 +135,14 @@ public class ControladorDepositoABM {
         }
     }
 
-    public boolean modificarProducto(int id, String descripcion, int precio, int stock) {
-        return modificarProducto(id, descripcion, precio, stock, 0);
-    }
-
     public boolean modificarProducto(int id, String descripcion, int precio, int stock, int idProveedor) {
         try {
+            String[][] requeridos = {
+                {"Descripcion", descripcion},
+                {"Proveedor", idProveedor <= 0 ? "" : String.valueOf(idProveedor)}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return false;
+
             c.conectar();
 
             String sqlUpdate;

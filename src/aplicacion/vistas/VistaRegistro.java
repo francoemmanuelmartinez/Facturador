@@ -5,6 +5,7 @@ import aplicacion.controladores.ControladorRegistro;
 import aplicacion.filtros.FiltroAlfanumerico;
 import aplicacion.filtros.FiltroNumerico;
 import aplicacion.filtros.FiltroTexto;
+import aplicacion.filtros.ValidadorCampos;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -36,8 +37,25 @@ public class VistaRegistro {
         btnCrearUsuario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String nombre = tfNombre.getText();
+                String apellido = tfApellido.getText();
+                String dni = tfDni.getText();
+                String telefono = tfTelefono.getText();
+                String direccion = tfDireccion.getText();
+                String mail = tfMail.getText();
+                String password = new String(tfPassword.getPassword());
+
+                String[][] requeridos = {
+                    {"Nombre", nombre},
+                    {"Apellido", apellido},
+                    {"DNI", dni},
+                    {"Mail", mail},
+                    {"Contrasena", password}
+                };
+                if (!ValidadorCampos.validarRequeridos(requeridos)) return;
+
                 ControladorRegistro controlador = new ControladorRegistro();
-                if (controlador.registrar(tfNombre.getText(), tfApellido.getText(), tfDni.getText(), tfTelefono.getText(), tfDireccion.getText(), tfMail.getText(), new String(tfPassword.getPassword()))) {
+                if (controlador.registrar(nombre, apellido, dni, telefono, direccion, mail, password)) {
                     ControladorLogin controladorLogin = new ControladorLogin(ventanaPrincipal);
                     JOptionPane.showMessageDialog(null, "Inicie sesion");
                 }

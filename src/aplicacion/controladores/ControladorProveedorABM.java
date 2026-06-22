@@ -6,6 +6,7 @@ import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaProveedorABM;
 
+import aplicacion.filtros.ValidadorCampos;
 import aplicacion.filtros.ValidadorMail;
 
 import javax.swing.*;
@@ -65,6 +66,14 @@ public class ControladorProveedorABM {
 
     public int agregarProveedor(String nombre, String telefono, String direccion, String mail) {
         try {
+            String[][] requeridos = {
+                {"Nombre", nombre},
+                {"Telefono", telefono},
+                {"Direccion", direccion},
+                {"Mail", mail}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return -1;
+
             if (!ValidadorMail.esValido(mail)) {
                 JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
                 return -1;
@@ -104,6 +113,14 @@ public class ControladorProveedorABM {
 
     public boolean modificarProveedor(int id, String nombre, String telefono, String direccion, String mail) {
         try {
+            String[][] requeridos = {
+                {"Nombre", nombre},
+                {"Telefono", telefono},
+                {"Direccion", direccion},
+                {"Mail", mail}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return false;
+
             if (!ValidadorMail.esValido(mail)) {
                 JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
                 return false;

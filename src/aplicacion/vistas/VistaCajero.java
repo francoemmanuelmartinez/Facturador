@@ -5,8 +5,10 @@ import aplicacion.controladores.ControladorCajero;
 import aplicacion.controladores.ControladorClienteABM;
 import aplicacion.controladores.ControladorDepositoABM;
 import aplicacion.controladores.ControladorLogin;
+import aplicacion.controladores.ControladorProveedorABM;
 import aplicacion.modelos.Cliente;
 import aplicacion.modelos.Producto;
+import aplicacion.modelos.Proveedor;
 import aplicacion.modelos.Usuario;
 
 import aplicacion.filtros.FiltroNumerico;
@@ -79,6 +81,8 @@ public class VistaCajero {
     private JLabel labelIDCliente;
     private JLabel labelStock;
     private JTextField tfStockProducto;
+    private JLabel labelProveedorProducto;
+    private JTextField tfProveedorProducto;
     private JTextField tfCantidadProducto;
     private JTextField tfApellidoCajero;
     private JLabel labelApellidoCajero;
@@ -141,12 +145,12 @@ public class VistaCajero {
                 }
                 int id = Integer.parseInt(idStr);
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Cliente",
-                        new VistaFormulario.Campo("Nombre:", tfNombreCliente.getText()),
-                        new VistaFormulario.Campo("Apellido:", tfApellidoCliente.getText()),
-                        new VistaFormulario.Campo("DNI:", tfDniCliente.getText()),
+                        new VistaFormulario.Campo("Nombre:", false, tfNombreCliente.getText(), true),
+                        new VistaFormulario.Campo("Apellido:", false, tfApellidoCliente.getText(), true),
+                        new VistaFormulario.Campo("DNI:", false, tfDniCliente.getText(), true),
                         new VistaFormulario.Campo("Telefono:", tfTelefonoCliente.getText()),
                         new VistaFormulario.Campo("Direccion:", tfDireccionCliente.getText()),
-                        new VistaFormulario.Campo("Mail:", tfMailCliente.getText())
+                        new VistaFormulario.Campo("Mail:", false, tfMailCliente.getText(), true)
                 );
                 if (valores != null) {
                     int confirm = JOptionPane.showConfirmDialog(null,
@@ -176,12 +180,12 @@ public class VistaCajero {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Cliente",
-                        new VistaFormulario.Campo("Nombre:"),
-                        new VistaFormulario.Campo("Apellido:"),
-                        new VistaFormulario.Campo("DNI:"),
+                        new VistaFormulario.Campo("Nombre:", false, true),
+                        new VistaFormulario.Campo("Apellido:", false, true),
+                        new VistaFormulario.Campo("DNI:", false, true),
                         new VistaFormulario.Campo("Telefono:"),
                         new VistaFormulario.Campo("Direccion:"),
-                        new VistaFormulario.Campo("Mail:")
+                        new VistaFormulario.Campo("Mail:", false, true)
                 );
                 if (valores != null) {
                     ControladorClienteABM ctrl = new ControladorClienteABM();
@@ -219,6 +223,7 @@ public class VistaCajero {
                     tfDescripcionProducto.setText(p.getDescripcion());
                     tfPrecioProducto.setText(String.valueOf(p.getPrecio()));
                     tfStockProducto.setText(String.valueOf(p.getStock()));
+                    tfProveedorProducto.setText(p.getNombreProveedor());
                 } else {
                     limpiarCamposProducto();
                 }
@@ -234,10 +239,24 @@ public class VistaCajero {
                 }
                 int id = Integer.parseInt(idStr);
 
+                ControladorProveedorABM ctrlProv = new ControladorProveedorABM();
+                List<Proveedor> proveedores = ctrlProv.obtenerProveedoresPorHabilitado(1);
+                String[] opcionesProveedores = new String[proveedores.size()];
+                String valorInicialProveedor = null;
+                String nombreActualProveedor = tfProveedorProducto.getText();
+                for (int i = 0; i < proveedores.size(); i++) {
+                    String item = proveedores.get(i).getId() + " - " + proveedores.get(i).getNombre();
+                    opcionesProveedores[i] = item;
+                    if (proveedores.get(i).getNombre().equals(nombreActualProveedor)) {
+                        valorInicialProveedor = item;
+                    }
+                }
+
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Producto",
-                        new VistaFormulario.Campo("Descripcion:", tfDescripcionProducto.getText()),
-                        new VistaFormulario.Campo("Precio:", tfPrecioProducto.getText()),
-                        new VistaFormulario.Campo("Stock:", tfStockProducto.getText())
+                        new VistaFormulario.Campo("Descripcion:", false, tfDescripcionProducto.getText(), true),
+                        new VistaFormulario.Campo("Precio:", false, tfPrecioProducto.getText(), true),
+                        new VistaFormulario.Campo("Stock:", false, tfStockProducto.getText(), true),
+                        new VistaFormulario.Campo("Proveedor:", opcionesProveedores, valorInicialProveedor)
                 );
 
                 if (valores != null) {
@@ -245,15 +264,25 @@ public class VistaCajero {
                             "¿Confirmar modificacion del producto?", "Confirmar", JOptionPane.YES_NO_OPTION);
                     if (confirm == JOptionPane.YES_OPTION) {
                         ControladorDepositoABM ctrl = new ControladorDepositoABM();
-                        boolean ok = ctrl.modificarProducto(id,
-                                valores.get("Descripcion:"),
-                                Integer.parseInt(valores.get("Precio:")),
-                                Integer.parseInt(valores.get("Stock:"))
-                        );
-                        if (ok) {
-                            tfDescripcionProducto.setText(valores.get("Descripcion:"));
-                            tfPrecioProducto.setText(valores.get("Precio:"));
-                            tfStockProducto.setText(valores.get("Stock:"));
+                        try {
+                            int precio = Integer.parseInt(valores.get("Precio:"));
+                            int stock = Integer.parseInt(valores.get("Stock:"));
+                            String selProv = valores.get("Proveedor:");
+                            int idProveedor = Integer.parseInt(selProv.split(" - ")[0]);
+                            boolean ok = ctrl.modificarProducto(id, valores.get("Descripcion:"), precio, stock, idProveedor);
+                            if (ok) {
+                                tfDescripcionProducto.setText(valores.get("Descripcion:"));
+                                tfPrecioProducto.setText(valores.get("Precio:"));
+                                tfStockProducto.setText(valores.get("Stock:"));
+                                for (Proveedor prov : proveedores) {
+                                    if (prov.getId() == idProveedor) {
+                                        tfProveedorProducto.setText(prov.getNombre());
+                                        break;
+                                    }
+                                }
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Precio y Stock deben ser numeros enteros");
                         }
                     }
                 }
@@ -291,24 +320,42 @@ public class VistaCajero {
         btnNuevoProducto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ControladorProveedorABM ctrlProv = new ControladorProveedorABM();
+                List<Proveedor> proveedores = ctrlProv.obtenerProveedoresPorHabilitado(1);
+                String[] opcionesProveedores = new String[proveedores.size()];
+                for (int i = 0; i < proveedores.size(); i++) {
+                    opcionesProveedores[i] = proveedores.get(i).getId() + " - " + proveedores.get(i).getNombre();
+                }
+
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Producto",
-                        new VistaFormulario.Campo("Descripcion:"),
-                        new VistaFormulario.Campo("Precio:"),
-                        new VistaFormulario.Campo("Stock:")
+                        new VistaFormulario.Campo("Descripcion:", false, true),
+                        new VistaFormulario.Campo("Precio:", false, true),
+                        new VistaFormulario.Campo("Stock:", false, true),
+                        new VistaFormulario.Campo("Proveedor:", opcionesProveedores)
                 );
 
                 if (valores != null) {
                     ControladorDepositoABM ctrl = new ControladorDepositoABM();
-                    int id = ctrl.agregarProducto(
-                            valores.get("Descripcion:"),
-                            Integer.parseInt(valores.get("Precio:")),
-                            Integer.parseInt(valores.get("Stock:"))
-                    );
-                    if (id > -1) {
-                        tfIdProducto.setText(String.valueOf(id));
-                        tfDescripcionProducto.setText(valores.get("Descripcion:"));
-                        tfPrecioProducto.setText(valores.get("Precio:"));
-                        tfStockProducto.setText(valores.get("Stock:"));
+                    try {
+                        int precio = Integer.parseInt(valores.get("Precio:"));
+                        int stock = Integer.parseInt(valores.get("Stock:"));
+                        String selProv = valores.get("Proveedor:");
+                        int idProveedor = Integer.parseInt(selProv.split(" - ")[0]);
+                        int id = ctrl.agregarProducto(valores.get("Descripcion:"), precio, stock, idProveedor);
+                        if (id > -1) {
+                            tfIdProducto.setText(String.valueOf(id));
+                            tfDescripcionProducto.setText(valores.get("Descripcion:"));
+                            tfPrecioProducto.setText(valores.get("Precio:"));
+                            tfStockProducto.setText(valores.get("Stock:"));
+                            for (Proveedor prov : proveedores) {
+                                if (prov.getId() == idProveedor) {
+                                    tfProveedorProducto.setText(prov.getNombre());
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Precio y Stock deben ser numeros enteros");
                     }
                 }
             }
@@ -489,6 +536,7 @@ public class VistaCajero {
         tfDescripcionProducto.setText("");
         tfPrecioProducto.setText("");
         tfStockProducto.setText("");
+        tfProveedorProducto.setText("");
         tfCantidadProducto.setText("");
         tfDescuentoProducto.setText("");
     }

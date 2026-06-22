@@ -5,6 +5,8 @@ import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaUsuarioABM;
 
+import aplicacion.filtros.ValidadorCampos;
+import aplicacion.filtros.ValidadorCantidadAdmin;
 import aplicacion.filtros.ValidadorMail;
 
 import javax.swing.*;
@@ -48,6 +50,15 @@ public class ControladorUsuarioABM {
 
     public int agregarUsuario(String nombre, String apellido, String dni, String telefono, String direccion, String mail, String password, String rol) {
         try {
+            String[][] requeridos = {
+                {"Nombre", nombre},
+                {"Apellido", apellido},
+                {"DNI", dni},
+                {"Mail", mail},
+                {"Contrasena", password}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return -1;
+
             if (!ValidadorMail.esValido(mail)) {
                 JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
                 return -1;
@@ -91,6 +102,15 @@ public class ControladorUsuarioABM {
 
     public boolean modificarUsuario(int id, String nombre, String apellido, String dni, String telefono, String direccion, String mail, String rol, String password) {
         try {
+            String[][] requeridos = {
+                {"Nombre", nombre},
+                {"Apellido", apellido},
+                {"DNI", dni},
+                {"Mail", mail},
+                {"Contrasena", password}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return false;
+
             if (!ValidadorMail.esValido(mail)) {
                 JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
                 return false;
@@ -130,6 +150,17 @@ public class ControladorUsuarioABM {
     public boolean alternarHabilitadoUsuario(int id) {
         try {
             c.conectar();
+
+            String sqlCheck = "SELECT rol, habilitado FROM usuarios WHERE id = ?";
+            PreparedStatement pstCheck = c.getConnection().prepareStatement(sqlCheck);
+            pstCheck.setInt(1, id);
+            ResultSet rsCheck = pstCheck.executeQuery();
+            if (rsCheck.next() && rsCheck.getString("rol").equals("Administrador") && rsCheck.getInt("habilitado") == 1) {
+                if (!ValidadorCantidadAdmin.permitirDeshabilitar(id)) {
+                    return false;
+                }
+            }
+
             String sqlUpdateHabilitado = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
             PreparedStatement pstUpdate = c.getConnection().prepareStatement(sqlUpdateHabilitado);
             pstUpdate.setInt(1, id);

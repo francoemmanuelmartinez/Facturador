@@ -86,12 +86,12 @@ public class VistaClienteABM {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Cliente",
-                        new VistaFormulario.Campo("Nombre:"),
-                        new VistaFormulario.Campo("Apellido:"),
-                        new VistaFormulario.Campo("DNI:"),
+                        new VistaFormulario.Campo("Nombre:", false, true),
+                        new VistaFormulario.Campo("Apellido:", false, true),
+                        new VistaFormulario.Campo("DNI:", false, true),
                         new VistaFormulario.Campo("Telefono:"),
                         new VistaFormulario.Campo("Direccion:"),
-                        new VistaFormulario.Campo("Mail:")
+                        new VistaFormulario.Campo("Mail:", false, true)
                 );
                 if (valores != null) {
                     ControladorClienteABM ctrl = new ControladorClienteABM();
@@ -122,12 +122,12 @@ public class VistaClienteABM {
                 int idCliente = Integer.parseInt(mdlClientes.getValueAt(fila, 0).toString());
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Cliente",
-                        new VistaFormulario.Campo("Nombre:", mdlClientes.getValueAt(fila, 1).toString()),
-                        new VistaFormulario.Campo("Apellido:", mdlClientes.getValueAt(fila, 2).toString()),
-                        new VistaFormulario.Campo("DNI:", mdlClientes.getValueAt(fila, 3).toString()),
+                        new VistaFormulario.Campo("Nombre:", false, mdlClientes.getValueAt(fila, 1).toString(), true),
+                        new VistaFormulario.Campo("Apellido:", false, mdlClientes.getValueAt(fila, 2).toString(), true),
+                        new VistaFormulario.Campo("DNI:", false, mdlClientes.getValueAt(fila, 3).toString(), true),
                         new VistaFormulario.Campo("Telefono:", mdlClientes.getValueAt(fila, 4).toString()),
                         new VistaFormulario.Campo("Direccion:", mdlClientes.getValueAt(fila, 5).toString()),
-                        new VistaFormulario.Campo("Mail:", mdlClientes.getValueAt(fila, 6).toString())
+                        new VistaFormulario.Campo("Mail:", false, mdlClientes.getValueAt(fila, 6).toString(), true)
                 );
                 if (valores != null) {
                     ControladorClienteABM ctrl = new ControladorClienteABM();

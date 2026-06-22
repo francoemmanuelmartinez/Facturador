@@ -77,13 +77,13 @@ public class VistaUsuarioABM {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Nuevo Usuario",
-                        new VistaFormulario.Campo("Nombre:"),
-                        new VistaFormulario.Campo("Apellido:"),
-                        new VistaFormulario.Campo("DNI:"),
+                        new VistaFormulario.Campo("Nombre:", false, true),
+                        new VistaFormulario.Campo("Apellido:", false, true),
+                        new VistaFormulario.Campo("DNI:", false, true),
                         new VistaFormulario.Campo("Telefono:"),
                         new VistaFormulario.Campo("Direccion:"),
-                        new VistaFormulario.Campo("Mail:"),
-                        new VistaFormulario.Campo("Contraseña:", true),
+                        new VistaFormulario.Campo("Mail:", false, true),
+                        new VistaFormulario.Campo("Contraseña:", true, true),
                         new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"})
                 );
                 if (valores != null) {
@@ -118,12 +118,12 @@ public class VistaUsuarioABM {
                 String rolActual = mdlUsuarios.getValueAt(fila, 7).toString();
 
                 Map<String, String> valores = VistaFormulario.mostrarDialogo("Modificar Usuario",
-                        new VistaFormulario.Campo("Nombre:", mdlUsuarios.getValueAt(fila, 1).toString()),
-                        new VistaFormulario.Campo("Apellido:", mdlUsuarios.getValueAt(fila, 2).toString()),
-                        new VistaFormulario.Campo("DNI:", dniOriginal),
+                        new VistaFormulario.Campo("Nombre:", false, mdlUsuarios.getValueAt(fila, 1).toString(), true),
+                        new VistaFormulario.Campo("Apellido:", false, mdlUsuarios.getValueAt(fila, 2).toString(), true),
+                        new VistaFormulario.Campo("DNI:", false, dniOriginal, true),
                         new VistaFormulario.Campo("Telefono:", mdlUsuarios.getValueAt(fila, 4).toString()),
                         new VistaFormulario.Campo("Direccion:", mdlUsuarios.getValueAt(fila, 5).toString()),
-                        new VistaFormulario.Campo("Mail:", mdlUsuarios.getValueAt(fila, 6).toString()),
+                        new VistaFormulario.Campo("Mail:", false, mdlUsuarios.getValueAt(fila, 6).toString(), true),
                         new VistaFormulario.Campo("Rol:", new String[]{"Administrador", "Cajero", "Deposito"}, rolActual),
                         new VistaFormulario.Campo("Contraseña:", true, mdlUsuarios.getValueAt(fila, 8).toString())
                 );

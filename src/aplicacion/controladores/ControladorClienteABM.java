@@ -6,6 +6,7 @@ import aplicacion.servicios.Conexion;
 import aplicacion.vistas.VentanaPrincipal;
 import aplicacion.vistas.VistaClienteABM;
 
+import aplicacion.filtros.ValidadorCampos;
 import aplicacion.filtros.ValidadorMail;
 
 import javax.swing.*;
@@ -66,6 +67,14 @@ public class ControladorClienteABM {
 
     public int agregarCliente(String nombre, String apellido, String dni, String telefono, String direccion, String mail) {
         try {
+            String[][] requeridos = {
+                {"Nombre", nombre},
+                {"Apellido", apellido},
+                {"DNI", dni},
+                {"Mail", mail}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return -1;
+
             if (!ValidadorMail.esValido(mail)) {
                 JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
                 return -1;
@@ -107,6 +116,14 @@ public class ControladorClienteABM {
 
     public boolean modificarCliente(int id, String nombre, String apellido, String dni, String telefono, String direccion, String mail) {
         try {
+            String[][] requeridos = {
+                {"Nombre", nombre},
+                {"Apellido", apellido},
+                {"DNI", dni},
+                {"Mail", mail}
+            };
+            if (!ValidadorCampos.validarRequeridos(requeridos)) return false;
+
             if (!ValidadorMail.esValido(mail)) {
                 JOptionPane.showMessageDialog(null, "El formato del mail no es valido");
                 return false;
