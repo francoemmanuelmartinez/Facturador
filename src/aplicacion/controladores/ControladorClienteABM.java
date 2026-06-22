@@ -131,7 +131,7 @@ public class ControladorClienteABM {
         }
     }
 
-    public boolean toggleHabilitadoCliente(int id) {
+    public boolean alternarHabilitadoCliente(int id) {
         try {
             c.conectar();
             String sqlToggle = "UPDATE clientes SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";

@@ -31,7 +31,7 @@ public class VistaLogin {
                 else {
                     ControladorLogin controladorLogin = new ControladorLogin();
                     if(controladorLogin.validar(mail,password)) {
-                        controladorLogin.logear(ventanaPrincipal);
+                        controladorLogin.iniciarSesion(ventanaPrincipal);
                     }
                     else {
                          JOptionPane.showMessageDialog(null, "Credenciales incorrectas");

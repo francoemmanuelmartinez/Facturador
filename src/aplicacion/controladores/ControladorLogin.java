@@ -12,8 +12,6 @@ import java.sql.SQLException;
 
 public class ControladorLogin {
 
-    String mail;
-    String password;
     String sql = "SELECT id, nombre, apellido,dni,telefono,direccion,mail,rol,password FROM usuarios WHERE mail = ?";
     Conexion c = new Conexion();
     Usuario usuario = new Usuario();
@@ -69,7 +67,7 @@ public class ControladorLogin {
         }
     }
 
-    public void logear (VentanaPrincipal ventanaPrincipal){
+    public void iniciarSesion (VentanaPrincipal ventanaPrincipal){
         switch (usuario.getRol()) {
             case "Administrador" -> {
                 ControladorAdmin controladorAdmin = new ControladorAdmin(usuario,ventanaPrincipal);

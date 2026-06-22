@@ -185,7 +185,7 @@ public class VistaDepositoABM {
 
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorDepositoABM ctrl = new ControladorDepositoABM();
-                    if (ctrl.toggleHabilitadoProducto(idProducto)) {
+                    if (ctrl.alternarHabilitadoProducto(idProducto)) {
                         poblarTabla(ctrl.obtenerProductosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }

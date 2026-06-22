@@ -2,7 +2,7 @@ package aplicacion.vistas;
 
 import javax.swing.*;
 
-public class VentanaPrincipal extends javax.swing.JFrame {
+public class VentanaPrincipal extends JFrame {
 
 
     public VentanaPrincipal() {

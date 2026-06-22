@@ -167,7 +167,7 @@ public class ControladorDepositoABM {
         }
     }
 
-    public boolean toggleHabilitadoProducto(int id) {
+    public boolean alternarHabilitadoProducto(int id) {
         try {
             c.conectar();
             String sqlToggle = "UPDATE productos SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";

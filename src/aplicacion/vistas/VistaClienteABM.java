@@ -162,7 +162,7 @@ public class VistaClienteABM {
 
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorClienteABM ctrl = new ControladorClienteABM();
-                    if (ctrl.toggleHabilitadoCliente(idCliente)) {
+                    if (ctrl.alternarHabilitadoCliente(idCliente)) {
                         poblarTabla(ctrl.obtenerClientesPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }

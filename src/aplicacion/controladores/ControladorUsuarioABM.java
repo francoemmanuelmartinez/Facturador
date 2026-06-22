@@ -34,18 +34,7 @@ public class ControladorUsuarioABM {
             PreparedStatement stmt = c.con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Usuario u = new Usuario();
-                u.setId(rs.getInt("id"));
-                u.setNombre(rs.getString("nombre"));
-                u.setApellido(rs.getString("apellido"));
-                u.setDni(rs.getString("dni"));
-                u.setTelefono(rs.getString("telefono"));
-                u.setDireccion(rs.getString("direccion"));
-                u.setMail(rs.getString("mail"));
-                u.setRol(rs.getString("rol"));
-                u.setPassword(rs.getString("password"));
-                u.setHabilitado(rs.getInt("habilitado"));
-                usuarios.add(u);
+                usuarios.add(mapearUsuario(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -62,18 +51,7 @@ public class ControladorUsuarioABM {
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Usuario u = new Usuario();
-                u.setId(rs.getInt("id"));
-                u.setNombre(rs.getString("nombre"));
-                u.setApellido(rs.getString("apellido"));
-                u.setDni(rs.getString("dni"));
-                u.setTelefono(rs.getString("telefono"));
-                u.setDireccion(rs.getString("direccion"));
-                u.setMail(rs.getString("mail"));
-                u.setRol(rs.getString("rol"));
-                u.setPassword(rs.getString("password"));
-                u.setHabilitado(rs.getInt("habilitado"));
-                usuarios.add(u);
+                usuarios.add(mapearUsuario(rs));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -147,7 +125,7 @@ public class ControladorUsuarioABM {
         }
     }
 
-    public boolean toggleHabilitado(String dni) {
+    public boolean alternarHabilitadoUsuario(String dni) {
         try {
             c.conectar();
             String sqlToggle = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE dni = ?";
@@ -172,23 +150,28 @@ public class ControladorUsuarioABM {
             selectFrom.setInt(2, habilitado);
             ResultSet resultados = selectFrom.executeQuery();
             if (resultados.next()) {
-                u = new Usuario();
-                u.setId(resultados.getInt("id"));
-                u.setNombre(resultados.getString("nombre"));
-                u.setApellido(resultados.getString("apellido"));
-                u.setDni(resultados.getString("dni"));
-                u.setTelefono(resultados.getString("telefono"));
-                u.setDireccion(resultados.getString("direccion"));
-                u.setMail(resultados.getString("mail"));
-                u.setRol(resultados.getString("rol"));
-                u.setPassword(resultados.getString("password"));
-                u.setHabilitado(resultados.getInt("habilitado"));
+                u = mapearUsuario(resultados);
             } else {
                 JOptionPane.showMessageDialog(null, "No existe el usuario con el dni");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return u;
+    }
+
+    private Usuario mapearUsuario(ResultSet rs) throws SQLException {
+        Usuario u = new Usuario();
+        u.setId(rs.getInt("id"));
+        u.setNombre(rs.getString("nombre"));
+        u.setApellido(rs.getString("apellido"));
+        u.setDni(rs.getString("dni"));
+        u.setTelefono(rs.getString("telefono"));
+        u.setDireccion(rs.getString("direccion"));
+        u.setMail(rs.getString("mail"));
+        u.setRol(rs.getString("rol"));
+        u.setPassword(rs.getString("password"));
+        u.setHabilitado(rs.getInt("habilitado"));
         return u;
     }
 

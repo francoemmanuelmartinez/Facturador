@@ -153,7 +153,7 @@ public class VistaProveedorABM {
 
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorProveedorABM ctrl = new ControladorProveedorABM();
-                    if (ctrl.toggleHabilitadoProveedor(idProveedor)) {
+                    if (ctrl.alternarHabilitadoProveedor(idProveedor)) {
                         poblarTabla(ctrl.obtenerProveedoresPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }

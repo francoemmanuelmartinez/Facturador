@@ -162,7 +162,7 @@ public class VistaUsuarioABM {
 
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
-                    if (ctrl.toggleHabilitado(dni)) {
+                    if (ctrl.alternarHabilitadoUsuario(dni)) {
                         poblarTabla(ctrl.obtenerUsuariosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }

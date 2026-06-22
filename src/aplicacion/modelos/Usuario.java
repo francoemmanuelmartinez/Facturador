@@ -2,16 +2,16 @@ package aplicacion.modelos;
 
 public class Usuario {
 
-    int id;
-    String nombre;
-    String apellido;
-    String dni;
-    String telefono;
-    String direccion;
-    String mail;
-    String rol;
-    String password;
-    Integer habilitado;
+    private int id;
+    private String nombre;
+    private String apellido;
+    private String dni;
+    private String telefono;
+    private String direccion;
+    private String mail;
+    private String rol;
+    private String password;
+    private int habilitado;
 
     public Usuario() {}
 
@@ -69,10 +69,10 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-    public Integer getHabilitado() {
+    public int getHabilitado() {
         return habilitado;
     }
-    public void setHabilitado(Integer habilitado) {
+    public void setHabilitado(int habilitado) {
         this.habilitado = habilitado;
     }
 }

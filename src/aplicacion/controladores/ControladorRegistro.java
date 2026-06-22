@@ -13,8 +13,7 @@ import java.sql.SQLException;
 public class ControladorRegistro {
 
     Conexion c = new Conexion();
-    Usuario u = new Usuario();
-    String sqlInsert = "insert into usuarios(nombre,apellido,dni,telefono,direccion,mail,rol,password) values(?,?,?,?,?,?,?,?)";
+    String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
     public ControladorRegistro(){}
 
@@ -32,10 +31,8 @@ public class ControladorRegistro {
             selectFrom.setString(1,mail);
             ResultSet mailDatabase = selectFrom.executeQuery();
             if (mailDatabase.next()) {
-                if (mailDatabase.getString("mail").equals(mail)) {
-                    JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");
-                    return  false;
-                }
+                JOptionPane.showMessageDialog(null, "Este mail ya ha sido registrado");
+                return false;
             }
             else {
 
