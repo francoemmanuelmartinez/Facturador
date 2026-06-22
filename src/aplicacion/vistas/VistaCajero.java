@@ -9,7 +9,10 @@ import aplicacion.modelos.Cliente;
 import aplicacion.modelos.Producto;
 import aplicacion.modelos.Usuario;
 
+import aplicacion.filtros.FiltroNumerico;
+
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,6 +93,12 @@ public class VistaCajero {
         tfNombreCajero.setText(usuario.getNombre());
         tfApellidoCajero.setText(usuario.getApellido());
         tfIdCajero.setText(String.valueOf(usuario.getId()));
+        ((AbstractDocument) tfBuscarCliente.getDocument()).setDocumentFilter(new FiltroNumerico());
+        ((AbstractDocument) tfPrecioProducto.getDocument()).setDocumentFilter(new FiltroNumerico());
+        ((AbstractDocument) tfStockProducto.getDocument()).setDocumentFilter(new FiltroNumerico());
+        ((AbstractDocument) tfCantidadProducto.getDocument()).setDocumentFilter(new FiltroNumerico());
+        ((AbstractDocument) tfDescuentoProducto.getDocument()).setDocumentFilter(new FiltroNumerico());
+        ((AbstractDocument) tfDescuento.getDocument()).setDocumentFilter(new FiltroNumerico());
         tfSubtotal.setEditable(false);
         tfTotal.setEditable(false);
         btnVolver.addActionListener(new ActionListener() {

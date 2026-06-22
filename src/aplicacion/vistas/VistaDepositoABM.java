@@ -7,7 +7,10 @@ import aplicacion.modelos.Producto;
 import aplicacion.modelos.Proveedor;
 import aplicacion.modelos.Usuario;
 
+import aplicacion.filtros.FiltroNumerico;
+
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +34,8 @@ public class VistaDepositoABM {
 
     public VistaDepositoABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.ventanaPrincipal = ventanaPrincipal;
+
+        ((AbstractDocument) tfIdProducto.getDocument()).setDocumentFilter(new FiltroNumerico());
 
         configurarTabla();
 

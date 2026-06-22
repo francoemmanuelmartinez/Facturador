@@ -5,7 +5,10 @@ import aplicacion.controladores.ControladorProveedorABM;
 import aplicacion.modelos.Proveedor;
 import aplicacion.modelos.Usuario;
 
+import aplicacion.filtros.FiltroNumerico;
+
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +34,9 @@ public class VistaProveedorABM {
     public VistaProveedorABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         this.ventanaPrincipal = ventanaPrincipal;
+
+        ((AbstractDocument) tfIdProveedor.getDocument()).setDocumentFilter(new FiltroNumerico());
+
         configurarTabla();
 
         tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(5));

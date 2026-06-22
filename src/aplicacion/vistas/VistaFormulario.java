@@ -1,6 +1,11 @@
 package aplicacion.vistas;
 
+import aplicacion.filtros.FiltroAlfanumerico;
+import aplicacion.filtros.FiltroNumerico;
+import aplicacion.filtros.FiltroTexto;
+
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -80,6 +85,15 @@ public class VistaFormulario {
             } else {
                 JTextField tf = new JTextField(c.valorInicial);
                 tf.setColumns(15);
+                String etq = c.etiqueta;
+                if (etq.equals("DNI:") || etq.equals("Telefono:") || etq.equals("Precio:") ||
+                    etq.equals("Stock:") || etq.equals("Cantidad:") || etq.equals("Descuento %:")) {
+                    ((AbstractDocument) tf.getDocument()).setDocumentFilter(new FiltroNumerico());
+                } else if (etq.equals("Nombre:") || etq.equals("Apellido:")) {
+                    ((AbstractDocument) tf.getDocument()).setDocumentFilter(new FiltroTexto());
+                } else if (etq.equals("Direccion:") || etq.equals("Descripcion:")) {
+                    ((AbstractDocument) tf.getDocument()).setDocumentFilter(new FiltroAlfanumerico());
+                }
                 panel.add(tf, gbc);
             }
         }

@@ -2,7 +2,12 @@ package aplicacion.vistas;
 import aplicacion.controladores.ControladorLogin;
 import aplicacion.controladores.ControladorRegistro;
 
+import aplicacion.filtros.FiltroAlfanumerico;
+import aplicacion.filtros.FiltroNumerico;
+import aplicacion.filtros.FiltroTexto;
+
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,6 +26,12 @@ public class VistaRegistro {
 
 
     public VistaRegistro(VentanaPrincipal ventanaPrincipal) {
+
+        ((AbstractDocument) tfDni.getDocument()).setDocumentFilter(new FiltroNumerico());
+        ((AbstractDocument) tfTelefono.getDocument()).setDocumentFilter(new FiltroNumerico());
+        ((AbstractDocument) tfNombre.getDocument()).setDocumentFilter(new FiltroTexto());
+        ((AbstractDocument) tfApellido.getDocument()).setDocumentFilter(new FiltroTexto());
+        ((AbstractDocument) tfDireccion.getDocument()).setDocumentFilter(new FiltroAlfanumerico());
 
         btnCrearUsuario.addActionListener(new ActionListener() {
             @Override
