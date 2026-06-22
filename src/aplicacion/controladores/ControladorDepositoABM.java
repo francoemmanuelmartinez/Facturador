@@ -42,7 +42,7 @@ public class ControladorDepositoABM {
         return productos;
     }
 
-    public List<Producto> buscarProducto(String texto, int habilitado) {
+    public List<Producto> buscarProductos(String texto, int habilitado) {
         List<Producto> productos = new ArrayList<>();
         try {
             c.conectar();
@@ -72,7 +72,7 @@ public class ControladorDepositoABM {
     }
 
     public Producto seleccionarProducto(String texto, int habilitado) {
-        List<Producto> productos = buscarProducto(texto, habilitado);
+        List<Producto> productos = buscarProductos(texto, habilitado);
         if (productos.isEmpty()) return null;
         if (productos.size() == 1) return productos.get(0);
 

@@ -15,20 +15,22 @@ import java.util.List;
 import java.util.Map;
 
 public class VistaDepositoABM {
-    private JTable tblProductos;
     private JLabel labelBuscarProducto;
+    private JTextField tfIdProducto;
     private JComboBox cbxFiltroHabilitado;
     private JButton btnBuscar;
+    private JTable tblProductos;
     private JButton btnAgregar;
-    private JTextField tfIdProducto;
     private JButton btnModificar;
-    private JButton btnVolver;
     private JButton btnDeshabilitar;
+    private JButton btnVolver;
     public JPanel panelDepositoABM;
+    private VentanaPrincipal ventanaPrincipal;
     private DefaultTableModel mdlProductos = new DefaultTableModel();
     private String[] colsProductos = {"ID", "Descripcion", "Precio", "Stock", "Nombre Proveedor", "Habilitado"};
 
     public VistaDepositoABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
+        this.ventanaPrincipal = ventanaPrincipal;
 
         configurarTabla();
 
@@ -66,7 +68,7 @@ public class VistaDepositoABM {
                 if (texto.isEmpty()) {
                     poblarTabla(ctrl.obtenerProductosPorHabilitado(filtro));
                 } else {
-                    List<Producto> resultados = ctrl.buscarProducto(texto, filtro);
+                    List<Producto> resultados = ctrl.buscarProductos(texto, filtro);
                     if (!resultados.isEmpty()) {
                         poblarTabla(resultados);
                     }

@@ -14,19 +14,21 @@ import java.util.Map;
 
 public class VistaUsuarioABM {
     private JLabel labelBuscarUsuario;
+    private JTextField tfDni;
+    private JComboBox cbxFiltroHabilitado;
     private JButton btnBuscar;
     private JTable tblUsuarios;
-    public JPanel panelUsuarioABM;
-    private JTextField tfDni;
-    private JButton btnDeshabilitar;
-    private JButton btnModificar;
     private JButton btnAgregar;
-    private JComboBox cbxFiltroHabilitado;
+    private JButton btnModificar;
+    private JButton btnDeshabilitar;
     private JButton btnVolver;
+    public JPanel panelUsuarioABM;
+    private VentanaPrincipal ventanaPrincipal;
     private DefaultTableModel mdlUsuarios = new DefaultTableModel();
     private String[] colsUsuarios = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
 
     public VistaUsuarioABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
+        this.ventanaPrincipal = ventanaPrincipal;
 
         configurarTabla();
 
@@ -110,6 +112,7 @@ public class VistaUsuarioABM {
                     return;
                 }
 
+                int idUsuario = Integer.parseInt(mdlUsuarios.getValueAt(fila, 0).toString());
                 String dniOriginal = mdlUsuarios.getValueAt(fila, 3).toString();
 
                 String rolActual = mdlUsuarios.getValueAt(fila, 7).toString();
@@ -127,7 +130,7 @@ public class VistaUsuarioABM {
                 if (valores != null) {
                     ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
                     if (ctrl.modificarUsuario(
-                            dniOriginal,
+                            idUsuario,
                             valores.get("Nombre:"),
                             valores.get("Apellido:"),
                             valores.get("DNI:"),
@@ -151,18 +154,18 @@ public class VistaUsuarioABM {
                     return;
                 }
 
-                String dni = mdlUsuarios.getValueAt(fila, 3).toString();
+                int idUsuario = Integer.parseInt(mdlUsuarios.getValueAt(fila, 0).toString());
                 int habilitadoActual = Integer.parseInt(mdlUsuarios.getValueAt(fila, 9).toString());
                 String nuevoEstado = habilitadoActual == 1 ? "deshabilitar" : "habilitar";
 
                 int confirm = JOptionPane.showConfirmDialog(null,
-                        "¿Esta seguro de " + nuevoEstado + " al usuario con DNI " + dni + "?",
+                        "¿Esta seguro de " + nuevoEstado + " al usuario con ID " + idUsuario + "?",
                         nuevoEstado.equals("deshabilitar") ? "Deshabilitar Usuario" : "Habilitar Usuario",
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirm == JOptionPane.YES_OPTION) {
                     ControladorUsuarioABM ctrl = new ControladorUsuarioABM();
-                    if (ctrl.alternarHabilitadoUsuario(dni)) {
+                    if (ctrl.alternarHabilitadoUsuario(idUsuario)) {
                         poblarTabla(ctrl.obtenerUsuariosPorHabilitado(cbxFiltroHabilitado.getSelectedIndex() == 0 ? 1 : 0));
                     }
                 }

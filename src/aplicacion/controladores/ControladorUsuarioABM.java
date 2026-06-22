@@ -83,21 +83,21 @@ public class ControladorUsuarioABM {
         }
     }
 
-    public boolean modificarUsuario(String dniOriginal, String nombre, String apellido, String dni, String telefono, String direccion, String mail, String rol, String password) {
+    public boolean modificarUsuario(int id, String nombre, String apellido, String dni, String telefono, String direccion, String mail, String rol, String password) {
         try {
             c.conectar();
 
-            String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ? AND dni != ?";
+            String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ? AND id != ?";
             PreparedStatement stmtSelectMail = c.getConnection().prepareStatement(sqlSelect);
             stmtSelectMail.setString(1, mail);
-            stmtSelectMail.setString(2, dniOriginal);
+            stmtSelectMail.setInt(2, id);
             ResultSet rsMailExistente = stmtSelectMail.executeQuery();
             if (rsMailExistente.next()) {
                 JOptionPane.showMessageDialog(null, "Ese mail ya pertenece a otro usuario");
                 return false;
             }
 
-            String sqlUpdate = "UPDATE usuarios SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ?, rol = ?, password = ? WHERE dni = ?";
+            String sqlUpdate = "UPDATE usuarios SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ?, rol = ?, password = ? WHERE id = ?";
             PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdate);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
@@ -107,7 +107,7 @@ public class ControladorUsuarioABM {
             pst.setString(6, mail);
             pst.setString(7, rol);
             pst.setString(8, password);
-            pst.setString(9, dniOriginal);
+            pst.setInt(9, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Usuario modificado exitosamente");
             return true;
@@ -117,12 +117,12 @@ public class ControladorUsuarioABM {
         }
     }
 
-    public boolean alternarHabilitadoUsuario(String dni) {
+    public boolean alternarHabilitadoUsuario(int id) {
         try {
             c.conectar();
-            String sqlUpdateHabilitado = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE dni = ?";
+            String sqlUpdateHabilitado = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
             PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
-            pst.setString(1, dni);
+            pst.setInt(1, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;

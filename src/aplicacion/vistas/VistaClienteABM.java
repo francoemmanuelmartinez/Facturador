@@ -15,19 +15,19 @@ import java.util.Map;
 
 public class VistaClienteABM {
     private JLabel labelBuscarCliente;
+    private JTextField tfDni;
+    private JComboBox cbxFiltroHabilitado;
     private JButton btnBuscar;
     private JTable tblClientes;
-    public JPanel panelClienteABM;
-    private JTextField tfDni;
-    private JButton btnDeshabilitar;
-    private JButton btnModificar;
     private JButton btnAgregar;
+    private JButton btnModificar;
+    private JButton btnDeshabilitar;
     private JButton btnVolver;
-    private JComboBox cbxFiltroHabilitado;
     private JButton btnMostrarFacturas;
+    public JPanel panelClienteABM;
+    private VentanaPrincipal ventanaPrincipal;
     private DefaultTableModel mdlClientes = new DefaultTableModel();
     private String[] colsClientes = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Habilitado"};
-    private VentanaPrincipal ventanaPrincipal;
 
     public VistaClienteABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         this.ventanaPrincipal = ventanaPrincipal;

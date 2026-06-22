@@ -36,7 +36,7 @@
         </constraints>
         <properties>
           <labelFor value="8c887"/>
-          <text value="ID o Descripcion :"/>
+          <text value="ID o Descripcion:"/>
         </properties>
       </component>
       <vspacer id="10462">

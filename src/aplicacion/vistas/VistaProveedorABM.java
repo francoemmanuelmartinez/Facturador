@@ -14,16 +14,16 @@ import java.util.List;
 import java.util.Map;
 
 public class VistaProveedorABM {
-    public JPanel panelProveedorABM;
-    private JTable tblProveedores;
+    private JLabel labelBuscarProveedor;
+    private JTextField tfIdProveedor;
     private JComboBox cbxFiltroHabilitado;
     private JButton btnBuscar;
-    private JTextField tfIdProveedor;
+    private JTable tblProveedores;
     private JButton btnAgregar;
     private JButton btnModificar;
     private JButton btnDeshabilitar;
     private JButton btnVolver;
-    private JLabel labelBuscarProveedor;
+    public JPanel panelProveedorABM;
     private VentanaPrincipal ventanaPrincipal;
     private DefaultTableModel mdlProveedores = new DefaultTableModel();
     private String[] colsProveedores = {"ID", "Nombre", "Telefono", "Direccion", "Mail", "Habilitado"};
@@ -32,11 +32,13 @@ public class VistaProveedorABM {
 
         this.ventanaPrincipal = ventanaPrincipal;
         configurarTabla();
+
+        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(5));
+        //tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
+
         cbxFiltroHabilitado.addItem("Habilitados");
         cbxFiltroHabilitado.addItem("Deshabilitados");
         cbxFiltroHabilitado.setSelectedIndex(0);
-
-        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(5));
         //tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
 
         ControladorProveedorABM controlador = new ControladorProveedorABM();
