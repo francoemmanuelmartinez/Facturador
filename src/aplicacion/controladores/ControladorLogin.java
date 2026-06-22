@@ -12,14 +12,14 @@ import java.sql.SQLException;
 
 public class ControladorLogin {
 
-    String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password FROM usuarios WHERE mail = ?";
-    Conexion c = new Conexion();
-    Usuario usuario = new Usuario();
+    private String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password FROM usuarios WHERE mail = ?";
+    private Conexion c = new Conexion();
+    private Usuario usuario = new Usuario();
 
     public ControladorLogin(VentanaPrincipal ventanaPrincipal){
 
         VistaLogin vistaLogin = new VistaLogin(ventanaPrincipal);
-        ventanaPrincipal.setVista(vistaLogin.panelLogin);
+        ventanaPrincipal.mostrarVista(vistaLogin.panelLogin);
     }
 
     public ControladorLogin() {
@@ -28,13 +28,12 @@ public class ControladorLogin {
     public boolean validar(String mail, String password) {
         try {
             c.conectar();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         try {
-            PreparedStatement selectFrom = c.con.prepareStatement(sql);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sql);
             selectFrom.setString(1,mail);
             ResultSet resultados = selectFrom.executeQuery();
 
@@ -50,8 +49,7 @@ public class ControladorLogin {
                 usuario.setPassword(resultados.getString("password"));
             }
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
@@ -79,7 +77,4 @@ public class ControladorLogin {
         }
     }
 
-
-    //if si no esta logeado tirame la vista de registrar
-   // si el usuario ingreso algo mal que me limpi la ventana y salte un mensaje de error
 }

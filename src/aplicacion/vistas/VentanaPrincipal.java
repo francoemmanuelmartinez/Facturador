@@ -10,7 +10,7 @@ public class VentanaPrincipal extends JFrame {
         setSize(800, 600);
     }
 
-    public void setVista(JPanel vista) {
+    public void mostrarVista(JPanel vista) {
         getContentPane().removeAll();
         add(vista);
         revalidate();

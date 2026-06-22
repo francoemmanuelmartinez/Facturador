@@ -78,7 +78,7 @@ public class VistaDetallesFactura {
             @Override
             public void actionPerformed(ActionEvent e) {
                 VistaFactura vf = new VistaFactura(usuario, ventanaPrincipal, idCliente, nombreCliente, apellidoCliente);
-                ventanaPrincipal.setVista(vf.panelFactura);
+                ventanaPrincipal.mostrarVista(vf.panelFactura);
             }
         });
     }

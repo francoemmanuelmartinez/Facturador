@@ -16,13 +16,13 @@ import java.util.List;
 
 public class ControladorClienteABM {
 
-    Conexion c = new Conexion();
+    private Conexion c = new Conexion();
 
     public ControladorClienteABM() {}
 
     public ControladorClienteABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         VistaClienteABM vistaClienteABM = new VistaClienteABM(usuario, ventanaPrincipal);
-        ventanaPrincipal.setVista(vistaClienteABM.panelClienteABM);
+        ventanaPrincipal.mostrarVista(vistaClienteABM.panelClienteABM);
     }
 
     public List<Cliente> obtenerClientesPorHabilitado(int habilitado) {
@@ -30,7 +30,7 @@ public class ControladorClienteABM {
         try {
             c.conectar();
             String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, habilitado FROM clientes WHERE habilitado = ?";
-            PreparedStatement stmt = c.con.prepareStatement(sql);
+            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -47,7 +47,7 @@ public class ControladorClienteABM {
         try {
             c.conectar();
             String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, habilitado FROM clientes WHERE dni = ? AND habilitado = ?";
-            PreparedStatement stmt = c.con.prepareStatement(sql);
+            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
             stmt.setString(1, dni);
             stmt.setInt(2, habilitado);
             ResultSet rs = stmt.executeQuery();
@@ -67,7 +67,7 @@ public class ControladorClienteABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM clientes WHERE mail = ?";
-            PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, mail);
             ResultSet mailDatabase = selectFrom.executeQuery();
             if (mailDatabase.next()) {
@@ -76,7 +76,7 @@ public class ControladorClienteABM {
             }
 
             String sqlInsert = "INSERT INTO clientes(nombre, apellido, dni, telefono, direccion, mail) VALUES(?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = c.con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
             pst.setString(3, dni);
@@ -104,7 +104,7 @@ public class ControladorClienteABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM clientes WHERE mail = ? AND id != ?";
-            PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, mail);
             selectFrom.setInt(2, id);
             ResultSet mailDatabase = selectFrom.executeQuery();
@@ -114,7 +114,7 @@ public class ControladorClienteABM {
             }
 
             String sqlUpdate = "UPDATE clientes SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ? WHERE id = ?";
-            PreparedStatement pst = c.con.prepareStatement(sqlUpdate);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdate);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
             pst.setString(3, dni);
@@ -135,7 +135,7 @@ public class ControladorClienteABM {
         try {
             c.conectar();
             String sqlToggle = "UPDATE clientes SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.con.prepareStatement(sqlToggle);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlToggle);
             pst.setInt(1, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");

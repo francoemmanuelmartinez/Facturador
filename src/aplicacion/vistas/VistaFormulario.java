@@ -10,10 +10,10 @@ import java.util.Map;
 public class VistaFormulario {
 
     public static class Campo {
-        String etiqueta;
-        boolean esPassword;
-        String[] opciones;
-        String valorInicial;
+        private String etiqueta;
+        private boolean esPassword;
+        private String[] opciones;
+        private String valorInicial;
 
         public Campo(String etiqueta) {
             this(etiqueta, false, null);

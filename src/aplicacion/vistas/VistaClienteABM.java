@@ -189,7 +189,7 @@ public class VistaClienteABM {
                 String apellido = mdlClientes.getValueAt(fila, 2).toString();
 
                 VistaFactura vistaFactura = new VistaFactura(usuario, ventanaPrincipal, idCliente, nombre, apellido);
-                ventanaPrincipal.setVista(vistaFactura.panelFactura);
+                ventanaPrincipal.mostrarVista(vistaFactura.panelFactura);
             }
         });
     }

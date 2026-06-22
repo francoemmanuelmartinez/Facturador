@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorProveedorABM {
-    Conexion c = new Conexion();
+    private Conexion c = new Conexion();
 
     public ControladorProveedorABM() {}
 
     public ControladorProveedorABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
         VistaProveedorABM vistaProveedorABM = new VistaProveedorABM(usuario, ventanaPrincipal);
-        ventanaPrincipal.setVista(vistaProveedorABM.panelProveedor);
+        ventanaPrincipal.mostrarVista(vistaProveedorABM.panelProveedor);
     }
 
     public List<Proveedor> obtenerProveedoresPorHabilitado(int habilitado) {
@@ -29,7 +29,7 @@ public class ControladorProveedorABM {
         try {
             c.conectar();
             String sql = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE habilitado = ?";
-            PreparedStatement stmt = c.con.prepareStatement(sql);
+            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -46,7 +46,7 @@ public class ControladorProveedorABM {
         try {
             c.conectar();
             String sql = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE id = ? AND habilitado = ?";
-            PreparedStatement stmt = c.con.prepareStatement(sql);
+            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
             stmt.setString(1, id);
             stmt.setInt(2, habilitado);
             ResultSet rs = stmt.executeQuery();
@@ -66,7 +66,7 @@ public class ControladorProveedorABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM proveedores WHERE mail = ?";
-            PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, mail);
             ResultSet mailDatabase = selectFrom.executeQuery();
             if (mailDatabase.next()) {
@@ -75,7 +75,7 @@ public class ControladorProveedorABM {
             }
 
             String sqlInsert = "INSERT INTO proveedores(nombre, telefono, direccion, mail) VALUES(?, ?, ?, ?)";
-            PreparedStatement pst = c.con.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, nombre);
             pst.setString(2, telefono);
             pst.setString(3, direccion);
@@ -101,7 +101,7 @@ public class ControladorProveedorABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM proveedores WHERE mail = ? AND id != ?";
-            PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, mail);
             selectFrom.setInt(2, id);
             ResultSet mailDatabase = selectFrom.executeQuery();
@@ -111,7 +111,7 @@ public class ControladorProveedorABM {
             }
 
             String sqlUpdate = "UPDATE proveedores SET nombre = ?, telefono = ?, direccion = ?, mail = ? WHERE id = ?";
-            PreparedStatement pst = c.con.prepareStatement(sqlUpdate);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdate);
             pst.setString(1, nombre);
             pst.setString(2, telefono);
             pst.setString(3, direccion);
@@ -130,7 +130,7 @@ public class ControladorProveedorABM {
         try {
             c.conectar();
             String sqlToggle = "UPDATE proveedores SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.con.prepareStatement(sqlToggle);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlToggle);
             pst.setInt(1, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");

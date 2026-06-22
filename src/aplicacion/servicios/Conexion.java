@@ -6,7 +6,11 @@ import java.sql.SQLException;
 
 public class Conexion {
 
-    public Connection con;
+    private Connection con;
+
+    public Connection getConnection() {
+        return con;
+    }
 
     public void conectar() throws SQLException {
         String driver = "com.mysql.cj.jdbc.Driver";

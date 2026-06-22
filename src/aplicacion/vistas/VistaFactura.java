@@ -54,7 +54,7 @@ public class VistaFactura {
                 }
                 int idFactura = facturas.get(fila).getId();
                 VistaDetallesFactura vdf = new VistaDetallesFactura(usuario, ventanaPrincipal, idFactura, idCliente, nombreCliente, apellidoCliente);
-                ventanaPrincipal.setVista(vdf.panelDetallesFactura);
+                ventanaPrincipal.mostrarVista(vdf.panelDetallesFactura);
             }
         });
 

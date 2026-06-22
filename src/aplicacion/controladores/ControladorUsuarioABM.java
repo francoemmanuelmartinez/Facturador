@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ControladorUsuarioABM {
 
-    Conexion c = new Conexion();
+    private Conexion c = new Conexion();
 
     public ControladorUsuarioABM() {
     }
@@ -22,7 +22,7 @@ public class ControladorUsuarioABM {
     public ControladorUsuarioABM(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
 
         VistaUsuarioABM vistaUsuarioABM = new VistaUsuarioABM(usuario, ventanaPrincipal);
-        ventanaPrincipal.setVista(vistaUsuarioABM.panelUsuarioABM);
+        ventanaPrincipal.mostrarVista(vistaUsuarioABM.panelUsuarioABM);
 
     }
 
@@ -31,7 +31,7 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios";
-            PreparedStatement stmt = c.con.prepareStatement(sql);
+            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 usuarios.add(mapearUsuario(rs));
@@ -47,7 +47,7 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE habilitado = ?";
-            PreparedStatement stmt = c.con.prepareStatement(sql);
+            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -64,7 +64,7 @@ public class ControladorUsuarioABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ?";
-            PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, mail);
             ResultSet mailDatabase = selectFrom.executeQuery();
             if (mailDatabase.next()) {
@@ -73,7 +73,7 @@ public class ControladorUsuarioABM {
             }
 
             String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pst = c.con.prepareStatement(sqlInsert);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
             pst.setString(3, dni);
@@ -96,7 +96,7 @@ public class ControladorUsuarioABM {
             c.conectar();
 
             String sqlSelect = "SELECT mail FROM usuarios WHERE mail = ? AND dni != ?";
-            PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, mail);
             selectFrom.setString(2, dniOriginal);
             ResultSet mailDatabase = selectFrom.executeQuery();
@@ -106,7 +106,7 @@ public class ControladorUsuarioABM {
             }
 
             String sqlUpdate = "UPDATE usuarios SET nombre = ?, apellido = ?, dni = ?, telefono = ?, direccion = ?, mail = ?, rol = ?, password = ? WHERE dni = ?";
-            PreparedStatement pst = c.con.prepareStatement(sqlUpdate);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdate);
             pst.setString(1, nombre);
             pst.setString(2, apellido);
             pst.setString(3, dni);
@@ -129,7 +129,7 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sqlToggle = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE dni = ?";
-            PreparedStatement pst = c.con.prepareStatement(sqlToggle);
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlToggle);
             pst.setString(1, dni);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
@@ -145,7 +145,7 @@ public class ControladorUsuarioABM {
         try {
             c.conectar();
             String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE dni = ? AND habilitado = ?";
-            PreparedStatement selectFrom = c.con.prepareStatement(sqlSelect);
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, dni);
             selectFrom.setInt(2, habilitado);
             ResultSet resultados = selectFrom.executeQuery();

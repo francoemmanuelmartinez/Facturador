@@ -28,7 +28,7 @@ public class VistaRegistro {
                 ControladorRegistro controlador = new ControladorRegistro();
                 if(controlador.registrar(tfNombre.getText(), tfApellido.getText(),tfDni.getText(),tfTelefono.getText(),tfDireccion.getText(),tfMail.getText(),new String(tfPassword.getPassword()))) {
                     ControladorLogin controladorLogin = new ControladorLogin(ventanaPrincipal);
-                    JOptionPane.showMessageDialog(null, "Logee");
+                    JOptionPane.showMessageDialog(null, "Inicie sesion");
                 }
             }
         });

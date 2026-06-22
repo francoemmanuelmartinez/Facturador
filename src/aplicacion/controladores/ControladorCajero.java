@@ -17,15 +17,15 @@ import java.util.List;
 
 public class ControladorCajero {
 
-    Conexion c = new Conexion();
-    Usuario usuario;
+    private Conexion c = new Conexion();
+    private Usuario usuario;
 
     public ControladorCajero(){}
 
     public ControladorCajero(Usuario usuario, VentanaPrincipal ventanaPrincipal){
         this.usuario = usuario;
         VistaCajero vistaCajero = new VistaCajero(usuario, ventanaPrincipal);
-        ventanaPrincipal.setVista(vistaCajero.panelCajero);
+        ventanaPrincipal.mostrarVista(vistaCajero.panelCajero);
     }
 
     public String generarNumeroFactura() {
@@ -35,13 +35,13 @@ public class ControladorCajero {
     public boolean finalizarCompra(int idCliente, String nombreCliente, String apellidoCliente, int idVendedor, String nombreVendedor, String apellidoVendedor, List<Object[]> carrito, int subtotal, int descuentoPorcentaje, int valorDescontado, int totalCompra) {
         try {
             c.conectar();
-            c.con.setAutoCommit(false);
+            c.getConnection().setAutoCommit(false);
 
             String numeroFactura = generarNumeroFactura();
             LocalDate fechaEmision = LocalDate.now();
 
             String sqlFactura = "INSERT INTO facturas(numero_factura, id_cliente, nombre_cliente, apellido_cliente, id_vendedor, nombre_vendedor, apellido_vendedor, fecha_emision, subtotal, descuento_porcentaje, valor_descontado, total_compra) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstFactura = c.con.prepareStatement(sqlFactura, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement pstFactura = c.getConnection().prepareStatement(sqlFactura, Statement.RETURN_GENERATED_KEYS);
             pstFactura.setString(1, numeroFactura);
             pstFactura.setInt(2, idCliente);
             pstFactura.setString(3, nombreCliente);
@@ -61,12 +61,12 @@ public class ControladorCajero {
             if (rs.next()) {
                 idFactura = rs.getInt(1);
             } else {
-                c.con.rollback();
+                c.getConnection().rollback();
                 return false;
             }
 
             String sqlDetalle = "INSERT INTO detalles_de_facturas(id_factura, id_producto, cantidad, precio_unitario, descuento, subtotal) VALUES(?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstDetalle = c.con.prepareStatement(sqlDetalle);
+            PreparedStatement pstDetalle = c.getConnection().prepareStatement(sqlDetalle);
 
             String sqlStock = "UPDATE productos SET stock = stock - ? WHERE id = ? AND stock >= ?";
 
@@ -87,26 +87,26 @@ public class ControladorCajero {
                 pstDetalle.setInt(6, subtotalDetalle);
                 pstDetalle.addBatch();
 
-                PreparedStatement pstStock = c.con.prepareStatement(sqlStock);
+                PreparedStatement pstStock = c.getConnection().prepareStatement(sqlStock);
                 pstStock.setInt(1, cantidad);
                 pstStock.setInt(2, idProducto);
                 pstStock.setInt(3, cantidad);
                 int affected = pstStock.executeUpdate();
                 if (affected == 0) {
-                    c.con.rollback();
+                    c.getConnection().rollback();
                     JOptionPane.showMessageDialog(null, "Stock insuficiente para el producto ID: " + idProducto);
                     return false;
                 }
             }
 
             pstDetalle.executeBatch();
-            c.con.commit();
+            c.getConnection().commit();
             JOptionPane.showMessageDialog(null, "Compra finalizada exitosamente. Factura N°: " + numeroFactura);
             return true;
 
         } catch (SQLException e) {
             try {
-                c.con.rollback();
+                c.getConnection().rollback();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
