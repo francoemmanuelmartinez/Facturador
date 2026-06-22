@@ -25,10 +25,10 @@ public class Conexion {
             if (!con.isClosed()) {
                 System.out.println("Conexion exitosa");
             }
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        } catch (ClassNotFoundException ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 }

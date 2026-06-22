@@ -28,8 +28,8 @@ public class ControladorProveedorABM {
         List<Proveedor> proveedores = new ArrayList<>();
         try {
             c.conectar();
-            String sql = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
+            String sqlSelect = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE habilitado = ?";
+            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -45,8 +45,8 @@ public class ControladorProveedorABM {
         Proveedor proveedor = null;
         try {
             c.conectar();
-            String sql = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE id = ? AND habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
+            String sqlSelect = "SELECT id, nombre, telefono, direccion, mail, habilitado FROM proveedores WHERE id = ? AND habilitado = ?";
+            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
             stmt.setString(1, id);
             stmt.setInt(2, habilitado);
             ResultSet rs = stmt.executeQuery();
@@ -129,14 +129,14 @@ public class ControladorProveedorABM {
     public boolean alternarHabilitadoProveedor(int id) {
         try {
             c.conectar();
-            String sqlToggle = "UPDATE proveedores SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlToggle);
+            String sqlUpdateHabilitado = "UPDATE proveedores SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
             pst.setInt(1, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

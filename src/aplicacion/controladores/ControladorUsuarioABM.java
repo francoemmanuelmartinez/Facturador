@@ -19,7 +19,7 @@ public class ControladorUsuarioABM {
     public ControladorUsuarioABM() {
     }
 
-    public ControladorUsuarioABM(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
+    public ControladorUsuarioABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         VistaUsuarioABM vistaUsuarioABM = new VistaUsuarioABM(usuario, ventanaPrincipal);
         ventanaPrincipal.mostrarVista(vistaUsuarioABM.panelUsuarioABM);
@@ -30,8 +30,8 @@ public class ControladorUsuarioABM {
         List<Usuario> usuarios = new ArrayList<>();
         try {
             c.conectar();
-            String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
+            String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password, habilitado FROM usuarios WHERE habilitado = ?";
+            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -112,14 +112,14 @@ public class ControladorUsuarioABM {
     public boolean alternarHabilitadoUsuario(String dni) {
         try {
             c.conectar();
-            String sqlToggle = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE dni = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlToggle);
+            String sqlUpdateHabilitado = "UPDATE usuarios SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE dni = ?";
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
             pst.setString(1, dni);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

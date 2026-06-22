@@ -12,7 +12,6 @@ import java.sql.SQLException;
 public class ControladorRegistro {
 
     private Conexion c = new Conexion();
-    private String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
     public ControladorRegistro() {}
 
@@ -35,6 +34,7 @@ public class ControladorRegistro {
             }
             else {
 
+                String sqlInsert = "INSERT INTO usuarios(nombre, apellido, dni, telefono, direccion, mail, rol, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement pst = c.getConnection().prepareStatement(sqlInsert);
                 pst.setString(1, nombre);
                 pst.setString(2, apellido);

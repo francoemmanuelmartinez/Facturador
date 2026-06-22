@@ -26,7 +26,7 @@ public class VistaUsuarioABM {
     private DefaultTableModel mdlUsuarios = new DefaultTableModel();
     private String[] colsUsuarios = {"ID", "Nombre", "Apellido", "Dni", "Telefono", "Direccion", "Mail", "Rol", "Password", "Habilitado"};
 
-    public VistaUsuarioABM(Usuario usuario,VentanaPrincipal ventanaPrincipal) {
+    public VistaUsuarioABM(Usuario usuario, VentanaPrincipal ventanaPrincipal) {
 
         configurarTabla();
 

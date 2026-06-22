@@ -29,8 +29,8 @@ public class ControladorDepositoABM {
         List<Producto> productos = new ArrayList<>();
         try {
             c.conectar();
-            String sql = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.habilitado = ?";
-            PreparedStatement stmt = c.getConnection().prepareStatement(sql);
+            String sqlSelect = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.habilitado = ?";
+            PreparedStatement stmt = c.getConnection().prepareStatement(sqlSelect);
             stmt.setInt(1, habilitado);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -48,13 +48,13 @@ public class ControladorDepositoABM {
             c.conectar();
             PreparedStatement stmt;
             if (texto.matches("\\d+")) {
-                String sql = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.id = ? AND p.habilitado = ?";
-                stmt = c.getConnection().prepareStatement(sql);
+                String sqlSelect = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.id = ? AND p.habilitado = ?";
+                stmt = c.getConnection().prepareStatement(sqlSelect);
                 stmt.setInt(1, Integer.parseInt(texto));
                 stmt.setInt(2, habilitado);
             } else {
-                String sql = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.descripcion LIKE ? AND p.habilitado = ?";
-                stmt = c.getConnection().prepareStatement(sql);
+                String sqlSelect = "SELECT p.id, p.descripcion, p.precio, p.stock, p.id_proveedor, pr.nombre AS nombreProveedor, p.habilitado FROM productos p LEFT JOIN proveedores pr ON p.id_proveedor = pr.id WHERE p.descripcion LIKE ? AND p.habilitado = ?";
+                stmt = c.getConnection().prepareStatement(sqlSelect);
                 stmt.setString(1, "%" + texto + "%");
                 stmt.setInt(2, habilitado);
             }
@@ -170,14 +170,14 @@ public class ControladorDepositoABM {
     public boolean alternarHabilitadoProducto(int id) {
         try {
             c.conectar();
-            String sqlToggle = "UPDATE productos SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
-            PreparedStatement pst = c.getConnection().prepareStatement(sqlToggle);
+            String sqlUpdateHabilitado = "UPDATE productos SET habilitado = CASE WHEN habilitado = 1 THEN 0 ELSE 1 END WHERE id = ?";
+            PreparedStatement pst = c.getConnection().prepareStatement(sqlUpdateHabilitado);
             pst.setInt(1, id);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Estado cambiado exitosamente");
             return true;
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

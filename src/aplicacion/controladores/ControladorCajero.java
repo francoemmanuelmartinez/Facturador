@@ -40,8 +40,8 @@ public class ControladorCajero {
             String numeroFactura = generarNumeroFactura();
             LocalDate fechaEmision = LocalDate.now();
 
-            String sqlFactura = "INSERT INTO facturas(numero_factura, id_cliente, nombre_cliente, apellido_cliente, id_vendedor, nombre_vendedor, apellido_vendedor, fecha_emision, subtotal, descuento_porcentaje, valor_descontado, total_compra) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstFactura = c.getConnection().prepareStatement(sqlFactura, Statement.RETURN_GENERATED_KEYS);
+            String sqlInsertFactura = "INSERT INTO facturas(numero_factura, id_cliente, nombre_cliente, apellido_cliente, id_vendedor, nombre_vendedor, apellido_vendedor, fecha_emision, subtotal, descuento_porcentaje, valor_descontado, total_compra) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstFactura = c.getConnection().prepareStatement(sqlInsertFactura, Statement.RETURN_GENERATED_KEYS);
             pstFactura.setString(1, numeroFactura);
             pstFactura.setInt(2, idCliente);
             pstFactura.setString(3, nombreCliente);
@@ -65,10 +65,10 @@ public class ControladorCajero {
                 return false;
             }
 
-            String sqlDetalle = "INSERT INTO detalles_de_facturas(id_factura, id_producto, cantidad, precio_unitario, descuento, subtotal) VALUES(?, ?, ?, ?, ?, ?)";
-            PreparedStatement pstDetalle = c.getConnection().prepareStatement(sqlDetalle);
+            String sqlInsertDetalle = "INSERT INTO detalles_de_facturas(id_factura, id_producto, cantidad, precio_unitario, descuento, subtotal) VALUES(?, ?, ?, ?, ?, ?)";
+            PreparedStatement pstDetalle = c.getConnection().prepareStatement(sqlInsertDetalle);
 
-            String sqlStock = "UPDATE productos SET stock = stock - ? WHERE id = ? AND stock >= ?";
+            String sqlUpdateStock = "UPDATE productos SET stock = stock - ? WHERE id = ? AND stock >= ?";
 
             for (Object[] fila : carrito) {
                 int idProducto = Integer.parseInt((String) fila[0]);
@@ -87,7 +87,7 @@ public class ControladorCajero {
                 pstDetalle.setInt(6, subtotalDetalle);
                 pstDetalle.addBatch();
 
-                PreparedStatement pstStock = c.getConnection().prepareStatement(sqlStock);
+                PreparedStatement pstStock = c.getConnection().prepareStatement(sqlUpdateStock);
                 pstStock.setInt(1, cantidad);
                 pstStock.setInt(2, idProducto);
                 pstStock.setInt(3, cantidad);

@@ -12,7 +12,6 @@ import java.sql.SQLException;
 
 public class ControladorLogin {
 
-    private String sql = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password FROM usuarios WHERE mail = ?";
     private Conexion c = new Conexion();
     private Usuario usuario = new Usuario();
 
@@ -33,7 +32,8 @@ public class ControladorLogin {
         }
 
         try {
-            PreparedStatement selectFrom = c.getConnection().prepareStatement(sql);
+            String sqlSelect = "SELECT id, nombre, apellido, dni, telefono, direccion, mail, rol, password FROM usuarios WHERE mail = ?";
+            PreparedStatement selectFrom = c.getConnection().prepareStatement(sqlSelect);
             selectFrom.setString(1, mail);
             ResultSet resultados = selectFrom.executeQuery();
 
